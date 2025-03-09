@@ -83,8 +83,23 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         'top-right'
       );
 
-      // Add user location marker
-      new mapboxgl.Marker({ color: '#FF4D7D' })
+      // Create custom marker element
+      const customMarkerElement = document.createElement('div');
+      customMarkerElement.className = 'energy-orb-marker';
+      customMarkerElement.innerHTML = `
+        <div class="orb-container">
+          <div class="orb-core"></div>
+          <div class="orb-ring ring1"></div>
+          <div class="orb-ring ring2"></div>
+          <div class="orb-particles"></div>
+        </div>
+      `;
+
+      // Add user location marker with custom element
+      new mapboxgl.Marker({
+        element: customMarkerElement,
+        anchor: 'center'
+      })
         .setLngLat(userLocation)
         .addTo(map.current);
 

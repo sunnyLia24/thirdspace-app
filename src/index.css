@@ -142,3 +142,135 @@
   animation: left-to-right 3s infinite ease-in-out;
 }
 
+/* Energy Orb Marker Styling */
+.energy-orb-marker {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  z-index: 1;
+  transform: translateY(-50%);
+}
+
+.orb-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orb-core {
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, #D946EF 0%, #8B5CF6 80%);
+  border-radius: 50%;
+  box-shadow: 0 0 15px #8B5CF6, 0 0 30px rgba(139, 92, 246, 0.5);
+  position: absolute;
+  animation: pulse-core 2s infinite ease-in-out;
+}
+
+.orb-ring {
+  border-radius: 50%;
+  position: absolute;
+  border: 2px solid transparent;
+}
+
+.ring1 {
+  width: 30px;
+  height: 30px;
+  border-top-color: #D946EF;
+  border-left-color: #D946EF;
+  animation: rotate-ring 3s infinite linear;
+}
+
+.ring2 {
+  width: 40px;
+  height: 40px;
+  border-bottom-color: #8B5CF6;
+  border-right-color: #8B5CF6;
+  animation: rotate-ring-reverse 4s infinite linear;
+}
+
+.orb-particles {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  animation: pulse-particles 3s infinite ease-out;
+}
+
+.orb-particles::before,
+.orb-particles::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background-color: #9b87f5;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #9b87f5;
+}
+
+.orb-particles::before {
+  top: 25%;
+  left: 10%;
+  animation: float-particle 4s infinite ease-in-out;
+}
+
+.orb-particles::after {
+  bottom: 15%;
+  right: 20%;
+  animation: float-particle 5s -2s infinite ease-in-out;
+}
+
+@keyframes pulse-core {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+@keyframes rotate-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-ring-reverse {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes pulse-particles {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes float-particle {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(5px, 5px);
+  }
+  50% {
+    transform: translate(0, 10px);
+  }
+  75% {
+    transform: translate(-5px, 5px);
+  }
+}
