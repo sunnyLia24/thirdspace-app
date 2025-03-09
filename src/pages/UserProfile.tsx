@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
@@ -23,8 +22,18 @@ const UserProfile = () => {
   });
   const [feedbackText, setFeedbackText] = useState('');
   
+  // Animation states
+  const [clickAnimation, setClickAnimation] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    progress: 0
+  });
+  
   // Refs for press timers
   const pressTimerRef = useRef<number | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+  const startTimeRef = useRef<number>(0);
   
   // Find the user by ID
   const user = nearbyUsers.find(u => u.id === userId);
@@ -74,6 +83,50 @@ const UserProfile = () => {
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
     
+    // Start time tracking
+    startTimeRef.current = Date.now();
+    
+    // Show click animation
+    setClickAnimation({
+      visible: true,
+      x: clientX,
+      y: clientY,
+      progress: 0
+    });
+    
+    // Start animating the progress circle
+    const animateProgress = () => {
+      const elapsedTime = Date.now() - startTimeRef.current;
+      const progress = Math.min(elapsedTime / 3000, 1); // 3000ms = 3 seconds
+      
+      setClickAnimation(prev => ({
+        ...prev,
+        progress
+      }));
+      
+      if (progress < 1) {
+        animationFrameRef.current = requestAnimationFrame(animateProgress);
+      } else {
+        // When animation completes, show the feedback bubble
+        setFeedbackBubble({
+          visible: true,
+          x: clientX,
+          y: clientY - 100, // Position bubble above the pointer
+          content,
+          type
+        });
+        
+        // Reset click animation
+        setClickAnimation(prev => ({
+          ...prev,
+          visible: false
+        }));
+      }
+    };
+    
+    animationFrameRef.current = requestAnimationFrame(animateProgress);
+    
+    // Still keep the old timer as a fallback
     pressTimerRef.current = window.setTimeout(() => {
       setFeedbackBubble({
         visible: true,
@@ -91,6 +144,17 @@ const UserProfile = () => {
       clearTimeout(pressTimerRef.current);
       pressTimerRef.current = null;
     }
+    
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+    
+    // Hide click animation
+    setClickAnimation(prev => ({
+      ...prev,
+      visible: false
+    }));
   };
 
   // Handle sending the feedback
@@ -233,13 +297,55 @@ const UserProfile = () => {
         ))}
       </div>
 
-      {/* Feedback bubble */}
+      {/* Click animation indicator */}
+      {clickAnimation.visible && (
+        <div 
+          className="fixed z-40 rounded-full pointer-events-none"
+          style={{
+            left: clickAnimation.x - 30,
+            top: clickAnimation.y - 30,
+            width: '60px',
+            height: '60px',
+            border: '2px solid #5bbce0',
+            transform: `scale(${clickAnimation.progress * 0.7 + 0.3})`,
+            opacity: clickAnimation.progress < 1 ? 1 : 0,
+            transition: 'opacity 0.2s ease'
+          }}
+        >
+          <div 
+            className="absolute inset-0 rounded-full bg-dating-accent"
+            style={{
+              clipPath: `circle(${clickAnimation.progress * 100}% at center)`,
+              opacity: 0.4
+            }}
+          />
+          {clickAnimation.progress > 0.1 && (
+            <div 
+              className="absolute inset-0 flex items-center justify-center text-white font-bold"
+              style={{
+                transform: `scale(${Math.min(clickAnimation.progress * 1.5, 1)})`,
+                opacity: Math.min(clickAnimation.progress * 2, 1)
+              }}
+            >
+              {Math.round(clickAnimation.progress * 100)}%
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Overlay for background blur when feedback bubble is visible */}
+      {feedbackBubble.visible && (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"></div>
+      )}
+
+      {/* Feedback bubble with animation */}
       {feedbackBubble.visible && (
         <div 
           className="fixed z-50 bg-white rounded-xl shadow-xl max-w-xs animate-fade-in"
           style={{ 
             left: Math.min(feedbackBubble.x, window.innerWidth - 300), 
             top: Math.max(feedbackBubble.y, 100),
+            animation: 'scale-in 0.3s ease-out forwards'
           }}
         >
           <div className="p-3 border-b">
@@ -254,7 +360,7 @@ const UserProfile = () => {
                 <X className="h-4 w-4" />
               </Button>
             </div>
-            <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+            <p className="text-xs text-gray-500 mt-1 line-clamp-2 animate-pulse-gentle">
               {feedbackBubble.content}
             </p>
           </div>
@@ -265,10 +371,11 @@ const UserProfile = () => {
                 value={feedbackText}
                 onChange={(e) => setFeedbackText(e.target.value)}
                 className="text-sm"
+                autoFocus
               />
               <Button 
                 onClick={handleSendFeedback}
-                className="bg-dating-accent hover:bg-dating-accent/90"
+                className="bg-dating-accent hover:bg-dating-accent/90 flex items-center"
               >
                 <Send className="h-4 w-4 mr-1" />
                 Send
