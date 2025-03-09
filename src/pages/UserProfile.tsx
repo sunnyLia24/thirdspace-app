@@ -4,9 +4,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Heart, X, MoreHorizontal, BadgeCheck, Cake, User, Magnet, Briefcase, Send, Image } from 'lucide-react';
+import { Heart, X, MoreHorizontal, BadgeCheck, Cake, User, Magnet, Briefcase } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import FeedbackBubble from '@/components/FeedbackBubble';
+import ClickAnimation from '@/components/ClickAnimation';
+import ProfilePrompt from '@/components/ProfilePrompt';
+import ProfilePhoto from '@/components/ProfilePhoto';
 
 const UserProfile = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -245,29 +248,12 @@ const UserProfile = () => {
           </div>
         </Card>
         
-        <Card className="rounded-xl shadow-md overflow-hidden">
-          <CardContent 
-            className="p-6"
-            onMouseDown={(e) => handlePressStart(e, profilePrompts[0].answer, 'prompt')}
-            onMouseUp={handlePressEnd}
-            onMouseLeave={handlePressEnd}
-            onTouchStart={(e) => handlePressStart(e, profilePrompts[0].answer, 'prompt')}
-            onTouchEnd={handlePressEnd}
-          >
-            <h3 className="text-lg font-medium text-gray-600 mb-2">{profilePrompts[0].prompt}</h3>
-            <p className="text-3xl font-serif mb-4">{profilePrompts[0].answer}</p>
-            
-            <div className="flex justify-end">
-              <Button 
-                size="icon" 
-                variant="ghost"
-                className="h-12 w-12 rounded-full text-rose-400 hover:bg-rose-50"
-              >
-                <Heart className="h-6 w-6" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <ProfilePrompt 
+          prompt={profilePrompts[0].prompt}
+          answer={profilePrompts[0].answer}
+          onPressStart={handlePressStart}
+          onPressEnd={handlePressEnd}
+        />
         
         <Card className="rounded-xl shadow-md overflow-hidden">
           <CardContent className="p-0">
@@ -282,167 +268,52 @@ const UserProfile = () => {
           </CardContent>
         </Card>
         
-        <Card className="rounded-xl shadow-md overflow-hidden">
-          <CardContent 
-            className="p-6" 
-            onMouseDown={(e) => handlePressStart(e, profilePrompts[1].answer, 'prompt')}
-            onMouseUp={handlePressEnd}
-            onMouseLeave={handlePressEnd}
-            onTouchStart={(e) => handlePressStart(e, profilePrompts[1].answer, 'prompt')}
-            onTouchEnd={handlePressEnd}
-          >
-            <h3 className="text-lg font-medium text-gray-600 mb-2">{profilePrompts[1].prompt}</h3>
-            <p className="text-3xl font-serif mb-4">{profilePrompts[1].answer}</p>
-            
-            <div className="flex justify-end">
-              <Button 
-                size="icon" 
-                variant="ghost"
-                className="h-12 w-12 rounded-full text-rose-400 hover:bg-rose-50"
-              >
-                <Heart className="h-6 w-6" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <ProfilePrompt 
+          prompt={profilePrompts[1].prompt}
+          answer={profilePrompts[1].answer}
+          onPressStart={handlePressStart}
+          onPressEnd={handlePressEnd}
+        />
         
         <div className="flex flex-col gap-4">
           {userPhotos.map((photo, index) => (
-            <Card key={index} className="rounded-xl shadow-md overflow-hidden">
-              <div className="relative">
-                <img 
-                  src={photo} 
-                  alt={`${user.name}'s photo ${index + 1}`} 
-                  className="w-full h-[400px] object-cover transition-all duration-150"
-                  style={{
-                    boxShadow: pressedElement.imageUrl === photo
-                      ? 'none'
-                      : '0 16px 32px rgba(0, 0, 0, 0.25), 0 0 15px rgba(185, 230, 243, 0.4)'
-                  }}
-                  onMouseDown={(e) => handlePressStart(e, `${user.name}'s additional photo ${index + 1}`, 'image')}
-                  onMouseUp={handlePressEnd}
-                  onMouseLeave={handlePressEnd}
-                  onTouchStart={(e) => handlePressStart(e, `${user.name}'s additional photo ${index + 1}`, 'image')}
-                  onTouchEnd={handlePressEnd}
-                />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2">
-                  <Button 
-                    size="icon" 
-                    className="h-8 w-8 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white text-rose-400"
-                  >
-                    <Heart className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            </Card>
+            <ProfilePhoto
+              key={index}
+              photo={photo}
+              index={index}
+              userName={user.name}
+              isPressedImage={pressedElement.imageUrl === photo}
+              onPressStart={handlePressStart}
+              onPressEnd={handlePressEnd}
+            />
           ))}
         </div>
         
-        <Card className="rounded-xl shadow-md overflow-hidden">
-          <CardContent 
-            className="p-6" 
-            onMouseDown={(e) => handlePressStart(e, profilePrompts[2].answer, 'prompt')}
-            onMouseUp={handlePressEnd}
-            onMouseLeave={handlePressEnd}
-            onTouchStart={(e) => handlePressStart(e, profilePrompts[2].answer, 'prompt')}
-            onTouchEnd={handlePressEnd}
-          >
-            <h3 className="text-lg font-medium text-gray-600 mb-2">{profilePrompts[2].prompt}</h3>
-            <p className="text-3xl font-serif mb-4">{profilePrompts[2].answer}</p>
-            
-            <div className="flex justify-end">
-              <Button 
-                size="icon" 
-                variant="ghost"
-                className="h-12 w-12 rounded-full text-rose-400 hover:bg-rose-50"
-              >
-                <Heart className="h-6 w-6" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <ProfilePrompt 
+          prompt={profilePrompts[2].prompt}
+          answer={profilePrompts[2].answer}
+          onPressStart={handlePressStart}
+          onPressEnd={handlePressEnd}
+        />
       </div>
 
-      {clickAnimation.visible && clickAnimation.elementRect && (
-        <div 
-          className="fixed z-40 pointer-events-none"
-          style={{
-            left: clickAnimation.x - 50, // Center the circle
-            top: clickAnimation.y - 50,
-            width: 100, // Fixed size circle
-            height: 100
-          }}
-        >
-          {/* Outer static border */}
-          <div 
-            className="absolute inset-0 rounded-full border-2 border-white"
-            style={{
-              boxShadow: `0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 30px #FFFFFF`
-            }}
-          />
-          
-          {/* Inner expanding glow */}
-          <div 
-            className="absolute inset-0 bg-white rounded-full"
-            style={{
-              transform: `scale(${clickAnimation.progress})`,
-              transformOrigin: 'center',
-              boxShadow: `0 0 15px #FFFFFF, 0 0 30px #FFFFFF`
-            }}
-          />
-        </div>
-      )}
+      <ClickAnimation 
+        visible={clickAnimation.visible}
+        x={clickAnimation.x}
+        y={clickAnimation.y}
+        progress={clickAnimation.progress}
+        elementRect={clickAnimation.elementRect}
+      />
 
-      {feedbackBubble.visible && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"></div>
-      )}
-
-      {feedbackBubble.visible && (
-        <div 
-          className="fixed z-50 bg-white rounded-xl shadow-xl w-[320px] max-w-[90vw]"
-          style={{ 
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-            animation: 'scale-in 0.3s ease-out forwards'
-          }}
-        >
-          <div className="p-3 border-b">
-            <div className="flex justify-between items-center">
-              <h4 className="font-semibold text-sm">Send a message about this</h4>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-6 w-6" 
-                onClick={closeFeedbackBubble}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-            <p className="text-xs text-gray-500 mt-1 line-clamp-2 animate-pulse-gentle">
-              {feedbackBubble.content}
-            </p>
-          </div>
-          <div className="p-3">
-            <div className="flex gap-2">
-              <Input
-                placeholder="Type your message..."
-                value={feedbackText}
-                onChange={(e) => setFeedbackText(e.target.value)}
-                className="text-sm"
-                autoFocus
-              />
-              <Button 
-                onClick={handleSendFeedback}
-                className="bg-dating-accent hover:bg-dating-accent/90 flex items-center"
-              >
-                <Send className="h-4 w-4 mr-1" />
-                Send
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      <FeedbackBubble
+        visible={feedbackBubble.visible}
+        content={feedbackBubble.content}
+        type={feedbackBubble.type}
+        feedbackText={feedbackText}
+        setFeedbackText={setFeedbackText}
+        onSend={handleSendFeedback}
+        onClose={closeFeedbackBubble}
+      />
     </div>
   );
 };
