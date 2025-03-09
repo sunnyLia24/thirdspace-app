@@ -24,7 +24,7 @@ const Profile = () => {
       image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1',
       title: 'Jessica, 28',
       prompt: 'A fact about me that surprises people...',
-      promptAnswer: 'I've hiked in 12 different countries and speak 3 languages.'
+      promptAnswer: "I've hiked in 12 different countries and speak 3 languages."
     }
   ];
 

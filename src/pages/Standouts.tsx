@@ -19,7 +19,7 @@ const Standouts = () => {
       name: 'Michael',
       age: 30,
       image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6',
-      prompt: 'The most spontaneous thing I've ever done...',
+      prompt: "The most spontaneous thing I've ever done...",
       answer: 'Booked a one-way ticket to Thailand with just a backpack.'
     },
     {
@@ -28,7 +28,7 @@ const Standouts = () => {
       age: 25,
       image: 'https://images.unsplash.com/photo-1503185912284-5271ff81b9a8',
       prompt: 'A fact about me that surprises people...',
-      answer: 'I'm a classically trained opera singer who also loves death metal.'
+      answer: "I'm a classically trained opera singer who also loves death metal."
     }
   ];
 
