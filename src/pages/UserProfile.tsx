@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
@@ -215,18 +214,17 @@ const UserProfile = () => {
       </div>
       
       <div className="container mx-auto px-4 py-4 space-y-4">
-        <Card className="overflow-hidden rounded-xl shadow-md">
+        <Card className={`overflow-hidden rounded-xl transition-all duration-150 ${
+          pressedElement.element && pressedElement.element.tagName === 'IMG' && 
+          (pressedElement.element as HTMLImageElement).src === user.profileImage 
+            ? 'shadow-none transform scale-[0.98]' 
+            : 'shadow-md'
+        }`}>
           <div className="relative">
             <img 
               src={user.profileImage} 
               alt={user.name} 
-              className="w-full h-[400px] object-cover transition-all duration-150"
-              style={{
-                boxShadow: pressedElement.element && pressedElement.element.tagName === 'IMG' && 
-                          (pressedElement.element as HTMLImageElement).src === user.profileImage 
-                  ? 'none' 
-                  : '0 16px 32px rgba(0, 0, 0, 0.25), 0 0 15px rgba(185, 230, 243, 0.4)'
-              }}
+              className="w-full h-[400px] object-cover"
               onMouseDown={(e) => handlePressStart(e, `${user.name}'s profile picture`, 'image')}
               onMouseUp={handlePressEnd}
               onMouseLeave={handlePressEnd}
@@ -282,7 +280,6 @@ const UserProfile = () => {
               photo={photo}
               index={index}
               userName={user.name}
-              isPressedImage={pressedElement.imageUrl === photo}
               onPressStart={handlePressStart}
               onPressEnd={handlePressEnd}
             />
