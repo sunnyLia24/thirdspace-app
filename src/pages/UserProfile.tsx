@@ -81,7 +81,6 @@ const UserProfile = () => {
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
     
-    // Get the element that was clicked
     const target = e.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
     
@@ -342,19 +341,21 @@ const UserProfile = () => {
         >
           {/* Outer static border */}
           <div 
-            className="absolute inset-0 rounded-full border-2 border-dating-accent"
+            className="absolute inset-0 rounded-full border-2 border-white"
             style={{
-              opacity: 0.8
+              opacity: 0.8,
+              boxShadow: `0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 30px #FFFFFF`
             }}
           />
           
           {/* Inner expanding glow */}
           <div 
-            className="absolute inset-0 bg-dating-accent rounded-full"
+            className="absolute inset-0 bg-white rounded-full"
             style={{
               opacity: 0.4,
               transform: `scale(${clickAnimation.progress})`,
-              transformOrigin: 'center'
+              transformOrigin: 'center',
+              boxShadow: `0 0 15px #FFFFFF, 0 0 30px #FFFFFF`
             }}
           />
           
@@ -363,7 +364,8 @@ const UserProfile = () => {
             <div 
               className="absolute inset-0 flex items-center justify-center text-white font-bold text-xl"
               style={{
-                opacity: Math.min(clickAnimation.progress * 2, 1)
+                opacity: Math.min(clickAnimation.progress * 2, 1),
+                textShadow: '0 0 5px #FFFFFF, 0 0 10px #FFFFFF'
               }}
             >
               {Math.round(clickAnimation.progress * 100)}%
