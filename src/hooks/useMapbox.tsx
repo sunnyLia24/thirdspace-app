@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -114,10 +113,10 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
       customMarkerElementRef.current = customMarkerElement;
 
       // Add user location marker with custom element
-      // Updated to use 'bottom-center' anchor to properly center Lumalee
+      // Updated to use 'bottom' anchor to properly center Lumalee
       markerRef.current = new mapboxgl.Marker({
         element: customMarkerElement,
-        anchor: 'bottom-center' // Changed from 'center' to 'bottom-center'
+        anchor: 'bottom'
       })
         .setLngLat(userLocation)
         .addTo(map.current);
