@@ -32,8 +32,11 @@ const UserProfile = () => {
     elementRect: null as DOMRect | null
   });
   
-  // Add a new state for the "sink down" effect
-  const [pressedElement, setPressedElement] = useState<HTMLElement | null>(null);
+  // Updated state to track the pressed element and its type
+  const [pressedElement, setPressedElement] = useState<{
+    element: HTMLElement | null,
+    imageUrl?: string
+  }>({ element: null });
   
   const pressTimerRef = useRef<number | null>(null);
   const animationFrameRef = useRef<number | null>(null);
@@ -89,7 +92,15 @@ const UserProfile = () => {
     const rect = target.getBoundingClientRect();
     
     // Set the pressed element for the "sink down" effect
-    setPressedElement(target);
+    // For images, also store the image URL
+    const imageUrl = type === 'image' && target.tagName === 'IMG' 
+      ? (target as HTMLImageElement).src 
+      : undefined;
+    
+    setPressedElement({
+      element: target,
+      imageUrl
+    });
     
     startTimeRef.current = Date.now();
     
@@ -155,7 +166,7 @@ const UserProfile = () => {
     }
     
     // Clear the pressed element state
-    setPressedElement(null);
+    setPressedElement({ element: null });
     
     setClickAnimation(prev => ({
       ...prev,
@@ -206,7 +217,10 @@ const UserProfile = () => {
               alt={user.name} 
               className="w-full h-[400px] object-cover transition-transform duration-150"
               style={{
-                transform: pressedElement?.contains(user.profileImage) ? 'scale(0.98) translateY(2px)' : 'scale(1)',
+                transform: pressedElement.element && pressedElement.element.tagName === 'IMG' && 
+                           (pressedElement.element as HTMLImageElement).src === user.profileImage 
+                  ? 'scale(0.98) translateY(2px)' 
+                  : 'scale(1)',
               }}
               onMouseDown={(e) => handlePressStart(e, `${user.name}'s profile picture`, 'image')}
               onMouseUp={handlePressEnd}
@@ -299,7 +313,9 @@ const UserProfile = () => {
                   alt={`${user.name}'s photo ${index + 1}`} 
                   className="w-full h-[400px] object-cover transition-transform duration-150"
                   style={{
-                    transform: pressedElement?.src === photo ? 'scale(0.98) translateY(2px)' : 'scale(1)',
+                    transform: pressedElement.imageUrl === photo
+                      ? 'scale(0.98) translateY(2px)' 
+                      : 'scale(1)',
                   }}
                   onMouseDown={(e) => handlePressStart(e, `${user.name}'s additional photo ${index + 1}`, 'image')}
                   onMouseUp={handlePressEnd}
