@@ -31,7 +31,7 @@ const FeedbackBubble: React.FC<FeedbackBubbleProps> = ({
     <>
       <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"></div>
       <div 
-        className="fixed z-50 bg-white rounded-xl shadow-xl w-[320px] max-w-[90vw]"
+        className="fixed z-50 bg-white rounded-xl shadow-xl w-[360px] max-w-[90vw]"
         style={{ 
           position: 'fixed',
           left: '50%',
@@ -56,7 +56,7 @@ const FeedbackBubble: React.FC<FeedbackBubbleProps> = ({
               <img 
                 src={imageUrl} 
                 alt="Selected content" 
-                className="w-full h-32 object-cover"
+                className="w-full h-[250px] object-contain bg-gray-100"
               />
             </div>
           ) : (
