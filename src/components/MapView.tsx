@@ -24,7 +24,7 @@ const MapView: React.FC<MapViewProps> = ({ isNavVisible, toggleNav }) => {
   return (
     <div className="w-full h-screen relative overflow-hidden">
       {/* Map Container - place this first so it's behind other elements */}
-      <div ref={mapContainer} className="absolute inset-0" />
+      <div ref={mapContainer} className="absolute inset-0" style={{ cursor: 'grab' }} />
       
       {/* Loading State */}
       {loading && <MapLoading />}
@@ -39,6 +39,11 @@ const MapView: React.FC<MapViewProps> = ({ isNavVisible, toggleNav }) => {
       {error && (
         <MapError onSubmitToken={handleSubmitToken} />
       )}
+      
+      {/* Rotation Instructions */}
+      <div className="absolute top-24 left-1/2 transform -translate-x-1/2 bg-white/80 backdrop-blur-sm rounded-full py-1 px-3 text-xs font-medium shadow-md z-10 pointer-events-none">
+        Right-click + drag to rotate around Lumalee
+      </div>
       
       {/* Home Button and Bottom Nav */}
       <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center z-10">

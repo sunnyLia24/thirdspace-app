@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -130,12 +131,12 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         minZoom: 9,  // Set minimum zoom level
         maxZoom: 20, // Set maximum zoom level
         dragRotate: true,
-        dragPan: false, // Disable panning to keep user centered
+        dragPan: true, // Enable panning to allow for rotation
       });
       
       map.current = newMap;
 
-      // Add navigation controls - only allow zoom and pitch/bearing changes
+      // Add rotation control
       map.current.addControl(
         new mapboxgl.NavigationControl({
           visualizePitch: true,
@@ -164,7 +165,6 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
       customMarkerElementRef.current = customMarkerElement;
 
       // Add user location marker with custom element
-      // Updated to use 'bottom' anchor to properly center Lumalee
       markerRef.current = new mapboxgl.Marker({
         element: customMarkerElement,
         anchor: 'bottom'
@@ -248,8 +248,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         }
       });
 
-      // Fix for zoom centering issue - always keep the map centered on the user's location
-      // regardless of where the cursor is positioned during zooming
+      // Setup map camera behavior based on zoom level
       map.current.on('zoom', () => {
         if (!map.current || !userLocation) return;
         
@@ -259,20 +258,15 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         const currentZoom = map.current.getZoom();
         
         // Calculate pitch based on zoom level
-        // At lower zoom levels, have a moderate pitch
-        // As zoom increases, gradually lower the POV to ground level (higher pitch)
         let targetPitch;
         
         if (currentZoom < 15) {
-          // Linear interpolation: 45° at zoom 10, gradually increasing to 60° at zoom 15
           targetPitch = 45 + ((currentZoom - 10) * 3);
           targetPitch = Math.min(Math.max(targetPitch, 45), 60);
         } else if (currentZoom >= 15 && currentZoom < 18) {
-          // Linear interpolation: 60° at zoom 15, gradually increasing to 75° at zoom 18
           targetPitch = 60 + ((currentZoom - 15) * 5);
           targetPitch = Math.min(Math.max(targetPitch, 60), 75);
         } else {
-          // For zoom level 18+, set to near ground level view (80°)
           targetPitch = 80;
         }
         
@@ -286,18 +280,13 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
 
         // Adjust Lumalee marker size based on zoom level
         if (customMarkerElementRef.current) {
-          // Get the Lumalee container element
           const lumaleeContainer = customMarkerElementRef.current.querySelector('.lumalee-container');
           
-          // Calculate base size factor (smaller at low zoom, larger at high zoom)
-          // Zoom range: minZoom: 9 to maxZoom: 20
           const zoomRange = map.current.getMaxZoom() - map.current.getMinZoom();
           const zoomFactor = (currentZoom - map.current.getMinZoom()) / zoomRange;
           
-          // Scale from 0.6 (at lowest zoom) to 1.5 (at highest zoom)
           const scaleFactor = 0.6 + (zoomFactor * 0.9);
           
-          // Apply scale transform to the Lumalee container
           if (lumaleeContainer) {
             (lumaleeContainer as HTMLElement).style.transform = `scale(${scaleFactor})`;
           }
@@ -325,6 +314,21 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
           zoom: clampedZoom,
           duration: 100
         });
+      });
+
+      // Add rotation controls to make it easier to rotate around the user's location
+      map.current.on('dragstart', (e) => {
+        // Check if right mouse button is pressed (for rotation)
+        if (e.originalEvent.button === 2 || (e.originalEvent.buttons && e.originalEvent.buttons === 2)) {
+          // Set cursor to indicate rotation
+          map.current?.getCanvas().style.cursor = 'grabbing';
+        }
+      });
+
+      // Right-click and drag for rotation around the user's position
+      map.current.on('contextmenu', (e) => {
+        // Prevent the default context menu
+        e.preventDefault();
       });
 
       // Enhanced mobile-friendly controls
