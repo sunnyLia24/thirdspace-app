@@ -153,7 +153,8 @@ const FeedbackBubble: React.FC<FeedbackBubbleProps> = ({
         </div>
       </div>
       
-      <style jsx>{`
+      <style>
+        {`
         @keyframes confetti {
           0% {
             transform: translateY(0) rotate(0deg);
@@ -176,7 +177,8 @@ const FeedbackBubble: React.FC<FeedbackBubbleProps> = ({
             transform: scale(1);
           }
         }
-      `}</style>
+        `}
+      </style>
     </>
   );
 };
