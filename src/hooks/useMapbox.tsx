@@ -114,9 +114,10 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
       customMarkerElementRef.current = customMarkerElement;
 
       // Add user location marker with custom element
+      // Updated to use 'bottom-center' anchor to properly center Lumalee
       markerRef.current = new mapboxgl.Marker({
         element: customMarkerElement,
-        anchor: 'center'
+        anchor: 'bottom-center' // Changed from 'center' to 'bottom-center'
       })
         .setLngLat(userLocation)
         .addTo(map.current);
