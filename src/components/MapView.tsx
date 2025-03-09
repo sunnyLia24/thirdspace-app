@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import HomeButton from './HomeButton';
+import TopNav from './TopNav';
 
 // You would normally use an environment variable for this
 // but for this demo we're including it directly
@@ -125,7 +126,29 @@ const MapView: React.FC<MapViewProps> = ({ isNavVisible, toggleNav }) => {
         </div>
       )}
       <div ref={mapContainer} className="absolute inset-0" />
-      <div className="absolute bottom-24 left-0 right-0 flex justify-center z-10">
+      
+      {/* Top Navigation */}
+      <TopNav />
+      
+      {/* Third Spaces Title with Glow Effect */}
+      <div className="absolute top-16 left-0 right-0 flex justify-center z-10">
+        <div className="relative">
+          <div className="absolute -inset-1 bg-gradient-to-r from-dating-primary via-dating-accent to-dating-secondary rounded-lg blur opacity-75 animate-pulse-gentle"></div>
+          <div className="relative bg-white px-6 py-2 rounded-lg shadow-md">
+            <h1 className="text-xl font-bold text-dating-dark">Third Spaces</h1>
+          </div>
+        </div>
+      </div>
+      
+      {/* Home Button and Bottom Nav */}
+      <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center z-10">
+        {isNavVisible && (
+          <div className="mb-4 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-lg">
+            <div className="flex space-x-4">
+              {/* We'll leave this empty for now - the BottomNav component will be repositioned in MainLayout.tsx */}
+            </div>
+          </div>
+        )}
         <HomeButton isActive={isNavVisible} onClick={toggleNav} />
       </div>
     </div>
