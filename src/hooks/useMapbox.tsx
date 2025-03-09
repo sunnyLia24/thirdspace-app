@@ -318,10 +318,16 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
 
       // Add rotation controls to make it easier to rotate around the user's location
       map.current.on('dragstart', (e) => {
-        // Check if right mouse button is pressed (for rotation)
-        if (e.originalEvent.button === 2 || (e.originalEvent.buttons && e.originalEvent.buttons === 2)) {
-          // Set cursor to indicate rotation
-          map.current?.getCanvas().style.cursor = 'grabbing';
+        // Check if event is a MouseEvent and if right mouse button is pressed (for rotation)
+        if ('button' in e.originalEvent) {
+          const mouseEvent = e.originalEvent as MouseEvent;
+          if (mouseEvent.button === 2 || mouseEvent.buttons === 2) {
+            // Set cursor to indicate rotation
+            const canvas = map.current?.getCanvas();
+            if (canvas) {
+              canvas.style.cursor = 'grabbing';
+            }
+          }
         }
       });
 
