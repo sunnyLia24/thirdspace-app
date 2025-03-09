@@ -295,10 +295,6 @@ const UserProfile = () => {
               onTouchStart={(e) => handlePressStart(e, "", 'image', user.profileImage)}
               onTouchEnd={handlePressEnd}
             />
-            <div className="absolute top-4 left-4 flex items-center bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full">
-              <BadgeCheck className="h-5 w-5 text-purple-700 mr-1" />
-              <span className="text-purple-700 font-medium">Verified</span>
-            </div>
           </div>
         </Card>
         
