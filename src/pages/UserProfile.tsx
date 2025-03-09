@@ -4,7 +4,7 @@ import { nearbyUsers } from '@/data/nearbyUsers';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Heart, X, MoreHorizontal, BadgeCheck, Cake, User, Magnet, Briefcase, Send } from 'lucide-react';
+import { Heart, X, MoreHorizontal, BadgeCheck, Cake, User, Magnet, Briefcase, Send, Image } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const UserProfile = () => {
@@ -12,7 +12,6 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
-  // State for the feedback bubble
   const [feedbackBubble, setFeedbackBubble] = useState({
     visible: false,
     x: 0,
@@ -22,7 +21,6 @@ const UserProfile = () => {
   });
   const [feedbackText, setFeedbackText] = useState('');
   
-  // Animation states
   const [clickAnimation, setClickAnimation] = useState({
     visible: false,
     x: 0,
@@ -30,17 +28,13 @@ const UserProfile = () => {
     progress: 0
   });
   
-  // Refs for press timers
   const pressTimerRef = useRef<number | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(0);
   
-  // Find the user by ID
   const user = nearbyUsers.find(u => u.id === userId);
   
-  // If user not found, show error and redirect back
   if (!user) {
-    // Navigate back to map after displaying error
     React.useEffect(() => {
       toast({
         title: "User not found",
@@ -53,7 +47,6 @@ const UserProfile = () => {
     return null;
   }
 
-  // Profile prompts data for this user
   const profilePrompts = [
     {
       prompt: "My most irrational fear",
@@ -69,7 +62,11 @@ const UserProfile = () => {
     }
   ];
 
-  // User details
+  const userPhotos = [
+    "https://images.unsplash.com/photo-1472396961693-142e6e269027",
+    "https://images.unsplash.com/photo-1466721591366-2d5fba72006d"
+  ];
+
   const userDetails = [
     { icon: <Cake className="h-5 w-5" />, text: "22" },
     { icon: <User className="h-5 w-5" />, text: "Man" },
@@ -77,16 +74,12 @@ const UserProfile = () => {
     { icon: <Briefcase className="h-5 w-5" />, text: "Server" }
   ];
 
-  // Handle press start for long press detection
   const handlePressStart = (e: React.MouseEvent | React.TouchEvent, content: string, type: string) => {
-    // Get position for the bubble
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
     
-    // Start time tracking
     startTimeRef.current = Date.now();
     
-    // Show click animation
     setClickAnimation({
       visible: true,
       x: clientX,
@@ -94,10 +87,9 @@ const UserProfile = () => {
       progress: 0
     });
     
-    // Start animating the progress circle
     const animateProgress = () => {
       const elapsedTime = Date.now() - startTimeRef.current;
-      const progress = Math.min(elapsedTime / 3000, 1); // 3000ms = 3 seconds
+      const progress = Math.min(elapsedTime / 3000, 1);
       
       setClickAnimation(prev => ({
         ...prev,
@@ -107,16 +99,14 @@ const UserProfile = () => {
       if (progress < 1) {
         animationFrameRef.current = requestAnimationFrame(animateProgress);
       } else {
-        // When animation completes, show the feedback bubble
         setFeedbackBubble({
           visible: true,
           x: clientX,
-          y: clientY - 100, // Position bubble above the pointer
+          y: clientY - 100,
           content,
           type
         });
         
-        // Reset click animation
         setClickAnimation(prev => ({
           ...prev,
           visible: false
@@ -126,19 +116,17 @@ const UserProfile = () => {
     
     animationFrameRef.current = requestAnimationFrame(animateProgress);
     
-    // Still keep the old timer as a fallback
     pressTimerRef.current = window.setTimeout(() => {
       setFeedbackBubble({
         visible: true,
         x: clientX,
-        y: clientY - 100, // Position bubble above the pointer
+        y: clientY - 100,
         content,
         type
       });
-    }, 3000); // 3 second hold time
+    }, 3000);
   };
 
-  // Handle press end
   const handlePressEnd = () => {
     if (pressTimerRef.current) {
       clearTimeout(pressTimerRef.current);
@@ -150,14 +138,12 @@ const UserProfile = () => {
       animationFrameRef.current = null;
     }
     
-    // Hide click animation
     setClickAnimation(prev => ({
       ...prev,
       visible: false
     }));
   };
 
-  // Handle sending the feedback
   const handleSendFeedback = () => {
     if (feedbackText.trim()) {
       toast({
@@ -165,13 +151,11 @@ const UserProfile = () => {
         description: `Your message about "${feedbackBubble.content.substring(0, 20)}..." was sent.`,
       });
       
-      // Reset the state
       setFeedbackBubble(prev => ({ ...prev, visible: false }));
       setFeedbackText('');
     }
   };
 
-  // Close the feedback bubble
   const closeFeedbackBubble = () => {
     setFeedbackBubble(prev => ({ ...prev, visible: false }));
     setFeedbackText('');
@@ -179,11 +163,10 @@ const UserProfile = () => {
 
   return (
     <div className="pb-6 bg-gray-50 min-h-screen">
-      {/* Header with username and more options */}
       <div className="bg-white pt-2 pb-1 sticky top-0 z-10">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
-            <div className="w-8"></div> {/* Empty div for centering */}
+            <div className="w-8"></div>
             <h2 className="text-2xl font-bold">{user.name}</h2>
             <Button 
               variant="ghost" 
@@ -196,9 +179,7 @@ const UserProfile = () => {
         </div>
       </div>
       
-      {/* Main content */}
       <div className="container mx-auto px-4 py-4 space-y-4">
-        {/* Main photo card */}
         <Card className="overflow-hidden rounded-xl shadow-md">
           <div className="relative">
             <img 
@@ -211,12 +192,10 @@ const UserProfile = () => {
               onTouchStart={(e) => handlePressStart(e, `${user.name}'s profile picture`, 'image')}
               onTouchEnd={handlePressEnd}
             />
-            {/* Verified badge */}
             <div className="absolute top-4 left-4 flex items-center bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full">
               <BadgeCheck className="h-5 w-5 text-purple-700 mr-1" />
               <span className="text-purple-700 font-medium">Verified</span>
             </div>
-            {/* Like button */}
             <div className="absolute bottom-4 right-4">
               <Button 
                 size="icon" 
@@ -228,7 +207,6 @@ const UserProfile = () => {
           </div>
         </Card>
         
-        {/* First prompt - "My most irrational fear" */}
         <Card className="rounded-xl shadow-md overflow-hidden">
           <CardContent 
             className="p-6"
@@ -241,7 +219,6 @@ const UserProfile = () => {
             <h3 className="text-lg font-medium text-gray-600 mb-2">{profilePrompts[0].prompt}</h3>
             <p className="text-3xl font-serif mb-4">{profilePrompts[0].answer}</p>
             
-            {/* Like button for prompts */}
             <div className="flex justify-end">
               <Button 
                 size="icon" 
@@ -254,7 +231,6 @@ const UserProfile = () => {
           </CardContent>
         </Card>
         
-        {/* User details card */}
         <Card className="rounded-xl shadow-md overflow-hidden">
           <CardContent className="p-0">
             <div className="grid grid-cols-4 divide-x divide-gray-100">
@@ -268,36 +244,82 @@ const UserProfile = () => {
           </CardContent>
         </Card>
         
-        {/* Remaining prompts */}
-        {profilePrompts.slice(1).map((item, index) => (
-          <Card key={index} className="rounded-xl shadow-md overflow-hidden">
-            <CardContent 
-              className="p-6" 
-              onMouseDown={(e) => handlePressStart(e, item.answer, 'prompt')}
-              onMouseUp={handlePressEnd}
-              onMouseLeave={handlePressEnd}
-              onTouchStart={(e) => handlePressStart(e, item.answer, 'prompt')}
-              onTouchEnd={handlePressEnd}
-            >
-              <h3 className="text-lg font-medium text-gray-600 mb-2">{item.prompt}</h3>
-              <p className="text-3xl font-serif mb-4">{item.answer}</p>
-              
-              {/* Like button for prompts */}
-              <div className="flex justify-end">
-                <Button 
-                  size="icon" 
-                  variant="ghost"
-                  className="h-12 w-12 rounded-full text-rose-400 hover:bg-rose-50"
-                >
-                  <Heart className="h-6 w-6" />
-                </Button>
+        <Card className="rounded-xl shadow-md overflow-hidden">
+          <CardContent 
+            className="p-6" 
+            onMouseDown={(e) => handlePressStart(e, profilePrompts[1].answer, 'prompt')}
+            onMouseUp={handlePressEnd}
+            onMouseLeave={handlePressEnd}
+            onTouchStart={(e) => handlePressStart(e, profilePrompts[1].answer, 'prompt')}
+            onTouchEnd={handlePressEnd}
+          >
+            <h3 className="text-lg font-medium text-gray-600 mb-2">{profilePrompts[1].prompt}</h3>
+            <p className="text-3xl font-serif mb-4">{profilePrompts[1].answer}</p>
+            
+            <div className="flex justify-end">
+              <Button 
+                size="icon" 
+                variant="ghost"
+                className="h-12 w-12 rounded-full text-rose-400 hover:bg-rose-50"
+              >
+                <Heart className="h-6 w-6" />
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <div className="grid grid-cols-2 gap-4">
+          {userPhotos.map((photo, index) => (
+            <Card key={index} className="rounded-xl shadow-md overflow-hidden">
+              <div className="relative">
+                <img 
+                  src={photo} 
+                  alt={`${user.name}'s photo ${index + 1}`} 
+                  className="w-full h-40 object-cover"
+                  onMouseDown={(e) => handlePressStart(e, `${user.name}'s additional photo ${index + 1}`, 'image')}
+                  onMouseUp={handlePressEnd}
+                  onMouseLeave={handlePressEnd}
+                  onTouchStart={(e) => handlePressStart(e, `${user.name}'s additional photo ${index + 1}`, 'image')}
+                  onTouchEnd={handlePressEnd}
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2">
+                  <Button 
+                    size="icon" 
+                    className="h-8 w-8 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white text-rose-400"
+                  >
+                    <Heart className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        ))}
+            </Card>
+          ))}
+        </div>
+        
+        <Card className="rounded-xl shadow-md overflow-hidden">
+          <CardContent 
+            className="p-6" 
+            onMouseDown={(e) => handlePressStart(e, profilePrompts[2].answer, 'prompt')}
+            onMouseUp={handlePressEnd}
+            onMouseLeave={handlePressEnd}
+            onTouchStart={(e) => handlePressStart(e, profilePrompts[2].answer, 'prompt')}
+            onTouchEnd={handlePressEnd}
+          >
+            <h3 className="text-lg font-medium text-gray-600 mb-2">{profilePrompts[2].prompt}</h3>
+            <p className="text-3xl font-serif mb-4">{profilePrompts[2].answer}</p>
+            
+            <div className="flex justify-end">
+              <Button 
+                size="icon" 
+                variant="ghost"
+                className="h-12 w-12 rounded-full text-rose-400 hover:bg-rose-50"
+              >
+                <Heart className="h-6 w-6" />
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Click animation indicator */}
       {clickAnimation.visible && (
         <div 
           className="fixed z-40 rounded-full pointer-events-none"
@@ -333,12 +355,10 @@ const UserProfile = () => {
         </div>
       )}
 
-      {/* Overlay for background blur when feedback bubble is visible */}
       {feedbackBubble.visible && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"></div>
       )}
 
-      {/* Feedback bubble with animation */}
       {feedbackBubble.visible && (
         <div 
           className="fixed z-50 bg-white rounded-xl shadow-xl max-w-xs animate-fade-in"
