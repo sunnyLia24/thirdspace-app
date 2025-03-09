@@ -122,7 +122,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
       // Initialize map with user location
       const newMap = new mapboxgl.Map({
         container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/light-v11',
+        style: 'mapbox://styles/mapbox/streets-v12', // Changed to streets style for more colorful base
         center: userLocation,
         zoom: 18, // Increased zoom level to show 50-100m around user
         pitch: 45,
@@ -177,8 +177,15 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         setLoading(false);
         setError(null);
         
-        // Add 3D building layer
+        // Customize map colors
         if (map.current) {
+          // Change water color to a soft blue that matches our dating primary colors
+          map.current.setPaintProperty('water', 'fill-color', '#B9E6F3');
+          
+          // Change land color to a light tone that complements our theme
+          map.current.setPaintProperty('land', 'background-color', '#f0f9fc');
+          
+          // Change building colors to match our theme
           map.current.addLayer({
             'id': '3d-buildings',
             'source': 'composite',
@@ -187,7 +194,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
             'type': 'fill-extrusion',
             'minzoom': 15,
             'paint': {
-              'fill-extrusion-color': '#aaa',
+              'fill-extrusion-color': '#5bbce0', // Dating accent color
               'fill-extrusion-height': [
                 'interpolate', ['linear'], ['zoom'],
                 15, 0,
@@ -201,6 +208,15 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
               'fill-extrusion-opacity': 0.6
             }
           });
+          
+          // Change road colors
+          map.current.setPaintProperty('road-primary', 'line-color', '#a1dbeb'); // Dating secondary color
+          map.current.setPaintProperty('road-secondary', 'line-color', '#a1dbeb');
+          map.current.setPaintProperty('road-tertiary', 'line-color', '#d6f1f8'); // Dating tertiary color
+          
+          // Change park and vegetation colors
+          map.current.setPaintProperty('landuse-park', 'fill-color', '#d6f1f8'); // Lighter shade
+          map.current.setPaintProperty('landcover-tree', 'fill-color', '#5bbce0'); // Dating accent color
         }
         
         // Position nearby users around the user's location
