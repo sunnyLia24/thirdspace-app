@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -52,9 +53,15 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
   // Initialize map when user location is set
   useEffect(() => {
     if (!mapContainer.current || !userLocation) return;
-    
+
+    // Clear any existing map instance properly
     if (map.current) {
-      map.current.remove();
+      try {
+        map.current.remove();
+      } catch (e) {
+        console.error("Error removing map:", e);
+      }
+      map.current = null;
     }
 
     try {
@@ -62,7 +69,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
       mapboxgl.accessToken = customToken || DEFAULT_MAPBOX_TOKEN;
       
       // Initialize map with user location
-      map.current = new mapboxgl.Map({
+      const newMap = new mapboxgl.Map({
         container: mapContainer.current,
         style: 'mapbox://styles/mapbox/light-v11',
         center: userLocation,
@@ -75,6 +82,8 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         dragRotate: true,
         dragPan: false, // Disable panning to keep user centered
       });
+      
+      map.current = newMap;
 
       // Add navigation controls - only allow zoom and pitch/bearing changes
       map.current.addControl(
@@ -145,7 +154,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         
         // Set up watch position to update marker and map center when user moves
         if (navigator.geolocation) {
-          navigator.geolocation.watchPosition(
+          const watchId = navigator.geolocation.watchPosition(
             (position) => {
               const newLocation: [number, number] = [
                 position.coords.longitude,
@@ -174,6 +183,11 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
               timeout: 5000
             }
           );
+          
+          // Store watchId for cleanup
+          return () => {
+            navigator.geolocation.clearWatch(watchId);
+          };
         }
       });
 
@@ -249,8 +263,14 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
 
     // Cleanup
     return () => {
+      // Safely clean up the map instance
       if (map.current) {
-        map.current.remove();
+        try {
+          map.current.remove();
+        } catch (e) {
+          console.error("Error during map cleanup:", e);
+        }
+        map.current = null;
       }
     };
   }, [userLocation, customToken]);

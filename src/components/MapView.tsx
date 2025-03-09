@@ -23,11 +23,11 @@ const MapView: React.FC<MapViewProps> = ({ isNavVisible, toggleNav }) => {
 
   return (
     <div className="w-full h-screen relative overflow-hidden">
+      {/* Map Container - place this first so it's behind other elements */}
+      <div ref={mapContainer} className="absolute inset-0" />
+      
       {/* Loading State */}
       {loading && <MapLoading />}
-      
-      {/* Map Container */}
-      <div ref={mapContainer} className="absolute inset-0" />
       
       {/* Top Navigation */}
       <TopNav />
@@ -36,7 +36,7 @@ const MapView: React.FC<MapViewProps> = ({ isNavVisible, toggleNav }) => {
       <MapTitle />
       
       {/* Error State / Token Input */}
-      {!map && !loading && (
+      {error && (
         <MapError onSubmitToken={handleSubmitToken} />
       )}
       
