@@ -20,7 +20,7 @@ const BackButton: React.FC<BackButtonProps> = ({ className }) => {
       variant="ghost"
       size="icon"
       onClick={handleBack}
-      className={`rounded-full bg-white/80 backdrop-blur-sm shadow-sm hover:bg-white/90 ${className}`}
+      className={`rounded-full bg-white/90 backdrop-blur-sm shadow-md hover:shadow-lg hover:shadow-dating-accent/10 transition-all duration-300 transform hover:-translate-y-1 ${className}`}
       aria-label="Back to map"
     >
       <ArrowLeft className="h-5 w-5" />

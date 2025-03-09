@@ -42,19 +42,22 @@ const Messages = () => {
   ];
 
   return (
-    <div className="pb-20 min-h-screen bg-white">
-      <div className="sticky top-0 z-10 bg-white border-b border-gray-200 shadow-sm">
+    <div className="pb-20 min-h-screen bg-gradient-to-b from-white to-dating-light">
+      <div className="sticky top-0 z-10 bg-white border-b border-gray-200 shadow-lg">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-center mb-4 relative">
             <div className="absolute left-0">
-              <BackButton />
+              <BackButton className="shadow-md hover:shadow-lg transition-shadow" />
             </div>
-            <h1 className="text-2xl font-bold text-center text-dating-dark">Messages</h1>
+            <h1 className="text-2xl font-bold text-center text-dating-dark relative">
+              Messages
+              <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1/2 h-0.5 bg-gradient-to-r from-transparent via-dating-accent to-transparent"></span>
+            </h1>
           </div>
           <div className="relative mb-2">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
             <Input 
-              className="pl-10 bg-gray-50 border-gray-200" 
+              className="pl-10 bg-gray-50 border-gray-200 shadow-inner focus:shadow-dating-accent/10 transition-shadow" 
               placeholder="Search conversations" 
             />
           </div>
@@ -65,16 +68,19 @@ const Messages = () => {
         {conversations.length > 0 ? (
           <div className="space-y-2">
             {conversations.map((conversation) => (
-              <Card key={conversation.id} className="p-3 hover:bg-gray-50 cursor-pointer transition-colors">
+              <Card 
+                key={conversation.id} 
+                className="p-3 hover:bg-white cursor-pointer transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg border border-transparent hover:border-dating-accent/10"
+              >
                 <div className="flex items-center space-x-3">
                   <div className="relative">
                     <img 
                       src={conversation.avatar} 
                       alt={conversation.name} 
-                      className="h-12 w-12 rounded-full object-cover"
+                      className="h-12 w-12 rounded-full object-cover shadow-md"
                     />
                     {conversation.unread && (
-                      <span className="absolute top-0 right-0 h-3 w-3 rounded-full bg-dating-primary"></span>
+                      <span className="absolute top-0 right-0 h-3 w-3 rounded-full bg-dating-primary shadow-md shadow-dating-primary/50 glow-effect"></span>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -92,8 +98,9 @@ const Messages = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-16 text-center">
-            <div className="h-16 w-16 bg-dating-light rounded-full flex items-center justify-center mb-4">
+            <div className="h-16 w-16 bg-dating-light rounded-full flex items-center justify-center mb-4 shadow-xl relative">
               <MessageCircle className="h-8 w-8 text-dating-primary" />
+              <div className="absolute inset-0 rounded-full bg-dating-accent/20 blur-md animate-pulse"></div>
             </div>
             <h3 className="text-lg font-semibold mb-2">No messages yet</h3>
             <p className="text-gray-500 max-w-md">
