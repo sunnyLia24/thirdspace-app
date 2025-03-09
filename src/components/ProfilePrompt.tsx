@@ -19,6 +19,7 @@ const ProfilePrompt: React.FC<ProfilePromptProps> = ({
 
   const handlePressStart = (e: React.MouseEvent | React.TouchEvent) => {
     setIsPressed(true);
+    // Pass the full prompt answer as the content for the feedback bubble
     onPressStart(e, answer, 'prompt');
   };
 

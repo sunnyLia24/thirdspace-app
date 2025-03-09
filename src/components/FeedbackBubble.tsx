@@ -59,6 +59,10 @@ const FeedbackBubble: React.FC<FeedbackBubbleProps> = ({
                 className="w-full h-[250px] object-cover bg-gray-100"
               />
             </div>
+          ) : type === 'prompt' ? (
+            <div className="mt-2 p-4 bg-gray-50 rounded-lg">
+              <p className="text-xl font-serif">{content}</p>
+            </div>
           ) : (
             <p className="text-xs text-gray-500 mt-1 line-clamp-2 animate-pulse-gentle">
               {content}
