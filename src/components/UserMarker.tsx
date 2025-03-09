@@ -20,7 +20,7 @@ const UserMarker: React.FC<UserMarkerProps> = ({ user, onClick }) => {
         <div 
           className={cn(
             "w-10 h-10 rounded-full border-2 overflow-hidden",
-            "border-white shadow-lg"
+            "border-white shadow-lg hover:shadow-xl"
           )}
         >
           <img 

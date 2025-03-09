@@ -316,6 +316,19 @@
   }
 }
 
+/* Remove the conflicting hover animation that causes markers to disappear */
 .user-marker:hover {
-  animation: float 2s ease-in-out infinite;
+  /* Override the float animation with a subtle pulse instead */
+  animation: none;
+  transform: scale(1.05);
+}
+
+/* Add a subtle pulse animation for marker hover instead */
+@keyframes marker-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
