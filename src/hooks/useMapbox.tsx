@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { useToast } from './use-toast';
 
 // Default token
 const DEFAULT_MAPBOX_TOKEN = 'pk.eyJ1Ijoic3VubnkyNCIsImEiOiJjbTdtbDBzb2gwb2plMnBvY2lxbml0Z3pyIn0.OrQMpXUEaR_vN3MubP6JSw';
@@ -16,6 +17,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+  const { toast } = useToast();
 
   // Get user's current location
   useEffect(() => {
@@ -28,11 +30,21 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
           console.error('Error getting user location:', error);
           // Default to New York if location access is denied
           setUserLocation([-74.0060, 40.7128]);
+          toast({
+            title: "Location access denied",
+            description: "Using default location instead",
+            variant: "default"
+          });
         }
       );
     } else {
       // Default to New York if geolocation is not supported
       setUserLocation([-74.0060, 40.7128]);
+      toast({
+        title: "Geolocation not supported",
+        description: "Using default location instead",
+        variant: "default"
+      });
     }
   }, []);
 
@@ -57,6 +69,8 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         pitch: 45,
         bearing: 0,
         antialias: true,
+        minZoom: 9,  // Set minimum zoom level (prevents zooming out too far)
+        maxZoom: 20  // Set maximum zoom level
       });
 
       // Add navigation controls
@@ -150,6 +164,11 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
       console.error("Error initializing map:", error);
       setError("Failed to initialize map. Please check your Mapbox token.");
       setLoading(false);
+      toast({
+        title: "Map Error",
+        description: "Failed to initialize map. Please check your Mapbox token.",
+        variant: "destructive"
+      });
     }
 
     // Cleanup

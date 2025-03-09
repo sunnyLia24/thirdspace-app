@@ -6,6 +6,7 @@ import MapLoading from './MapLoading';
 import MapError from './MapError';
 import MapTitle from './MapTitle';
 import { useMapbox } from '@/hooks/useMapbox';
+import { Toaster } from './ui/toaster';
 
 interface MapViewProps {
   isNavVisible: boolean;
@@ -50,6 +51,9 @@ const MapView: React.FC<MapViewProps> = ({ isNavVisible, toggleNav }) => {
         )}
         <HomeButton isActive={isNavVisible} onClick={toggleNav} />
       </div>
+      
+      {/* Toast Notifications */}
+      <Toaster />
     </div>
   );
 };
