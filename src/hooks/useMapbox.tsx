@@ -106,6 +106,38 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         }
       });
 
+      // Pokemon GO style camera behavior - lower POV as user zooms in
+      map.current.on('zoom', () => {
+        if (!map.current) return;
+        
+        const currentZoom = map.current.getZoom();
+        
+        // Calculate pitch based on zoom level
+        // At lower zoom levels, have a moderate pitch
+        // As zoom increases, gradually lower the POV to ground level (higher pitch)
+        let targetPitch;
+        
+        if (currentZoom < 15) {
+          // Linear interpolation: 45° at zoom 10, gradually increasing to 60° at zoom 15
+          targetPitch = 45 + ((currentZoom - 10) * 3);
+          targetPitch = Math.min(Math.max(targetPitch, 45), 60);
+        } else if (currentZoom >= 15 && currentZoom < 18) {
+          // Linear interpolation: 60° at zoom 15, gradually increasing to 75° at zoom 18
+          targetPitch = 60 + ((currentZoom - 15) * 5);
+          targetPitch = Math.min(Math.max(targetPitch, 60), 75);
+        } else {
+          // For zoom level 18+, set to near ground level view (80°)
+          targetPitch = 80;
+        }
+        
+        // Smoothly animate to the new pitch
+        map.current.easeTo({
+          pitch: targetPitch,
+          duration: 500,
+          easing: (t) => t * (2 - t) // easeOutQuad for smooth transition
+        });
+      });
+
       // Enhanced mobile-friendly controls
       map.current.addControl(new mapboxgl.GeolocateControl({
         positionOptions: {
