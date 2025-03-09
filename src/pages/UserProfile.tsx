@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart, X, MessageCircle, ArrowLeft } from 'lucide-react';
+import { Heart, X, MoreHorizontal, BadgeCheck, Cake, User, ArrowLeft, Magnet, Briefcase } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const UserProfile = () => {
@@ -29,12 +29,12 @@ const UserProfile = () => {
     
     return null;
   }
-  
+
   // Profile prompts data for this user
   const profilePrompts = [
     {
-      prompt: "My simple pleasures...",
-      answer: "Coffee at sunrise, reading on rainy days, and exploring new hiking trails."
+      prompt: "My most irrational fear",
+      answer: "dying before cool shit gets invented."
     },
     {
       prompt: "A perfect day looks like...",
@@ -46,121 +46,114 @@ const UserProfile = () => {
     }
   ];
 
-  // User interests
-  const interests = [
-    "Hiking", "Photography", "Coffee", "Reading", "Live Music", "Yoga"
+  // User details
+  const userDetails = [
+    { icon: <Cake className="h-5 w-5" />, text: "22" },
+    { icon: <User className="h-5 w-5" />, text: "Man" },
+    { icon: <Magnet className="h-5 w-5" />, text: "Straight" },
+    { icon: <Briefcase className="h-5 w-5" />, text: "Server" }
   ];
 
-  const handleLike = () => {
-    toast({
-      title: "Liked!",
-      description: `You liked ${user.name}'s profile. We'll let them know!`,
-      variant: "default"
-    });
-  };
-
-  const handleMessage = () => {
-    toast({
-      title: "Message sent!",
-      description: `You can now chat with ${user.name}!`,
-      variant: "default"
-    });
-    navigate('/messages');
-  };
-
   return (
-    <div className="pb-20 bg-dating-light min-h-screen">
-      {/* Header with back button - no "Profile" text */}
-      <div className="bg-white pb-3 pt-6 border-b border-gray-200 sticky top-0 z-10">
+    <div className="pb-20 bg-gray-50 min-h-screen">
+      {/* Header with username and more options */}
+      <div className="bg-white pt-6 pb-4 sticky top-0 z-10">
         <div className="container mx-auto px-4">
-          <div className="flex items-center mb-2">
+          <div className="flex items-center justify-between">
+            <div className="w-8"></div> {/* Empty div for centering */}
+            <h2 className="text-3xl font-bold">{user.name}</h2>
             <Button 
               variant="ghost" 
-              size="icon" 
-              onClick={() => navigate(-1)}
-              className="hover:bg-gray-100 mr-2"
+              size="icon"
+              className="hover:bg-gray-100"
             >
-              <ArrowLeft className="h-5 w-5" />
+              <MoreHorizontal className="h-6 w-6" />
             </Button>
           </div>
         </div>
       </div>
       
-      {/* Centered name above the image */}
-      <div className="container mx-auto px-4 py-4 text-center">
-        <h2 className="text-3xl font-bold">{user.name}</h2>
-      </div>
-      
-      {/* Hero image */}
-      <div className="relative h-80 bg-dating-primary/20">
-        <img 
-          src={user.profileImage} 
-          alt={user.name} 
-          className="w-full h-full object-cover"
-        />
-      </div>
-      
-      {/* Profile content */}
-      <div className="container mx-auto px-4 py-6 space-y-6">
-        {/* About section - no header */}
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-gray-700 text-lg">
-              Passionate photographer and outdoor enthusiast. I love exploring new trails and capturing beautiful moments. Looking for someone to share adventures with!
-            </p>
+      {/* Main content */}
+      <div className="container mx-auto px-4 py-4 space-y-4">
+        {/* Main photo card */}
+        <Card className="overflow-hidden rounded-xl shadow-md">
+          <div className="relative">
+            <img 
+              src={user.profileImage} 
+              alt={user.name} 
+              className="w-full h-[500px] object-cover"
+            />
+            {/* Verified badge */}
+            <div className="absolute top-4 left-4 flex items-center bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full">
+              <BadgeCheck className="h-5 w-5 text-purple-700 mr-1" />
+              <span className="text-purple-700 font-medium">Verified</span>
+            </div>
+            {/* Like button */}
+            <div className="absolute bottom-4 right-4">
+              <Button 
+                size="icon" 
+                className="h-12 w-12 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white text-dating-accent"
+              >
+                <Heart className="h-6 w-6" />
+              </Button>
+            </div>
+          </div>
+        </Card>
+        
+        {/* User details card */}
+        <Card className="rounded-xl shadow-md overflow-hidden">
+          <CardContent className="p-0">
+            <div className="grid grid-cols-4 divide-x divide-gray-100">
+              {userDetails.map((detail, index) => (
+                <div key={index} className="flex flex-col items-center justify-center py-5">
+                  {detail.icon}
+                  <span className="mt-1 text-gray-800 font-medium">{detail.text}</span>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
         
-        {/* Prompts - no header */}
-        <div className="space-y-4">
-          {profilePrompts.map((item, index) => (
-            <Card key={index} className="overflow-hidden">
-              <CardContent className="p-0">
-                <div className="p-5">
-                  <p className="text-lg font-medium text-dating-accent mb-2">{item.prompt}</p>
-                  <p className="text-gray-700 text-lg">{item.answer}</p>
-                </div>
-                {index === 0 && (
-                  <div className="h-96 bg-gray-100">
-                    <img 
-                      src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e" 
-                      alt="Prompt visual" 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        {/* Prompts cards */}
+        {profilePrompts.map((item, index) => (
+          <Card key={index} className="rounded-xl shadow-md overflow-hidden">
+            <CardContent className="p-6">
+              <h3 className="text-lg font-medium text-gray-600 mb-2">{item.prompt}</h3>
+              <p className="text-3xl font-serif mb-4">{item.answer}</p>
+              
+              {/* Like button for prompts */}
+              <div className="flex justify-end">
+                <Button 
+                  size="icon" 
+                  variant="ghost"
+                  className="h-12 w-12 rounded-full text-rose-400 hover:bg-rose-50"
+                >
+                  <Heart className="h-6 w-6" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
       
       {/* Action buttons - fixed at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.1)] p-4 z-10">
-        <div className="container mx-auto flex justify-between gap-2">
-          <Button 
-            variant="outline" 
-            className="flex-1 border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-full"
-            onClick={() => navigate('/')}
-          >
-            <X className="mr-2 h-5 w-5" />
-            Pass
-          </Button>
-          <Button 
-            className="flex-1 bg-dating-primary hover:bg-dating-secondary text-dating-dark font-medium rounded-full"
-            onClick={handleLike}
-          >
-            <Heart className="mr-2 h-5 w-5" />
-            Like
-          </Button>
-          <Button 
-            variant="outline" 
-            className="flex-1 border-2 border-dating-accent text-dating-accent hover:bg-blue-50 rounded-full"
-            onClick={handleMessage}
-          >
-            <MessageCircle className="mr-2 h-5 w-5" />
-            Message
-          </Button>
+      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg py-5 z-10">
+        <div className="container mx-auto flex justify-center relative">
+          <div className="absolute left-4 bottom-0">
+            <Button 
+              size="icon" 
+              variant="outline"
+              className="h-16 w-16 rounded-full border-2 shadow-md"
+              onClick={() => navigate('/')}
+            >
+              <X className="h-8 w-8" />
+            </Button>
+          </div>
+          
+          {/* Progress bar */}
+          <div className="w-48 h-1 bg-gray-200 rounded-full overflow-hidden">
+            <div className="bg-black h-full w-1/2"></div>
+          </div>
         </div>
       </div>
     </div>
