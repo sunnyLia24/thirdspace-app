@@ -100,11 +100,13 @@ const UserProfile = () => {
           </div>
         </Card>
         
-        {/* Prompt teaser card - Added below the profile picture */}
+        {/* Teaser Prompt card - styled like the other prompts */}
         <Card className="rounded-xl shadow-md overflow-hidden">
           <CardContent className="p-6">
             <h3 className="text-lg font-medium text-gray-600 mb-2">Want to know more about {user.name}?</h3>
-            <p className="text-2xl font-serif mb-4">Respond to their prompts to start a conversation!</p>
+            <p className="text-3xl font-serif mb-4">Respond to their prompts to start a conversation!</p>
+            
+            {/* Like button for prompts */}
             <div className="flex justify-end">
               <Button 
                 className="bg-dating-accent text-white hover:bg-dating-accent/90"
