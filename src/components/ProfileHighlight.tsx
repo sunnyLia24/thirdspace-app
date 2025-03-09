@@ -31,27 +31,34 @@ const ProfileHighlight: React.FC<ProfileHighlightProps> = ({ profile, isActive }
       {/* Darker glassmorphism overlay covering the entire photo */}
       <div className="absolute inset-0 backdrop-blur-sm bg-black/50 pointer-events-none" />
       
-      {/* Premium access button in the center with neon glow effect */}
+      {/* Premium access button in the center with neon trace animation */}
       <div className="absolute inset-0 flex items-center justify-center">
         <Button 
           variant="outline" 
-          className="bg-black/60 text-white border-white/50 hover:bg-black/70 backdrop-blur-sm shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,255,255,0.5)]"
+          className="relative bg-black/60 text-white border-white/50 hover:bg-black/70 backdrop-blur-sm overflow-hidden"
         >
           <Lock className="h-4 w-4 mr-2" />
-          <span className="text-neon animate-pulse-gentle">Premium Access - Upgrade Now</span>
+          <span className="text-neon">Premium Access</span>
+          {/* Animated neon border trace effect */}
+          <span className="absolute inset-0 border border-dating-primary opacity-0 animate-left-to-right"></span>
         </Button>
       </div>
       
-      {/* Content at bottom - name, age and location */}
+      {/* Content at bottom - name, age, location and upgrade now */}
       <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
         <h2 className="text-white text-4xl font-bold">{profile.name}</h2>
         <div className="flex items-center text-white text-2xl font-semibold">
           <span>{profile.age}</span>
         </div>
         
-        <div className="flex items-center text-white/80 mt-2">
-          <MapPin className="h-4 w-4 mr-1" />
-          <span className="text-sm">{profile.location}</span>
+        <div className="flex items-center justify-between mt-2">
+          <div className="flex items-center text-white/80">
+            <MapPin className="h-4 w-4 mr-1" />
+            <span className="text-sm">{profile.location}</span>
+          </div>
+          
+          {/* Upgrade Now text at bottom */}
+          <span className="text-neon text-sm font-medium">Upgrade Now</span>
         </div>
       </div>
     </div>
