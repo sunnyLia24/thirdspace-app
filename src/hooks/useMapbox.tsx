@@ -14,6 +14,7 @@ interface UseMapboxProps {
 export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
+  const markerRef = useRef<mapboxgl.Marker | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
@@ -99,7 +100,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
       `;
 
       // Add user location marker with custom element
-      new mapboxgl.Marker({
+      markerRef.current = new mapboxgl.Marker({
         element: customMarkerElement,
         anchor: 'center'
       })
@@ -168,6 +169,26 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
           duration: 500,
           easing: (t) => t * (2 - t) // easeOutQuad for smooth transition
         });
+
+        // Adjust Lumalee marker size based on zoom level
+        if (map.current && customMarkerElement) {
+          // Get the Lumalee container and body elements
+          const lumaleeContainer = customMarkerElement.querySelector('.lumalee-container');
+          const lumaleeBody = customMarkerElement.querySelector('.lumalee-body');
+          
+          // Calculate base size factor (smaller at low zoom, larger at high zoom)
+          // Zoom range: minZoom: 9 to maxZoom: 20
+          const zoomRange = map.current.getMaxZoom() - map.current.getMinZoom();
+          const zoomFactor = (currentZoom - map.current.getMinZoom()) / zoomRange;
+          
+          // Scale from 0.6 (at lowest zoom) to 1.5 (at highest zoom)
+          const scaleFactor = 0.6 + (zoomFactor * 0.9);
+          
+          // Apply scale transform to the Lumalee container
+          if (lumaleeContainer) {
+            (lumaleeContainer as HTMLElement).style.transform = `scale(${scaleFactor})`;
+          }
+        }
       });
 
       // Enhanced mobile-friendly controls
