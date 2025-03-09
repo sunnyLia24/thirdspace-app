@@ -299,14 +299,6 @@ const UserProfile = () => {
               <BadgeCheck className="h-5 w-5 text-purple-700 mr-1" />
               <span className="text-purple-700 font-medium">Verified</span>
             </div>
-            <div className="absolute bottom-4 right-4">
-              <Button 
-                size="icon" 
-                className="h-12 w-12 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white text-dating-accent"
-              >
-                <Heart className="h-6 w-6" />
-              </Button>
-            </div>
           </div>
         </Card>
         
