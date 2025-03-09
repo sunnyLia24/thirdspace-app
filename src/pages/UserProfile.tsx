@@ -89,7 +89,7 @@ const UserProfile = () => {
     
     const animateProgress = () => {
       const elapsedTime = Date.now() - startTimeRef.current;
-      const progress = Math.min(elapsedTime / 2000, 1);
+      const progress = Math.min(elapsedTime / 1000, 1);
       
       setClickAnimation(prev => ({
         ...prev,
@@ -124,7 +124,7 @@ const UserProfile = () => {
         content,
         type
       });
-    }, 2000);
+    }, 1000);
   };
 
   const handlePressEnd = () => {
@@ -337,8 +337,9 @@ const UserProfile = () => {
           <div 
             className="absolute inset-0 rounded-full bg-dating-accent"
             style={{
-              clipPath: `circle(${clickAnimation.progress * 100}% at center)`,
-              opacity: 0.4
+              clipPath: `circle(${clickAnimation.progress * 50}% at center)`,
+              opacity: 0.4,
+              transform: `scale(${clickAnimation.progress})`
             }}
           />
           {clickAnimation.progress > 0.1 && (
