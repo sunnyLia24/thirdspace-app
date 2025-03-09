@@ -14,7 +14,7 @@ const TopNav = () => {
       >
         <div className="absolute inset-0 rounded-full bg-dating-accent/0 group-hover:bg-dating-accent/10 transition-colors duration-300"></div>
         <Settings className={cn(
-          "h-6 w-6 text-dating-dark transition-transform duration-300 z-10",
+          "h-5 w-5 text-dating-dark transition-transform duration-300 z-10",
           "group-hover:scale-110 group-hover:text-dating-primary"
         )} />
         <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 shadow-[0_0_15px_rgba(185,230,243,0.5)] transition-opacity duration-300"></div>
@@ -26,7 +26,7 @@ const TopNav = () => {
       >
         <div className="absolute inset-0 rounded-full bg-dating-accent/0 group-hover:bg-dating-accent/10 transition-colors duration-300"></div>
         <MapPin className={cn(
-          "h-6 w-6 text-dating-dark transition-transform duration-300 z-10",
+          "h-5 w-5 text-dating-dark transition-transform duration-300 z-10",
           "group-hover:scale-110 group-hover:text-dating-primary"
         )} />
         <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 shadow-[0_0_15px_rgba(185,230,243,0.5)] transition-opacity duration-300"></div>
@@ -38,7 +38,7 @@ const TopNav = () => {
       >
         <div className="absolute inset-0 rounded-full bg-dating-accent/0 group-hover:bg-dating-accent/10 transition-colors duration-300"></div>
         <Users className={cn(
-          "h-6 w-6 text-dating-dark transition-transform duration-300 z-10",
+          "h-5 w-5 text-dating-dark transition-transform duration-300 z-10",
           "group-hover:scale-110 group-hover:text-dating-primary"
         )} />
         <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 shadow-[0_0_15px_rgba(185,230,243,0.5)] transition-opacity duration-300"></div>
