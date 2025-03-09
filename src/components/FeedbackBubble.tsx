@@ -56,7 +56,7 @@ const FeedbackBubble: React.FC<FeedbackBubbleProps> = ({
               <img 
                 src={imageUrl} 
                 alt="Selected content" 
-                className="w-full h-[250px] object-contain bg-gray-100"
+                className="w-full h-[400px] object-cover bg-gray-100"
               />
             </div>
           ) : (
