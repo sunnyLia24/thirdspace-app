@@ -118,7 +118,7 @@ const PremiumPlans: React.FC<PremiumPlansProps> = ({ onClose }) => {
   }, [currentIndex]);
 
   return (
-    <div className="w-full max-w-5xl mx-auto">
+    <div className="w-full max-w-5xl mx-auto px-4">
       <div className="mb-6 text-center">
         <h2 className="text-2xl font-bold text-dating-dark mb-2">Choose Your Premium Plan</h2>
         <p className="text-muted-foreground max-w-md mx-auto">
@@ -163,17 +163,17 @@ const PremiumPlans: React.FC<PremiumPlansProps> = ({ onClose }) => {
       >
         <div 
           ref={containerRef}
-          className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-6 -mx-4 px-4"
+          className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-6"
           style={{ scrollSnapType: 'x mandatory' }}
         >
-          {plans.map((plan, index) => (
+          {plans.map((plan) => (
             <div 
               key={plan.id} 
-              className="flex-shrink-0 w-[85%] snap-center pr-4"
+              className="flex-shrink-0 w-[85%] snap-center pr-4 mx-auto"
               style={{ scrollSnapAlign: 'center' }}
             >
               <Card 
-                className={`relative ${plan.highlight 
+                className={`relative h-full ${plan.highlight 
                   ? 'border-dating-primary shadow-lg transform md:scale-105 z-10' 
                   : 'border-dating-primary/30 hover:border-dating-primary/80 transition-all'}`}
               >
@@ -189,7 +189,7 @@ const PremiumPlans: React.FC<PremiumPlansProps> = ({ onClose }) => {
                     </CardTitle>
                     {plan.icon}
                   </div>
-                  <CardDescription className={plan.highlight ? "text-dating-dark/80" : ""}>
+                  <CardDescription className={`${plan.highlight ? "text-dating-dark/80" : ""} line-clamp-2`}>
                     {plan.description}
                   </CardDescription>
                   <div className="mt-4 mb-2">
@@ -219,7 +219,7 @@ const PremiumPlans: React.FC<PremiumPlansProps> = ({ onClose }) => {
                   )}
                   {plan.features.map((feature, i) => (
                     <div key={i} className="flex items-center">
-                      <Check className="h-4 w-4 mr-2 text-dating-primary" />
+                      <Check className="h-4 w-4 mr-2 text-dating-primary flex-shrink-0" />
                       <span className="text-sm">{feature}</span>
                     </div>
                   ))}
@@ -242,11 +242,11 @@ const PremiumPlans: React.FC<PremiumPlansProps> = ({ onClose }) => {
           ))}
         </div>
 
-        {/* Navigation arrows */}
-        <div className="flex justify-between absolute inset-0 pointer-events-none">
+        {/* Navigation arrows - centered vertically and pushed to edges */}
+        <div className="absolute inset-0 flex justify-between items-center pointer-events-none px-2">
           <button 
             onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
-            className={`absolute left-0 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md pointer-events-auto ${currentIndex === 0 ? 'opacity-40' : 'opacity-100'}`}
+            className={`flex items-center justify-center bg-white/80 rounded-full p-2 shadow-md pointer-events-auto ${currentIndex === 0 ? 'opacity-40 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
             disabled={currentIndex === 0}
             aria-label="Previous plan"
           >
@@ -254,7 +254,7 @@ const PremiumPlans: React.FC<PremiumPlansProps> = ({ onClose }) => {
           </button>
           <button 
             onClick={() => setCurrentIndex(Math.min(plans.length - 1, currentIndex + 1))}
-            className={`absolute right-0 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md pointer-events-auto ${currentIndex === plans.length - 1 ? 'opacity-40' : 'opacity-100'}`}
+            className={`flex items-center justify-center bg-white/80 rounded-full p-2 shadow-md pointer-events-auto ${currentIndex === plans.length - 1 ? 'opacity-40 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
             disabled={currentIndex === plans.length - 1}
             aria-label="Next plan"
           >
