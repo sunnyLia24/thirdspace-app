@@ -33,15 +33,17 @@ const ProfileHighlight: React.FC<ProfileHighlightProps> = ({ profile, isActive }
       
       {/* Premium access button in the center with neon trace animation */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <Button 
-          variant="outline" 
-          className="relative bg-black/60 text-white border-white/50 hover:bg-black/70 backdrop-blur-sm overflow-hidden"
-        >
-          <Lock className="h-4 w-4 mr-2" />
-          <span className="text-neon">Premium Access</span>
-          {/* Animated neon border trace effect */}
-          <span className="absolute inset-0 border border-dating-primary opacity-0 animate-left-to-right"></span>
-        </Button>
+        <div className="relative">
+          <Button 
+            variant="outline" 
+            className="bg-black/60 text-white border-white/50 hover:bg-black/70 backdrop-blur-sm"
+          >
+            <Lock className="h-4 w-4 mr-2" />
+            <span className="text-neon">Premium Access</span>
+          </Button>
+          {/* Animated neon border trace effect outside the button */}
+          <span className="absolute inset-0 rounded-md border-2 border-dating-primary animate-left-to-right pointer-events-none"></span>
+        </div>
       </div>
       
       {/* Content at bottom - name, age, location and upgrade now */}
