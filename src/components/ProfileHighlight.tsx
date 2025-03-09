@@ -10,8 +10,7 @@ import {
   DialogTitle,
   DialogTrigger 
 } from '@/components/ui/dialog';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Check } from 'lucide-react';
+import PremiumPlans from './PremiumPlans';
 
 interface ProfileHighlightProps {
   profile: {
@@ -57,109 +56,8 @@ const ProfileHighlight: React.FC<ProfileHighlightProps> = ({ profile, isActive }
               <span className="absolute -inset-1 rounded-md border border-transparent outline outline-1 outline-offset-2 outline-dating-primary animate-border-trace"></span>
             </div>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle className="text-xl font-bold text-center">Choose Your Premium Plan</DialogTitle>
-              <DialogDescription className="text-center">
-                Unlock exclusive features and enhance your experience
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Basic Plan */}
-                <Card className="border-dating-primary/30 hover:border-dating-primary/80 transition-all">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-dating-dark">Basic</CardTitle>
-                    <CardDescription>For casual users</CardDescription>
-                    <div className="text-2xl font-bold mt-2">$9.99<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    <div className="flex items-center">
-                      <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                      <span className="text-sm">Unlimited likes</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                      <span className="text-sm">See who likes you</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                      <span className="text-sm">One boost per month</span>
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button className="w-full bg-dating-primary hover:bg-dating-accent text-dating-dark">
-                      Select Plan
-                    </Button>
-                  </CardFooter>
-                </Card>
-                
-                {/* Plus Plan */}
-                <Card className="border-dating-primary scale-105 shadow-lg">
-                  <CardHeader className="pb-2 bg-gradient-to-r from-dating-primary to-dating-secondary rounded-t-lg">
-                    <div className="text-center text-xs font-bold uppercase tracking-wider text-dating-dark mb-1">Most Popular</div>
-                    <CardTitle className="text-dating-dark">Plus</CardTitle>
-                    <CardDescription className="text-dating-dark/80">For active daters</CardDescription>
-                    <div className="text-2xl font-bold mt-2 text-dating-dark">$19.99<span className="text-sm font-normal text-dating-dark/80">/month</span></div>
-                  </CardHeader>
-                  <CardContent className="space-y-2 pt-4">
-                    <div className="flex items-center">
-                      <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                      <span className="text-sm">All Basic features</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                      <span className="text-sm">Priority in discovery</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                      <span className="text-sm">Five boosts per month</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                      <span className="text-sm">Message before matching</span>
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button className="w-full bg-dating-primary hover:bg-dating-accent text-dating-dark">
-                      Select Plan
-                    </Button>
-                  </CardFooter>
-                </Card>
-                
-                {/* Premium Plan */}
-                <Card className="border-dating-primary/30 hover:border-dating-primary/80 transition-all">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-dating-dark">Premium</CardTitle>
-                    <CardDescription>For serious relationship seekers</CardDescription>
-                    <div className="text-2xl font-bold mt-2">$29.99<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    <div className="flex items-center">
-                      <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                      <span className="text-sm">All Plus features</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                      <span className="text-sm">See who viewed you</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                      <span className="text-sm">Unlimited boosts</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                      <span className="text-sm">Advanced matching algorithm</span>
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button className="w-full bg-dating-primary hover:bg-dating-accent text-dating-dark">
-                      Select Plan
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </div>
-            </div>
+          <DialogContent className="sm:max-w-4xl">
+            <PremiumPlans />
           </DialogContent>
         </Dialog>
       </div>
@@ -182,110 +80,8 @@ const ProfileHighlight: React.FC<ProfileHighlightProps> = ({ profile, isActive }
             <DialogTrigger asChild>
               <span className="text-neon text-sm font-medium cursor-pointer">Upgrade Now</span>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-              {/* Same content as above dialog */}
-              <DialogHeader>
-                <DialogTitle className="text-xl font-bold text-center">Choose Your Premium Plan</DialogTitle>
-                <DialogDescription className="text-center">
-                  Unlock exclusive features and enhance your experience
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Basic Plan */}
-                  <Card className="border-dating-primary/30 hover:border-dating-primary/80 transition-all">
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-dating-dark">Basic</CardTitle>
-                      <CardDescription>For casual users</CardDescription>
-                      <div className="text-2xl font-bold mt-2">$9.99<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <div className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                        <span className="text-sm">Unlimited likes</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                        <span className="text-sm">See who likes you</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                        <span className="text-sm">One boost per month</span>
-                      </div>
-                    </CardContent>
-                    <CardFooter>
-                      <Button className="w-full bg-dating-primary hover:bg-dating-accent text-dating-dark">
-                        Select Plan
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                  
-                  {/* Plus Plan */}
-                  <Card className="border-dating-primary scale-105 shadow-lg">
-                    <CardHeader className="pb-2 bg-gradient-to-r from-dating-primary to-dating-secondary rounded-t-lg">
-                      <div className="text-center text-xs font-bold uppercase tracking-wider text-dating-dark mb-1">Most Popular</div>
-                      <CardTitle className="text-dating-dark">Plus</CardTitle>
-                      <CardDescription className="text-dating-dark/80">For active daters</CardDescription>
-                      <div className="text-2xl font-bold mt-2 text-dating-dark">$19.99<span className="text-sm font-normal text-dating-dark/80">/month</span></div>
-                    </CardHeader>
-                    <CardContent className="space-y-2 pt-4">
-                      <div className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                        <span className="text-sm">All Basic features</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                        <span className="text-sm">Priority in discovery</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                        <span className="text-sm">Five boosts per month</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                        <span className="text-sm">Message before matching</span>
-                      </div>
-                    </CardContent>
-                    <CardFooter>
-                      <Button className="w-full bg-dating-primary hover:bg-dating-accent text-dating-dark">
-                        Select Plan
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                  
-                  {/* Premium Plan */}
-                  <Card className="border-dating-primary/30 hover:border-dating-primary/80 transition-all">
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-dating-dark">Premium</CardTitle>
-                      <CardDescription>For serious relationship seekers</CardDescription>
-                      <div className="text-2xl font-bold mt-2">$29.99<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <div className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                        <span className="text-sm">All Plus features</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                        <span className="text-sm">See who viewed you</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                        <span className="text-sm">Unlimited boosts</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-dating-primary" />
-                        <span className="text-sm">Advanced matching algorithm</span>
-                      </div>
-                    </CardContent>
-                    <CardFooter>
-                      <Button className="w-full bg-dating-primary hover:bg-dating-accent text-dating-dark">
-                        Select Plan
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                </div>
-              </div>
+            <DialogContent className="sm:max-w-4xl">
+              <PremiumPlans />
             </DialogContent>
           </Dialog>
         </div>
