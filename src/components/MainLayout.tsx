@@ -24,12 +24,16 @@ const MainLayout = () => {
 
       {/* Position BottomNav above heart button when on MapView */}
       {isMapView ? (
-        <div className={`fixed bottom-24 left-0 right-0 z-20 transition-transform duration-300 ease-in-out
-          ${isNavVisible ? 'translate-y-0' : 'translate-y-full'}`}>
-          <BottomNav 
-            visible={true} 
-            currentRoute={currentRoute} 
-          />
+        <div className={`fixed bottom-24 left-0 right-0 z-20 transition-all duration-300 ease-in-out
+          ${isNavVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0 pointer-events-none'}`}>
+          <div className="mx-auto max-w-md">
+            <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg mx-4 transition-all duration-300 hover:shadow-xl">
+              <BottomNav 
+                visible={true} 
+                currentRoute={currentRoute} 
+              />
+            </div>
+          </div>
         </div>
       ) : (
         <BottomNav 
