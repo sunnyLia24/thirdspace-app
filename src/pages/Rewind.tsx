@@ -99,15 +99,16 @@ const RewindPage = () => {
       {/* Scrollable container for videos */}
       <div 
         ref={containerRef}
-        className="h-screen overflow-y-auto snap-y snap-mandatory"
-        style={{ scrollbarWidth: 'none' }} // Hide scrollbar for Firefox
+        className="h-screen overflow-y-auto snap-y snap-mandatory hide-scrollbar"
       >
-        {/* Hide scrollbar for Chrome, Safari and Opera */}
-        <style jsx>{`
-          div::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
+        {/* Custom style to hide scrollbar */}
+        <style>
+          {`
+            div::-webkit-scrollbar {
+              display: none;
+            }
+          `}
+        </style>
         
         {profiles.map((profile, index) => (
           <div 
