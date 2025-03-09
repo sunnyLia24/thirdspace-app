@@ -55,7 +55,7 @@ const UserProfile = () => {
   ];
 
   return (
-    <div className="pb-20 bg-gray-50 min-h-screen">
+    <div className="pb-6 bg-gray-50 min-h-screen">
       {/* Header with username and more options - UPDATED: reduced padding */}
       <div className="bg-white pt-2 pb-1 sticky top-0 z-10">
         <div className="container mx-auto px-4">
@@ -75,13 +75,13 @@ const UserProfile = () => {
       
       {/* Main content */}
       <div className="container mx-auto px-4 py-4 space-y-4">
-        {/* Main photo card */}
+        {/* Main photo card - UPDATED: reduced height from 500px to 400px */}
         <Card className="overflow-hidden rounded-xl shadow-md">
           <div className="relative">
             <img 
               src={user.profileImage} 
               alt={user.name} 
-              className="w-full h-[500px] object-cover"
+              className="w-full h-[400px] object-cover"
             />
             {/* Verified badge */}
             <div className="absolute top-4 left-4 flex items-center bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full">
@@ -134,27 +134,6 @@ const UserProfile = () => {
             </CardContent>
           </Card>
         ))}
-      </div>
-      
-      {/* Action buttons - fixed at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg py-5 z-10">
-        <div className="container mx-auto flex justify-center relative">
-          <div className="absolute left-4 bottom-0">
-            <Button 
-              size="icon" 
-              variant="outline"
-              className="h-16 w-16 rounded-full border-2 shadow-md"
-              onClick={() => navigate('/')}
-            >
-              <X className="h-8 w-8" />
-            </Button>
-          </div>
-          
-          {/* Progress bar */}
-          <div className="w-48 h-1 bg-gray-200 rounded-full overflow-hidden">
-            <div className="bg-black h-full w-1/2"></div>
-          </div>
-        </div>
       </div>
     </div>
   );
