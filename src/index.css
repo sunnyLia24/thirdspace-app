@@ -324,3 +324,56 @@
 .user-marker:hover {
   animation: none;
 }
+
+/* Swirling Rings */
+.swirl-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(139, 92, 246, 0.7);
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: translateY(0) scaleX(0.5) rotate(0deg);
+  animation: swirl 3s infinite linear;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+  transform-origin: center;
+  perspective: 800px;
+  transform-style: preserve-3d;
+}
+
+.swirl-ring.ring-1 {
+  animation-delay: 0s;
+  border-color: rgba(139, 92, 246, 0.8);
+}
+
+.swirl-ring.ring-2 {
+  animation-delay: -1s;
+  border-color: rgba(213, 70, 239, 0.8);
+  width: 90%;
+  height: 90%;
+  left: 5%;
+  top: 5%;
+}
+
+.swirl-ring.ring-3 {
+  animation-delay: -2s;
+  border-color: rgba(246, 62, 110, 0.8);
+  width: 80%;
+  height: 80%;
+  left: 10%;
+  top: 10%;
+}
+
+@keyframes swirl {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scaleX(0.5) scaleY(0.2) rotate(0deg);
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-5px) scaleX(2) scaleY(0.4) rotate(360deg);
+  }
+}
