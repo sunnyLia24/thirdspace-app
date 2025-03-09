@@ -31,23 +31,18 @@ const ProfileHighlight: React.FC<ProfileHighlightProps> = ({ profile, isActive }
       {/* Darker glassmorphism overlay covering the entire photo */}
       <div className="absolute inset-0 backdrop-blur-sm bg-black/50 pointer-events-none" />
       
-      {/* Premium access button in the center with loading-style trace animation */}
+      {/* Premium access button in the center with neon trace animation */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="relative">
           <Button 
             variant="outline" 
-            className="bg-black/60 text-white border-white/50 hover:bg-black/70 backdrop-blur-sm z-10"
+            className="bg-black/60 text-white border-white/50 hover:bg-black/70 backdrop-blur-sm"
           >
             <Lock className="h-4 w-4 mr-2" />
             <span className="text-neon">Premium Access</span>
           </Button>
-          
-          {/* Loading-style animated border that follows the box curvature */}
-          <div className="absolute -inset-1 rounded-md overflow-hidden">
-            <div className="h-full w-full relative">
-              <div className="absolute inset-px rounded-md border border-dating-primary loading-border-trace"></div>
-            </div>
-          </div>
+          {/* Animated neon border trace effect outside the button */}
+          <span className="absolute -inset-1 rounded-md border border-transparent outline outline-1 outline-offset-2 outline-dating-primary animate-border-trace"></span>
         </div>
       </div>
       

@@ -142,12 +142,31 @@
   }
 }
 
-@keyframes loading-trace {
-  0%, 100% {
-    background-position: 0% 0%;
+@keyframes border-trace {
+  0% {
+    opacity: 0.7;
+    outline-color: #B9E6F3;
+    box-shadow: 0 0 5px #B9E6F3;
+  }
+  25% {
+    opacity: 1;
+    outline-color: #B9E6F3;
+    box-shadow: 0 0 8px #B9E6F3, 0 0 12px rgba(185, 230, 243, 0.3);
   }
   50% {
-    background-position: 100% 0%;
+    opacity: 0.7;
+    outline-color: #B9E6F3;
+    box-shadow: 0 0 5px #B9E6F3;
+  }
+  75% {
+    opacity: 1;
+    outline-color: #B9E6F3;
+    box-shadow: 0 0 8px #B9E6F3, 0 0 12px rgba(185, 230, 243, 0.3);
+  }
+  100% {
+    opacity: 0.7;
+    outline-color: #B9E6F3;
+    box-shadow: 0 0 5px #B9E6F3;
   }
 }
 
@@ -190,11 +209,8 @@
   animation: glow 3s infinite ease-in-out;
 }
 
-.loading-border-trace {
-  background: linear-gradient(90deg, transparent, transparent 50%, rgba(185, 230, 243, 0.8) 50%, rgba(185, 230, 243, 0.8));
-  background-size: 200% 100%;
-  animation: loading-trace 2s infinite linear;
-  box-shadow: 0 0 15px rgba(185, 230, 243, 0.5);
+.animate-border-trace {
+  animation: border-trace 3s infinite ease-in-out;
 }
 
 .animate-scale-in {
