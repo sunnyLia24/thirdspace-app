@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart, X, MoreHorizontal, BadgeCheck, Cake, User, ArrowLeft, Magnet, Briefcase } from 'lucide-react';
+import { Heart, X, MoreHorizontal, BadgeCheck, Cake, User, Magnet, Briefcase } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const UserProfile = () => {
@@ -56,18 +56,18 @@ const UserProfile = () => {
 
   return (
     <div className="pb-20 bg-gray-50 min-h-screen">
-      {/* Header with username and more options */}
-      <div className="bg-white pt-6 pb-4 sticky top-0 z-10">
+      {/* Header with username and more options - UPDATED: reduced padding */}
+      <div className="bg-white pt-2 pb-1 sticky top-0 z-10">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             <div className="w-8"></div> {/* Empty div for centering */}
-            <h2 className="text-3xl font-bold">{user.name}</h2>
+            <h2 className="text-2xl font-bold">{user.name}</h2>
             <Button 
               variant="ghost" 
               size="icon"
               className="hover:bg-gray-100"
             >
-              <MoreHorizontal className="h-6 w-6" />
+              <MoreHorizontal className="h-5 w-5" />
             </Button>
           </div>
         </div>
