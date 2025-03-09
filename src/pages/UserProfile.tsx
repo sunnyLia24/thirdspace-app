@@ -100,6 +100,25 @@ const UserProfile = () => {
           </div>
         </Card>
         
+        {/* First prompt - Moved "My most irrational fear" to be first */}
+        <Card className="rounded-xl shadow-md overflow-hidden">
+          <CardContent className="p-6">
+            <h3 className="text-lg font-medium text-gray-600 mb-2">{profilePrompts[0].prompt}</h3>
+            <p className="text-3xl font-serif mb-4">{profilePrompts[0].answer}</p>
+            
+            {/* Like button for prompts */}
+            <div className="flex justify-end">
+              <Button 
+                size="icon" 
+                variant="ghost"
+                className="h-12 w-12 rounded-full text-rose-400 hover:bg-rose-50"
+              >
+                <Heart className="h-6 w-6" />
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+        
         {/* User details card */}
         <Card className="rounded-xl shadow-md overflow-hidden">
           <CardContent className="p-0">
@@ -114,8 +133,8 @@ const UserProfile = () => {
           </CardContent>
         </Card>
         
-        {/* Prompts cards */}
-        {profilePrompts.map((item, index) => (
+        {/* Remaining prompts */}
+        {profilePrompts.slice(1).map((item, index) => (
           <Card key={index} className="rounded-xl shadow-md overflow-hidden">
             <CardContent className="p-6">
               <h3 className="text-lg font-medium text-gray-600 mb-2">{item.prompt}</h3>
