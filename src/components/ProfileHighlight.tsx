@@ -28,17 +28,17 @@ const ProfileHighlight: React.FC<ProfileHighlightProps> = ({ profile, isActive }
         }}
       />
       
-      {/* Full glassmorphism overlay covering the entire photo */}
-      <div className="absolute inset-0 backdrop-blur-sm bg-black/30 pointer-events-none" />
+      {/* Darker glassmorphism overlay covering the entire photo */}
+      <div className="absolute inset-0 backdrop-blur-sm bg-black/50 pointer-events-none" />
       
-      {/* Premium access button in the center */}
+      {/* Premium access button in the center with neon glow effect */}
       <div className="absolute inset-0 flex items-center justify-center">
         <Button 
           variant="outline" 
-          className="bg-black/40 text-white border-white/50 hover:bg-black/60 backdrop-blur-sm"
+          className="bg-black/60 text-white border-white/50 hover:bg-black/70 backdrop-blur-sm shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,255,255,0.5)]"
         >
           <Lock className="h-4 w-4 mr-2" />
-          Premium Access
+          <span className="text-neon animate-pulse-gentle">Premium Access - Upgrade Now</span>
         </Button>
       </div>
       
