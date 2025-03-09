@@ -1,7 +1,5 @@
 
 import React, { useState } from 'react';
-import { Heart } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 
 interface ProfilePhotoProps {
@@ -46,14 +44,6 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({
           onTouchStart={handlePressStart}
           onTouchEnd={handlePressEnd}
         />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2">
-          <Button 
-            size="icon" 
-            className="h-8 w-8 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white text-rose-400"
-          >
-            <Heart className="h-4 w-4" />
-          </Button>
-        </div>
       </div>
     </Card>
   );
