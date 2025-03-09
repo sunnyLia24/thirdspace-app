@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
@@ -126,10 +125,11 @@ const UserProfile = () => {
       if (progress < 1) {
         animationFrameRef.current = requestAnimationFrame(animateProgress);
       } else {
+        // Center the feedback bubble in the screen
         setFeedbackBubble({
           visible: true,
-          x: clientX,
-          y: clientY - 100,
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2 - 100,
           content,
           type
         });
@@ -144,10 +144,11 @@ const UserProfile = () => {
     animationFrameRef.current = requestAnimationFrame(animateProgress);
     
     pressTimerRef.current = window.setTimeout(() => {
+      // Center the feedback bubble in the screen
       setFeedbackBubble({
         visible: true,
-        x: clientX,
-        y: clientY - 100,
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2 - 100,
         content,
         type
       });
@@ -217,10 +218,6 @@ const UserProfile = () => {
               alt={user.name} 
               className="w-full h-[400px] object-cover transition-all duration-150"
               style={{
-                transform: pressedElement.element && pressedElement.element.tagName === 'IMG' && 
-                          (pressedElement.element as HTMLImageElement).src === user.profileImage 
-                  ? 'translateY(6px)' 
-                  : 'translateY(0)',
                 boxShadow: pressedElement.element && pressedElement.element.tagName === 'IMG' && 
                           (pressedElement.element as HTMLImageElement).src === user.profileImage 
                   ? 'none' 
@@ -317,9 +314,6 @@ const UserProfile = () => {
                   alt={`${user.name}'s photo ${index + 1}`} 
                   className="w-full h-[400px] object-cover transition-all duration-150"
                   style={{
-                    transform: pressedElement.imageUrl === photo
-                      ? 'translateY(6px)' 
-                      : 'translateY(0)',
                     boxShadow: pressedElement.imageUrl === photo
                       ? 'none'
                       : '0 16px 32px rgba(0, 0, 0, 0.25), 0 0 15px rgba(185, 230, 243, 0.4)'
@@ -406,8 +400,9 @@ const UserProfile = () => {
         <div 
           className="fixed z-50 bg-white rounded-xl shadow-xl max-w-xs animate-fade-in"
           style={{ 
-            left: Math.min(feedbackBubble.x, window.innerWidth - 300), 
-            top: Math.max(feedbackBubble.y, 100),
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
             animation: 'scale-in 0.3s ease-out forwards'
           }}
         >
