@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Settings, Edit, Share2 } from 'lucide-react';
 import ProfileCard from '@/components/ProfileCard';
+import BackButton from '@/components/BackButton';
 
 const Profile = () => {
   // This would typically come from an API or user data
@@ -33,7 +34,10 @@ const Profile = () => {
       <div className="bg-white pb-4 pt-8 border-b border-gray-200 sticky top-0 z-10">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-dating-dark">My Profile</h1>
+            <div className="flex items-center gap-2">
+              <BackButton />
+              <h1 className="text-2xl font-bold text-dating-dark">My Profile</h1>
+            </div>
             <div className="flex space-x-2">
               <Button variant="ghost" size="icon">
                 <Settings className="h-5 w-5" />
