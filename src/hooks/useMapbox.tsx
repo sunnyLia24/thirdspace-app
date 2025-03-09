@@ -85,13 +85,16 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
 
       // Create custom marker element
       const customMarkerElement = document.createElement('div');
-      customMarkerElement.className = 'energy-orb-marker';
+      customMarkerElement.className = 'lumalee-marker';
       customMarkerElement.innerHTML = `
-        <div class="orb-container">
-          <div class="orb-core"></div>
-          <div class="orb-ring ring1"></div>
-          <div class="orb-ring ring2"></div>
-          <div class="orb-particles"></div>
+        <div class="lumalee-container">
+          <div class="lumalee-body"></div>
+          <div class="lumalee-eye left"></div>
+          <div class="lumalee-eye right"></div>
+          <div class="lumalee-sparkle s1"></div>
+          <div class="lumalee-sparkle s2"></div>
+          <div class="lumalee-sparkle s3"></div>
+          <div class="lumalee-sparkle s4"></div>
         </div>
       `;
 
