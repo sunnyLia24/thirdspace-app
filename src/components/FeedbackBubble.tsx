@@ -31,10 +31,10 @@ const FeedbackBubble: React.FC<FeedbackBubbleProps> = ({
       <div 
         className="fixed z-50 bg-white rounded-xl shadow-xl w-[320px] max-w-[90vw]"
         style={{ 
+          position: 'fixed',
           left: '50%',
           top: '50%',
-          transform: 'translate(-50%, -50%)',
-          animation: 'scale-in 0.3s ease-out forwards'
+          transform: 'translate(-50%, -50%)'
         }}
       >
         <div className="p-3 border-b">

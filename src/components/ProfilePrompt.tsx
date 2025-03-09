@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -17,15 +17,29 @@ const ProfilePrompt: React.FC<ProfilePromptProps> = ({
   onPressStart,
   onPressEnd
 }) => {
+  const [isPressed, setIsPressed] = useState(false);
+
+  const handlePressStart = (e: React.MouseEvent | React.TouchEvent) => {
+    setIsPressed(true);
+    onPressStart(e, answer, 'prompt');
+  };
+
+  const handlePressEnd = () => {
+    setIsPressed(false);
+    onPressEnd();
+  };
+
   return (
-    <Card className="rounded-xl shadow-md overflow-hidden">
+    <Card className={`rounded-xl overflow-hidden transition-all duration-150 ${
+      isPressed ? 'shadow-none transform scale-[0.98]' : 'shadow-md'
+    }`}>
       <CardContent 
         className="p-6"
-        onMouseDown={(e) => onPressStart(e, answer, 'prompt')}
-        onMouseUp={onPressEnd}
-        onMouseLeave={onPressEnd}
-        onTouchStart={(e) => onPressStart(e, answer, 'prompt')}
-        onTouchEnd={onPressEnd}
+        onMouseDown={handlePressStart}
+        onMouseUp={handlePressEnd}
+        onMouseLeave={handlePressEnd}
+        onTouchStart={handlePressStart}
+        onTouchEnd={handlePressEnd}
       >
         <h3 className="text-lg font-medium text-gray-600 mb-2">{prompt}</h3>
         <p className="text-3xl font-serif mb-4">{answer}</p>
