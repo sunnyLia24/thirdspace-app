@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -222,12 +223,11 @@
 }
 
 .lumalee-marker {
-  width: 65px;
-  height: 91px;
+  width: 65px;  /* Increased from 50px by 30% */
+  height: 91px; /* Increased from 70px by 30% */
   position: relative;
   z-index: 1;
   transform: translateY(0);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .lumalee-container {
@@ -244,18 +244,18 @@
 }
 
 .lumalee-body {
-  width: 47px;
-  height: 47px;
+  width: 47px; /* Increased from 36px by 30% */
+  height: 47px; /* Increased from 36px by 30% */
   background: radial-gradient(circle, #FFFFA0 0%, #FFE03A 80%);
   border-radius: 50%;
-  box-shadow: 0 0 15px rgba(255, 224, 58, 0.7), 0 0 30px rgba(255, 224, 58, 0.3);
+  box-shadow: 0 0 15px #FFE03A, 0 0 30px rgba(255, 224, 58, 0.5);
   position: absolute;
   animation: pulse 2s infinite ease-in-out;
 }
 
 .lumalee-eye {
-  width: 8px;
-  height: 8px;
+  width: 8px; /* Increased from 6px by ~33% */
+  height: 8px; /* Increased from 6px by ~33% */
   background-color: #333;
   border-radius: 50%;
   position: absolute;
@@ -263,13 +263,13 @@
 }
 
 .lumalee-eye.left {
-  top: 20px;
-  left: 18px;
+  top: 20px; /* Adjusted from 15px */
+  left: 18px; /* Adjusted from 14px */
 }
 
 .lumalee-eye.right {
-  top: 20px;
-  right: 18px;
+  top: 20px; /* Adjusted from 15px */
+  right: 18px; /* Adjusted from 14px */
 }
 
 .lumalee-sparkle {
@@ -281,34 +281,34 @@
 }
 
 .lumalee-sparkle.s1 {
-  width: 5px;
-  height: 5px;
-  top: 8px;
-  left: 26px;
+  width: 5px; /* Increased from 4px */
+  height: 5px; /* Increased from 4px */
+  top: 8px; /* Adjusted from 6px */
+  left: 26px; /* Adjusted from 20px */
   animation: twinkle 2s infinite ease-in-out;
 }
 
 .lumalee-sparkle.s2 {
-  width: 4px;
-  height: 4px;
-  bottom: 10px;
-  right: 23px;
+  width: 4px; /* Increased from 3px */
+  height: 4px; /* Increased from 3px */
+  bottom: 10px; /* Adjusted from 8px */
+  right: 23px; /* Adjusted from 18px */
   animation: twinkle 2s 0.5s infinite ease-in-out;
 }
 
 .lumalee-sparkle.s3 {
-  width: 7px;
-  height: 7px;
-  top: 29px;
-  right: 10px;
+  width: 7px; /* Increased from 5px */
+  height: 7px; /* Increased from 5px */
+  top: 29px; /* Adjusted from 22px */
+  right: 10px; /* Adjusted from 8px */
   animation: twinkle 2s 1s infinite ease-in-out;
 }
 
 .lumalee-sparkle.s4 {
-  width: 5px;
-  height: 5px;
-  bottom: 20px;
-  left: 13px;
+  width: 5px; /* Increased from 4px */
+  height: 5px; /* Increased from 4px */
+  bottom: 20px; /* Adjusted from 15px */
+  left: 13px; /* Adjusted from 10px */
   animation: twinkle 2s 1.5s infinite ease-in-out;
 }
 
@@ -346,7 +346,6 @@
 .user-marker-container {
   z-index: 10;
   pointer-events: auto;
-  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
 }
 
 .user-marker {
@@ -372,36 +371,4 @@
 
 .user-marker:hover {
   animation: none;
-}
-
-.mapboxgl-popup {
-  max-width: 320px !important;
-}
-
-.mapboxgl-popup-content {
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-}
-
-.mapboxgl-ctrl-group {
-  border-radius: 8px !important;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
-  background-color: rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(4px);
-}
-
-.mapboxgl-ctrl button {
-  width: 32px !important;
-  height: 32px !important;
-}
-
-.mapboxgl-ctrl-attrib {
-  background: rgba(255, 255, 255, 0.7) !important;
-  backdrop-filter: blur(4px);
-  border-radius: 4px 0 0 0;
 }
