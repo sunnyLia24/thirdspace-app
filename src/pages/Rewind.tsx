@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Rewind, Heart, X, Crown } from 'lucide-react';
-import BackButton from '@/components/BackButton';
+import TopBanner from '@/components/TopBanner';
 
 const RewindPage = () => {
   const passedProfiles = [
@@ -32,19 +31,15 @@ const RewindPage = () => {
 
   return (
     <div className="pb-20 min-h-screen bg-dating-light">
-      <div className="bg-white pb-4 pt-8 border-b border-gray-200 sticky top-0 z-10">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center mb-2 relative">
-            <div className="absolute left-0">
-              <BackButton />
-            </div>
-            <Rewind className="text-dating-accent h-6 w-6 mr-2" />
-            <h1 className="text-2xl font-bold text-dating-dark">Rewind</h1>
-          </div>
-          <p className="text-center text-gray-500 text-sm mb-4">
-            Give passed profiles a second chance
-          </p>
-        </div>
+      <TopBanner 
+        title="Rewind" 
+        leftIcon={<Rewind className="text-dating-accent h-6 w-6" />} 
+      />
+      
+      <div className="container mx-auto px-4 py-2">
+        <p className="text-center text-gray-500 text-sm mb-4">
+          Give passed profiles a second chance
+        </p>
       </div>
       
       <div className="container mx-auto px-4 py-6">

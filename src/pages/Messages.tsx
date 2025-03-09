@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Search, MessageCircle } from 'lucide-react';
-import BackButton from '@/components/BackButton';
+import TopBanner from '@/components/TopBanner';
 
 const Messages = () => {
   const conversations = [
@@ -43,28 +42,17 @@ const Messages = () => {
 
   return (
     <div className="pb-20 min-h-screen bg-gradient-to-b from-white to-dating-light">
-      <div className="sticky top-0 z-10 bg-white border-b border-gray-200 shadow-lg">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-center mb-4 relative">
-            <div className="absolute left-0">
-              <BackButton className="shadow-md hover:shadow-lg transition-shadow" />
-            </div>
-            <h1 className="text-2xl font-bold text-center text-dating-dark relative">
-              Messages
-              <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1/2 h-0.5 bg-gradient-to-r from-transparent via-dating-accent to-transparent"></span>
-            </h1>
-          </div>
-          <div className="relative mb-2">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-            <Input 
-              className="pl-10 bg-gray-50 border-gray-200 shadow-inner focus:shadow-dating-accent/10 transition-shadow" 
-              placeholder="Search conversations" 
-            />
-          </div>
-        </div>
-      </div>
+      <TopBanner title="Messages" />
       
-      <div className="container mx-auto px-4 py-2">
+      <div className="container mx-auto px-4 py-4">
+        <div className="relative mb-4">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+          <Input 
+            className="pl-10 bg-gray-50 border-gray-200 shadow-inner focus:shadow-dating-accent/10 transition-shadow" 
+            placeholder="Search conversations" 
+          />
+        </div>
+        
         {conversations.length > 0 ? (
           <div className="space-y-2">
             {conversations.map((conversation) => (

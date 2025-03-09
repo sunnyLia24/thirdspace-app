@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Sparkles, Heart } from 'lucide-react';
-import BackButton from '@/components/BackButton';
+import TopBanner from '@/components/TopBanner';
 
 const Standouts = () => {
   const standoutProfiles = [
@@ -35,24 +34,17 @@ const Standouts = () => {
 
   return (
     <div className="pb-20 min-h-screen bg-dating-light">
-      <div className="bg-white pb-4 pt-8 border-b border-gray-200 sticky top-0 z-10 shadow-md">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center mb-2 relative">
-            <div className="absolute left-0">
-              <BackButton />
-            </div>
-            <div className="relative">
-              <Sparkles className="text-dating-accent h-6 w-6 mr-2 animate-pulse" />
-              <div className="absolute inset-0 blur-md bg-dating-accent/30 rounded-full animate-pulse"></div>
-            </div>
-            <h1 className="text-2xl font-bold text-dating-dark">Standouts</h1>
-          </div>
-          <div className="relative">
-            <p className="text-center text-gray-500 text-sm mb-4">
-              Exceptional profiles refreshed daily just for you
-            </p>
-            <div className="absolute inset-x-0 bottom-0 h-0.5 w-1/3 mx-auto bg-gradient-to-r from-transparent via-dating-accent to-transparent animate-left-to-right"></div>
-          </div>
+      <TopBanner 
+        title="Standouts" 
+        leftIcon={<Sparkles className="text-dating-accent h-6 w-6 animate-pulse" />} 
+      />
+      
+      <div className="container mx-auto px-4 pb-4 pt-2">
+        <div className="relative">
+          <p className="text-center text-gray-500 text-sm mb-4">
+            Exceptional profiles refreshed daily just for you
+          </p>
+          <div className="absolute inset-x-0 bottom-0 h-0.5 w-1/3 mx-auto bg-gradient-to-r from-transparent via-dating-accent to-transparent animate-left-to-right"></div>
         </div>
       </div>
       
