@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
@@ -269,7 +268,6 @@ const UserProfile = () => {
           </CardContent>
         </Card>
         
-        {/* Changed from grid to flex column layout for photos */}
         <div className="flex flex-col gap-4">
           {userPhotos.map((photo, index) => (
             <Card key={index} className="rounded-xl shadow-md overflow-hidden">
@@ -277,7 +275,7 @@ const UserProfile = () => {
                 <img 
                   src={photo} 
                   alt={`${user.name}'s photo ${index + 1}`} 
-                  className="w-full h-40 object-cover"
+                  className="w-full h-[400px] object-cover" 
                   onMouseDown={(e) => handlePressStart(e, `${user.name}'s additional photo ${index + 1}`, 'image')}
                   onMouseUp={handlePressEnd}
                   onMouseLeave={handlePressEnd}
