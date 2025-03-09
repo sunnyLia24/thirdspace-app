@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -15,6 +14,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const markerRef = useRef<mapboxgl.Marker | null>(null);
+  const customMarkerElementRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
@@ -66,15 +66,17 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         container: mapContainer.current,
         style: 'mapbox://styles/mapbox/light-v11',
         center: userLocation,
-        zoom: 18, // Increased zoom level to show 50-100m around user (was 14)
+        zoom: 18, // Increased zoom level to show 50-100m around user
         pitch: 45,
         bearing: 0,
         antialias: true,
-        minZoom: 9,  // Set minimum zoom level (prevents zooming out too far)
-        maxZoom: 20  // Set maximum zoom level
+        minZoom: 9,  // Set minimum zoom level
+        maxZoom: 20, // Set maximum zoom level
+        dragRotate: true,
+        dragPan: false, // Disable panning to keep user centered
       });
 
-      // Add navigation controls
+      // Add navigation controls - only allow zoom and pitch/bearing changes
       map.current.addControl(
         new mapboxgl.NavigationControl({
           visualizePitch: true,
@@ -98,6 +100,9 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
           <div class="lumalee-sparkle s4"></div>
         </div>
       `;
+      
+      // Store reference to the marker element
+      customMarkerElementRef.current = customMarkerElement;
 
       // Add user location marker with custom element
       markerRef.current = new mapboxgl.Marker({
@@ -137,6 +142,39 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
             }
           });
         }
+        
+        // Set up watch position to update marker and map center when user moves
+        if (navigator.geolocation) {
+          navigator.geolocation.watchPosition(
+            (position) => {
+              const newLocation: [number, number] = [
+                position.coords.longitude,
+                position.coords.latitude
+              ];
+              
+              // Update marker position
+              if (markerRef.current) {
+                markerRef.current.setLngLat(newLocation);
+              }
+              
+              // Update map center to keep user centered
+              if (map.current) {
+                map.current.setCenter(newLocation);
+              }
+              
+              // Update stored location
+              setUserLocation(newLocation);
+            },
+            (error) => {
+              console.error('Error watching position:', error);
+            },
+            {
+              enableHighAccuracy: true,
+              maximumAge: 0,
+              timeout: 5000
+            }
+          );
+        }
       });
 
       // Pokemon GO style camera behavior - lower POV as user zooms in
@@ -171,10 +209,9 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         });
 
         // Adjust Lumalee marker size based on zoom level
-        if (map.current && customMarkerElement) {
-          // Get the Lumalee container and body elements
-          const lumaleeContainer = customMarkerElement.querySelector('.lumalee-container');
-          const lumaleeBody = customMarkerElement.querySelector('.lumalee-body');
+        if (customMarkerElementRef.current) {
+          // Get the Lumalee container element
+          const lumaleeContainer = customMarkerElementRef.current.querySelector('.lumalee-container');
           
           // Calculate base size factor (smaller at low zoom, larger at high zoom)
           // Zoom range: minZoom: 9 to maxZoom: 20
