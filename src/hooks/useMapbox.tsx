@@ -2,9 +2,52 @@ import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useToast } from './use-toast';
+import { useNavigate } from 'react-router-dom';
+import { nearbyUsers, NearbyUser } from '@/data/nearbyUsers';
+import ReactDOM from 'react-dom';
+import UserMarker from '@/components/UserMarker';
 
 // Default token
 const DEFAULT_MAPBOX_TOKEN = 'pk.eyJ1Ijoic3VubnkyNCIsImEiOiJjbTdtbDBzb2gwb2plMnBvY2lxbml0Z3pyIn0.OrQMpXUEaR_vN3MubP6JSw';
+
+// Function to calculate a point at a given distance and bearing from a starting point
+function getDestinationPoint(
+  startLng: number, 
+  startLat: number, 
+  distanceMeters: number, 
+  bearingDegrees: number
+): [number, number] {
+  // Earth's radius in meters
+  const R = 6371000;
+  
+  // Convert bearing to radians
+  const bearing = (bearingDegrees * Math.PI) / 180;
+  
+  // Convert latitude to radians
+  const lat1 = (startLat * Math.PI) / 180;
+  const lon1 = (startLng * Math.PI) / 180;
+  
+  // Calculate angular distance
+  const angularDistance = distanceMeters / R;
+  
+  // Calculate new latitude
+  const lat2 = Math.asin(
+    Math.sin(lat1) * Math.cos(angularDistance) +
+    Math.cos(lat1) * Math.sin(angularDistance) * Math.cos(bearing)
+  );
+  
+  // Calculate new longitude
+  const lon2 = lon1 + Math.atan2(
+    Math.sin(bearing) * Math.sin(angularDistance) * Math.cos(lat1),
+    Math.cos(angularDistance) - Math.sin(lat1) * Math.sin(lat2)
+  );
+  
+  // Convert back to degrees
+  const newLat = (lat2 * 180) / Math.PI;
+  const newLng = (lon2 * 180) / Math.PI;
+  
+  return [newLng, newLat];
+}
 
 interface UseMapboxProps {
   customToken?: string;
@@ -15,10 +58,12 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
   const map = useRef<mapboxgl.Map | null>(null);
   const markerRef = useRef<mapboxgl.Marker | null>(null);
   const customMarkerElementRef = useRef<HTMLDivElement | null>(null);
+  const userMarkersRef = useRef<{marker: mapboxgl.Marker, user: NearbyUser}[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   // Get user's current location
   useEffect(() => {
@@ -62,6 +107,12 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
       }
       map.current = null;
     }
+
+    // Clear any existing user markers
+    userMarkersRef.current.forEach(({ marker }) => {
+      marker.remove();
+    });
+    userMarkersRef.current = [];
 
     try {
       // Use custom token if provided, otherwise use default
@@ -152,6 +203,9 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
           });
         }
         
+        // Position nearby users around the user's location
+        displayNearbyUsers(userLocation);
+        
         // Set up watch position to update marker and map center when user moves
         if (navigator.geolocation) {
           const watchId = navigator.geolocation.watchPosition(
@@ -173,6 +227,9 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
               
               // Update stored location
               setUserLocation(newLocation);
+              
+              // Update nearby user positions relative to new user location
+              updateNearbyUsers(newLocation);
             },
             (error) => {
               console.error('Error watching position:', error);
@@ -266,6 +323,12 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
       // Safely clean up the map instance
       if (map.current) {
         try {
+          // Remove all user markers
+          userMarkersRef.current.forEach(({ marker }) => {
+            marker.remove();
+          });
+          userMarkersRef.current = [];
+          
           map.current.remove();
         } catch (e) {
           console.error("Error during map cleanup:", e);
@@ -274,6 +337,97 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
       }
     };
   }, [userLocation, customToken]);
+
+  // Function to position nearby users around the user's current location
+  const displayNearbyUsers = (currentLocation: [number, number]) => {
+    if (!map.current) return;
+
+    // Remove any existing markers
+    userMarkersRef.current.forEach(({ marker }) => {
+      marker.remove();
+    });
+    userMarkersRef.current = [];
+
+    // For each nearby user, create a marker at a random angle
+    nearbyUsers.forEach((user, index) => {
+      // Calculate a random position around the user within distance
+      const angle = (index * 90) + Math.random() * 45; // Space users around in different directions
+      const userPos = getDestinationPoint(
+        currentLocation[0], 
+        currentLocation[1], 
+        user.distance, 
+        angle
+      );
+      
+      // Update user location
+      user.location = userPos;
+      
+      // Create marker element container
+      const markerElement = document.createElement('div');
+      markerElement.className = 'marker-container';
+
+      // Create and add the React component to the marker
+      createUserMarker(markerElement, user);
+      
+      // Add marker to the map
+      const marker = new mapboxgl.Marker({
+        element: markerElement,
+        anchor: 'bottom'
+      })
+        .setLngLat(userPos)
+        .addTo(map.current);
+      
+      // Store reference to the marker and user
+      userMarkersRef.current.push({ marker, user });
+    });
+  };
+
+  // Update nearby users' positions when user moves
+  const updateNearbyUsers = (newUserLocation: [number, number]) => {
+    userMarkersRef.current.forEach(({ marker, user }) => {
+      // Recalculate position based on the user's new location
+      const userPos = getDestinationPoint(
+        newUserLocation[0],
+        newUserLocation[1],
+        user.distance,
+        // Keep the same angle relative to the user
+        Math.atan2(
+          user.location[1] - newUserLocation[1],
+          user.location[0] - newUserLocation[0]
+        ) * (180 / Math.PI)
+      );
+      
+      // Update user location
+      user.location = userPos;
+      
+      // Update marker position
+      marker.setLngLat(userPos);
+    });
+  };
+
+  // Helper function to render React component into the marker element
+  const createUserMarker = (container: HTMLElement, user: NearbyUser) => {
+    const handleClick = () => {
+      // When a user marker is clicked, navigate to a profile page
+      console.log(`Clicked on user: ${user.name}`);
+      
+      // Show a toast notification
+      toast({
+        title: `Viewing ${user.name}'s profile`,
+        description: `${user.compatibility}% compatibility match!`,
+        variant: "default"
+      });
+      
+      // Navigate to a dynamic profile page using the user ID
+      navigate(`/profile/${user.id}`);
+    };
+
+    // Render the React component into the container
+    ReactDOM.render(
+      <UserMarker user={user} onClick={handleClick} />,
+      container
+    );
+  };
 
   return {
     mapContainer,

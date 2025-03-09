@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "./components/MainLayout";
 import Profile from "./pages/Profile";
+import UserProfile from "./pages/UserProfile";
 import Messages from "./pages/Messages";
 import Standouts from "./pages/Standouts";
 import RewindPage from "./pages/Rewind";
@@ -54,6 +55,7 @@ const App = () => (
           <Route path="/" element={<MainLayout />}>
             <Route index element={null} />
             <Route path="profile" element={<Profile />} />
+            <Route path="profile/:userId" element={<UserProfile />} />
             <Route path="messages" element={<Messages />} />
             <Route path="standouts" element={<Standouts />} />
             <Route path="rewind" element={<RewindPage />} />
