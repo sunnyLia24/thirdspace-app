@@ -156,7 +156,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
           
           map.current.setPaintProperty('water', 'fill-color', '#0FA0CE');
           
-          map.current.setPaintProperty('land', 'background-color', '#f0f9fc');
+          map.current.setPaintProperty('land', 'background-color', '#7ED57B');
           
           map.current.addLayer({
             'id': '3d-buildings',
@@ -166,7 +166,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
             'type': 'fill-extrusion',
             'minzoom': 15,
             'paint': {
-              'fill-extrusion-color': '#FEC6A1',
+              'fill-extrusion-color': '#1A365D',
               'fill-extrusion-height': [
                 'interpolate', ['linear'], ['zoom'],
                 15, 0,
@@ -181,12 +181,12 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
             }
           });
           
-          map.current.setPaintProperty('road-primary', 'line-color', '#a1dbeb');
-          map.current.setPaintProperty('road-secondary', 'line-color', '#a1dbeb');
-          map.current.setPaintProperty('road-tertiary', 'line-color', '#d6f1f8');
+          map.current.setPaintProperty('road-primary', 'line-color', '#A3E4A1');
+          map.current.setPaintProperty('road-secondary', 'line-color', '#A3E4A1');
+          map.current.setPaintProperty('road-tertiary', 'line-color', '#C4EEC2');
           
-          map.current.setPaintProperty('landuse-park', 'fill-color', '#d6f1f8');
-          map.current.setPaintProperty('landcover-tree', 'fill-color', '#5bbce0');
+          map.current.setPaintProperty('landuse-park', 'fill-color', '#8EDA8C');
+          map.current.setPaintProperty('landcover-tree', 'fill-color', '#5BB359');
         }
         
         displayNearbyUsers(userLocation);
