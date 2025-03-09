@@ -1,6 +1,5 @@
-
 import React, { useState, useRef, useEffect } from 'react';
-import { ArrowLeft, Crown } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import ProfileHighlight from '@/components/ProfileHighlight';
@@ -80,17 +79,6 @@ const RewindPage = () => {
           aria-label="Go back"
         >
           <ArrowLeft className="h-5 w-5" />
-        </Button>
-      </div>
-      
-      {/* Premium badge (optional) */}
-      <div className="absolute top-4 right-4 z-20">
-        <Button 
-          size="sm" 
-          className="bg-gradient-to-r from-dating-accent to-purple-500 hover:from-purple-500 hover:to-dating-accent rounded-full shadow-lg px-3 py-1 h-auto text-xs"
-        >
-          <Crown className="h-3 w-3 mr-1" />
-          <span>PREMIUM</span>
         </Button>
       </div>
       
