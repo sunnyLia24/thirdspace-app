@@ -142,29 +142,29 @@
   }
 }
 
-@keyframes left-to-right {
+@keyframes border-trace {
   0% {
-    opacity: 1;
-    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-    border-color: rgba(185, 230, 243, 0.8);
-    box-shadow: 0 0 10px rgba(185, 230, 243, 0.8), 0 0 20px rgba(185, 230, 243, 0.5);
+    clip-path: inset(0 100% 100% 0);
+    border-color: #B9E6F3;
+    box-shadow: 0 0 10px #B9E6F3, 0 0 20px rgba(185, 230, 243, 0.5);
   }
   25% {
-    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    clip-path: inset(0 0 100% 0);
+    border-color: #B9E6F3;
   }
   50% {
-    opacity: 1;
-    border-color: white;
-    box-shadow: 0 0 15px white, 0 0 30px rgba(255, 255, 255, 0.5);
+    clip-path: inset(0 0 0 0);
+    border-color: #B9E6F3;
+    box-shadow: 0 0 15px #B9E6F3, 0 0 30px rgba(185, 230, 243, 0.6);
   }
   75% {
-    clip-path: polygon(100% 0, 100% 100%, 100% 100%, 100% 0);
+    clip-path: inset(100% 0 0 0);
+    border-color: #B9E6F3;
   }
   100% {
-    opacity: 1;
-    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
-    border-color: rgba(185, 230, 243, 0.8);
-    box-shadow: 0 0 10px rgba(185, 230, 243, 0.8), 0 0 20px rgba(185, 230, 243, 0.5);
+    clip-path: inset(0 100% 100% 0);
+    border-color: #B9E6F3;
+    box-shadow: 0 0 10px #B9E6F3, 0 0 20px rgba(185, 230, 243, 0.5);
   }
 }
 
@@ -207,8 +207,8 @@
   animation: glow 3s infinite ease-in-out;
 }
 
-.animate-left-to-right {
-  animation: left-to-right 3s infinite ease-in-out;
+.animate-border-trace {
+  animation: border-trace 3s infinite cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .animate-scale-in {
