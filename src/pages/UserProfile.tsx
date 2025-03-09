@@ -89,7 +89,7 @@ const UserProfile = () => {
     
     const animateProgress = () => {
       const elapsedTime = Date.now() - startTimeRef.current;
-      const progress = Math.min(elapsedTime / 3000, 1);
+      const progress = Math.min(elapsedTime / 2000, 1);
       
       setClickAnimation(prev => ({
         ...prev,
@@ -124,7 +124,7 @@ const UserProfile = () => {
         content,
         type
       });
-    }, 3000);
+    }, 2000);
   };
 
   const handlePressEnd = () => {
@@ -409,3 +409,4 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
