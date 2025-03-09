@@ -10,6 +10,7 @@ const MainLayout = () => {
   const currentRoute = location.pathname;
   const isMapView = currentRoute === '/';
   const isUserProfileView = currentRoute.includes('/profile/');
+  const isRewindView = currentRoute === '/rewind';
 
   const toggleNav = () => {
     setIsNavVisible(!isNavVisible);
@@ -37,8 +38,8 @@ const MainLayout = () => {
           </div>
         </div>
       ) : (
-        // Hide BottomNav on user profile pages
-        !isUserProfileView && (
+        // Hide BottomNav on user profile pages and rewind page
+        !isUserProfileView && !isRewindView && (
           <BottomNav 
             visible={isNavVisible || !isMapView} 
             currentRoute={currentRoute} 

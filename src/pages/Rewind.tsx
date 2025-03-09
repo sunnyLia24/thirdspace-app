@@ -10,35 +10,34 @@ const RewindPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Sample data for profiles
-  // In a real application, these would come from your API
+  // Sample data for profiles with updated image paths
   const profiles = [
     {
       id: 1,
       name: 'Leslie',
       age: 23,
-      image: '/images/profile1.jpg', // These should be real image paths in your public folder
+      image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b',
       location: 'Phoenix, USA',
     },
     {
       id: 2,
       name: 'Olivia',
       age: 26,
-      image: '/images/profile2.jpg',
+      image: 'https://images.unsplash.com/photo-1518770660439-4636190af475',
       location: 'Los Angeles, USA',
     },
     {
       id: 3,
       name: 'Liam',
       age: 29,
-      image: '/images/profile3.jpg',
+      image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6',
       location: 'New York, USA',
     },
     {
       id: 4,
       name: 'Ava',
       age: 27,
-      image: '/images/profile4.jpg',
+      image: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7',
       location: 'Chicago, USA',
     }
   ];
@@ -100,15 +99,6 @@ const RewindPage = () => {
         ref={containerRef}
         className="h-screen overflow-y-auto snap-y snap-mandatory hide-scrollbar"
       >
-        {/* Custom style to hide scrollbar */}
-        <style>
-          {`
-            div::-webkit-scrollbar {
-              display: none;
-            }
-          `}
-        </style>
-        
         {profiles.map((profile, index) => (
           <div 
             key={profile.id}

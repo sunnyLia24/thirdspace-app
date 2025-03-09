@@ -18,9 +18,13 @@ const ProfileHighlight: React.FC<ProfileHighlightProps> = ({ profile, isActive }
     <div className="relative w-full h-full">
       {/* Image element */}
       <img
-        src={profile.image}
+        src={profile.image || "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"}
         alt={`${profile.name}'s profile`}
         className="w-full h-full object-cover"
+        onError={(e) => {
+          // Fallback image if the original fails to load
+          e.currentTarget.src = "https://images.unsplash.com/photo-1649972904349-6e44c42644a7";
+        }}
       />
       
       {/* Gradient overlay */}
