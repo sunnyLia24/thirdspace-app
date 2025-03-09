@@ -248,9 +248,13 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         }
       });
 
-      // Pokemon GO style camera behavior - lower POV as user zooms in
+      // Fix for zoom centering issue - always keep the map centered on the user's location
+      // regardless of where the cursor is positioned during zooming
       map.current.on('zoom', () => {
-        if (!map.current) return;
+        if (!map.current || !userLocation) return;
+        
+        // Ensure the map stays centered on the user's location during zoom
+        map.current.setCenter(userLocation);
         
         const currentZoom = map.current.getZoom();
         
@@ -274,8 +278,9 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         
         // Smoothly animate to the new pitch
         map.current.easeTo({
+          center: userLocation,
           pitch: targetPitch,
-          duration: 500,
+          duration: 300,
           easing: (t) => t * (2 - t) // easeOutQuad for smooth transition
         });
 
@@ -297,6 +302,29 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
             (lumaleeContainer as HTMLElement).style.transform = `scale(${scaleFactor})`;
           }
         }
+      });
+
+      // Also fix the wheel zoom to stay centered on user's location
+      map.current.on('wheel', (e) => {
+        if (!map.current || !userLocation) return;
+        
+        // Prevent the default wheel behavior
+        e.preventDefault();
+        
+        // Calculate new zoom level
+        const currentZoom = map.current.getZoom();
+        const delta = e.originalEvent.deltaY * -0.01;
+        const newZoom = currentZoom + delta;
+        
+        // Ensure zoom is within bounds
+        const clampedZoom = Math.min(Math.max(newZoom, map.current.getMinZoom()), map.current.getMaxZoom());
+        
+        // Apply zoom while keeping centered on user location
+        map.current.easeTo({
+          center: userLocation,
+          zoom: clampedZoom,
+          duration: 100
+        });
       });
 
       // Enhanced mobile-friendly controls

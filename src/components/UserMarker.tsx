@@ -11,11 +11,11 @@ interface UserMarkerProps {
 const UserMarker: React.FC<UserMarkerProps> = ({ user, onClick }) => {
   return (
     <div 
-      className="user-marker-container relative cursor-pointer"
+      className="relative cursor-pointer"
       onClick={onClick}
       aria-label={`View ${user.name}'s profile`}
     >
-      <div className="relative transform transition-transform duration-300 hover:scale-110">
+      <div className="transform transition-transform duration-300 hover:scale-110">
         {/* User image */}
         <div 
           className={cn(
