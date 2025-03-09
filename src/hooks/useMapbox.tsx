@@ -170,12 +170,12 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
               'fill-extrusion-height': [
                 'interpolate', ['linear'], ['zoom'],
                 15, 0,
-                15.05, ['get', 'height']
+                15.05, ['*', ['get', 'height'], 0.5]
               ],
               'fill-extrusion-base': [
                 'interpolate', ['linear'], ['zoom'],
                 15, 0,
-                15.05, ['get', 'min_height']
+                15.05, ['*', ['get', 'min_height'], 0.5]
               ],
               'fill-extrusion-opacity': 0.6
             }
