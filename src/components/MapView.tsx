@@ -19,28 +19,55 @@ const MapView: React.FC<MapViewProps> = ({ isNavVisible, toggleNav }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const [loading, setLoading] = useState(true);
+  const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+
+  // Get user's current location
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation([position.coords.longitude, position.coords.latitude]);
+        },
+        (error) => {
+          console.error('Error getting user location:', error);
+          // Default to New York if location access is denied
+          setUserLocation([-74.0060, 40.7128]);
+        }
+      );
+    } else {
+      // Default to New York if geolocation is not supported
+      setUserLocation([-74.0060, 40.7128]);
+    }
+  }, []);
 
   useEffect(() => {
-    if (!mapContainer.current) return;
+    if (!mapContainer.current || !userLocation) return;
 
-    // Initialize map
+    // Initialize map with user location if available
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/light-v11',
-      center: [-74.0060, 40.7128], // Default to New York
-      zoom: 12,
+      center: userLocation,
+      zoom: 14,
       pitch: 45, // Tilt the map as requested
       bearing: 0,
       antialias: true,
     });
 
-    // Add navigation controls
+    // Add navigation controls (more compact for mobile)
     map.current.addControl(
       new mapboxgl.NavigationControl({
         visualizePitch: true,
+        showCompass: true,
+        showZoom: true,
       }),
       'top-right'
     );
+
+    // Add user location marker
+    new mapboxgl.Marker({ color: '#FF4D7D' })
+      .setLngLat(userLocation)
+      .addTo(map.current);
 
     // Loading handler
     map.current.on('load', () => {
@@ -73,13 +100,22 @@ const MapView: React.FC<MapViewProps> = ({ isNavVisible, toggleNav }) => {
       }
     });
 
+    // Enhanced mobile-friendly controls
+    map.current.addControl(new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: true,
+      showUserHeading: true
+    }));
+
     // Cleanup
     return () => {
       if (map.current) {
         map.current.remove();
       }
     };
-  }, []);
+  }, [userLocation]);
 
   return (
     <div className="w-full h-screen relative overflow-hidden">
