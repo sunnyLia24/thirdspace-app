@@ -42,7 +42,7 @@ const ProfileHighlight: React.FC<ProfileHighlightProps> = ({ profile, isActive }
             <span className="text-neon">Premium Access</span>
           </Button>
           {/* Animated neon border trace effect outside the button */}
-          <span className="absolute -inset-1 rounded-md border-2 border-dating-primary animate-border-trace pointer-events-none"></span>
+          <span className="absolute -inset-1 rounded-md border border-transparent outline outline-1 outline-offset-2 outline-dating-primary animate-border-trace"></span>
         </div>
       </div>
       

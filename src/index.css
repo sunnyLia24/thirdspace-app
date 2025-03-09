@@ -144,27 +144,29 @@
 
 @keyframes border-trace {
   0% {
-    clip-path: inset(0 100% 100% 0);
-    border-color: #B9E6F3;
-    box-shadow: 0 0 10px #B9E6F3, 0 0 20px rgba(185, 230, 243, 0.5);
+    opacity: 0.7;
+    outline-color: #B9E6F3;
+    box-shadow: 0 0 5px #B9E6F3;
   }
   25% {
-    clip-path: inset(0 0 100% 0);
-    border-color: #B9E6F3;
+    opacity: 1;
+    outline-color: #B9E6F3;
+    box-shadow: 0 0 8px #B9E6F3, 0 0 12px rgba(185, 230, 243, 0.3);
   }
   50% {
-    clip-path: inset(0 0 0 0);
-    border-color: #B9E6F3;
-    box-shadow: 0 0 15px #B9E6F3, 0 0 30px rgba(185, 230, 243, 0.6);
+    opacity: 0.7;
+    outline-color: #B9E6F3;
+    box-shadow: 0 0 5px #B9E6F3;
   }
   75% {
-    clip-path: inset(100% 0 0 0);
-    border-color: #B9E6F3;
+    opacity: 1;
+    outline-color: #B9E6F3;
+    box-shadow: 0 0 8px #B9E6F3, 0 0 12px rgba(185, 230, 243, 0.3);
   }
   100% {
-    clip-path: inset(0 100% 100% 0);
-    border-color: #B9E6F3;
-    box-shadow: 0 0 10px #B9E6F3, 0 0 20px rgba(185, 230, 243, 0.5);
+    opacity: 0.7;
+    outline-color: #B9E6F3;
+    box-shadow: 0 0 5px #B9E6F3;
   }
 }
 
@@ -208,7 +210,7 @@
 }
 
 .animate-border-trace {
-  animation: border-trace 3s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  animation: border-trace 3s infinite ease-in-out;
 }
 
 .animate-scale-in {
