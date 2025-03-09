@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
@@ -100,7 +99,7 @@ const UserProfile = () => {
     
     const animateProgress = () => {
       const elapsedTime = Date.now() - startTimeRef.current;
-      const progress = Math.min(elapsedTime / 1000, 1);
+      const progress = Math.min(elapsedTime / 1000, 1); // 1 second animation
       
       setClickAnimation(prev => ({
         ...prev,
@@ -135,7 +134,7 @@ const UserProfile = () => {
         content,
         type
       });
-    }, 1000);
+    }, 1000); // 1 second timeout
   };
 
   const handlePressEnd = () => {
@@ -335,29 +334,31 @@ const UserProfile = () => {
         <div 
           className="fixed z-40 pointer-events-none"
           style={{
-            left: clickAnimation.elementRect.left,
-            top: clickAnimation.elementRect.top,
-            width: clickAnimation.elementRect.width,
-            height: clickAnimation.elementRect.height,
-            borderRadius: '0.75rem' // matches Card's rounded-xl
+            left: clickAnimation.x - 50, // Center the circle
+            top: clickAnimation.y - 50,
+            width: 100, // Fixed size circle
+            height: 100
           }}
         >
+          {/* Outer static border */}
           <div 
-            className="absolute inset-0 bg-dating-accent"
+            className="absolute inset-0 rounded-full border-2 border-dating-accent"
             style={{
-              opacity: 0.4 * clickAnimation.progress,
-              transform: `scale(${clickAnimation.progress})`,
-              transformOrigin: 'center',
-              borderRadius: 'inherit' // inherit the parent's border radius
+              opacity: 0.8
             }}
           />
-          <div className="absolute inset-0 border-2 border-dating-accent rounded-xl"
-               style={{
-                 opacity: 0.7 * clickAnimation.progress,
-                 transform: `scale(${0.8 + (0.2 * clickAnimation.progress)})`,
-                 transformOrigin: 'center'
-               }}
+          
+          {/* Inner expanding glow */}
+          <div 
+            className="absolute inset-0 bg-dating-accent rounded-full"
+            style={{
+              opacity: 0.4,
+              transform: `scale(${clickAnimation.progress})`,
+              transformOrigin: 'center'
+            }}
           />
+          
+          {/* Percentage text */}
           {clickAnimation.progress > 0.1 && (
             <div 
               className="absolute inset-0 flex items-center justify-center text-white font-bold text-xl"
