@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart, X, MessageCircle, ArrowLeft, MapPin, Calendar, Users, Star } from 'lucide-react';
+import { Heart, X, MessageCircle, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const UserProfile = () => {
@@ -86,13 +86,9 @@ const UserProfile = () => {
         </div>
       </div>
       
-      {/* Name above the image */}
-      <div className="container mx-auto px-4 py-4">
-        <h2 className="text-3xl font-bold">{user.name}, {user.age}</h2>
-        <div className="flex items-center mt-1 mb-3">
-          <MapPin className="h-4 w-4 mr-1 opacity-80" />
-          <p className="text-sm opacity-90">{user.distance}m away</p>
-        </div>
+      {/* Centered name above the image */}
+      <div className="container mx-auto px-4 py-4 text-center">
+        <h2 className="text-3xl font-bold">{user.name}</h2>
       </div>
       
       {/* Hero image */}
@@ -106,48 +102,36 @@ const UserProfile = () => {
       
       {/* Profile content */}
       <div className="container mx-auto px-4 py-6 space-y-6">
-        {/* About section */}
-        <div>
-          <h3 className="text-lg font-semibold mb-3 text-dating-dark flex items-center">
-            <Users className="h-5 w-5 mr-2 text-dating-accent" />
-            About
-          </h3>
-          <Card>
-            <CardContent className="p-4">
-              <p className="text-gray-700">
-                Passionate photographer and outdoor enthusiast. I love exploring new trails and capturing beautiful moments. Looking for someone to share adventures with!
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+        {/* About section - no header */}
+        <Card>
+          <CardContent className="p-4">
+            <p className="text-gray-700 text-lg">
+              Passionate photographer and outdoor enthusiast. I love exploring new trails and capturing beautiful moments. Looking for someone to share adventures with!
+            </p>
+          </CardContent>
+        </Card>
         
-        {/* Prompts */}
-        <div>
-          <h3 className="text-lg font-semibold mb-3 text-dating-dark flex items-center">
-            <Calendar className="h-5 w-5 mr-2 text-dating-accent" />
-            Prompts
-          </h3>
-          <div className="space-y-3">
-            {profilePrompts.map((item, index) => (
-              <Card key={index} className="overflow-hidden">
-                <CardContent className="p-0">
-                  <div className="p-4">
-                    <p className="text-sm font-medium text-dating-accent mb-1">{item.prompt}</p>
-                    <p className="text-gray-700">{item.answer}</p>
+        {/* Prompts - no header */}
+        <div className="space-y-4">
+          {profilePrompts.map((item, index) => (
+            <Card key={index} className="overflow-hidden">
+              <CardContent className="p-0">
+                <div className="p-5">
+                  <p className="text-lg font-medium text-dating-accent mb-2">{item.prompt}</p>
+                  <p className="text-gray-700 text-lg">{item.answer}</p>
+                </div>
+                {index === 0 && (
+                  <div className="h-96 bg-gray-100">
+                    <img 
+                      src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e" 
+                      alt="Prompt visual" 
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                  {index === 0 && (
-                    <div className="h-80 bg-gray-100">
-                      <img 
-                        src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e" 
-                        alt="Prompt visual" 
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                )}
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
       
