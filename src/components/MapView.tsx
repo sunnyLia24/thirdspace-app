@@ -26,8 +26,8 @@ const MapView: React.FC<MapViewProps> = ({ isNavVisible, toggleNav }) => {
       {/* Map Container - place this first so it's behind other elements */}
       <div ref={mapContainer} className="absolute inset-0" style={{ cursor: 'grab' }} />
       
-      {/* Gradient overlay for aesthetic appeal */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-dating-light/30 to-transparent z-[1]" />
+      {/* Subtle gradient overlay for aesthetic appeal */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-dating-light/10 to-transparent z-[1]" />
       
       {/* Loading State */}
       {loading && <MapLoading />}
