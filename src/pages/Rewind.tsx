@@ -2,44 +2,43 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, Crown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import TopBanner from '@/components/TopBanner';
-import VideoProfile from '@/components/VideoProfile';
 import { useNavigate } from 'react-router-dom';
+import ProfileHighlight from '@/components/ProfileHighlight';
 
 const RewindPage = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Sample data for videos
+  // Sample data for profiles
   // In a real application, these would come from your API
   const profiles = [
     {
       id: 1,
       name: 'Leslie',
       age: 23,
-      video: '/videos/profile1.mp4', // These should be real video paths in your public folder
+      image: '/images/profile1.jpg', // These should be real image paths in your public folder
       location: 'Phoenix, USA',
     },
     {
       id: 2,
       name: 'Olivia',
       age: 26,
-      video: '/videos/profile2.mp4',
+      image: '/images/profile2.jpg',
       location: 'Los Angeles, USA',
     },
     {
       id: 3,
       name: 'Liam',
       age: 29,
-      video: '/videos/profile3.mp4',
+      image: '/images/profile3.jpg',
       location: 'New York, USA',
     },
     {
       id: 4,
       name: 'Ava',
       age: 27,
-      video: '/videos/profile4.mp4',
+      image: '/images/profile4.jpg',
       location: 'Chicago, USA',
     }
   ];
@@ -96,7 +95,7 @@ const RewindPage = () => {
         </Button>
       </div>
       
-      {/* Scrollable container for videos */}
+      {/* Scrollable container for profiles */}
       <div 
         ref={containerRef}
         className="h-screen overflow-y-auto snap-y snap-mandatory hide-scrollbar"
@@ -115,7 +114,7 @@ const RewindPage = () => {
             key={profile.id}
             className="h-screen w-full snap-start snap-always"
           >
-            <VideoProfile 
+            <ProfileHighlight 
               profile={profile} 
               isActive={activeIndex === index}
             />
