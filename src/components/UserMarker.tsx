@@ -16,13 +16,6 @@ const UserMarker: React.FC<UserMarkerProps> = ({ user, onClick }) => {
       aria-label={`View ${user.name}'s profile`}
     >
       <div className="transform transition-transform duration-300 hover:scale-110">
-        {/* Swirling rings container */}
-        <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-16 h-8 pointer-events-none">
-          <div className="swirl-ring ring-1"></div>
-          <div className="swirl-ring ring-2"></div>
-          <div className="swirl-ring ring-3"></div>
-        </div>
-        
         {/* User image */}
         <div 
           className={cn(
