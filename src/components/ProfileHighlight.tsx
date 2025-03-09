@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { MapPin } from 'lucide-react';
+import { MapPin, Lock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface ProfileHighlightProps {
   profile: {
@@ -29,6 +30,17 @@ const ProfileHighlight: React.FC<ProfileHighlightProps> = ({ profile, isActive }
       
       {/* Full glassmorphism overlay covering the entire photo */}
       <div className="absolute inset-0 backdrop-blur-sm bg-black/30 pointer-events-none" />
+      
+      {/* Premium access button in the center */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <Button 
+          variant="outline" 
+          className="bg-black/40 text-white border-white/50 hover:bg-black/60 backdrop-blur-sm"
+        >
+          <Lock className="h-4 w-4 mr-2" />
+          Premium Access
+        </Button>
+      </div>
       
       {/* Content at bottom - name, age and location */}
       <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
