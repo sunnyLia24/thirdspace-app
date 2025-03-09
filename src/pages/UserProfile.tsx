@@ -91,7 +91,7 @@ const UserProfile = () => {
     const target = e.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
     
-    // Set the pressed element for the "drop shadow" effect
+    // Set the pressed element for the drop shadow effect
     // For images, also store the image URL
     const imageUrl = type === 'image' && target.tagName === 'IMG' 
       ? (target as HTMLImageElement).src 
@@ -217,10 +217,14 @@ const UserProfile = () => {
               alt={user.name} 
               className="w-full h-[400px] object-cover transition-all duration-150"
               style={{
+                transform: pressedElement.element && pressedElement.element.tagName === 'IMG' && 
+                          (pressedElement.element as HTMLImageElement).src === user.profileImage 
+                  ? 'translateY(6px)' 
+                  : 'translateY(0)',
                 boxShadow: pressedElement.element && pressedElement.element.tagName === 'IMG' && 
                           (pressedElement.element as HTMLImageElement).src === user.profileImage 
                   ? 'none' 
-                  : '0 8px 20px rgba(0, 0, 0, 0.2), 0 0 10px rgba(185, 230, 243, 0.3)'
+                  : '0 16px 32px rgba(0, 0, 0, 0.25), 0 0 15px rgba(185, 230, 243, 0.4)'
               }}
               onMouseDown={(e) => handlePressStart(e, `${user.name}'s profile picture`, 'image')}
               onMouseUp={handlePressEnd}
@@ -313,9 +317,12 @@ const UserProfile = () => {
                   alt={`${user.name}'s photo ${index + 1}`} 
                   className="w-full h-[400px] object-cover transition-all duration-150"
                   style={{
+                    transform: pressedElement.imageUrl === photo
+                      ? 'translateY(6px)' 
+                      : 'translateY(0)',
                     boxShadow: pressedElement.imageUrl === photo
                       ? 'none'
-                      : '0 8px 20px rgba(0, 0, 0, 0.2), 0 0 10px rgba(185, 230, 243, 0.3)'
+                      : '0 16px 32px rgba(0, 0, 0, 0.25), 0 0 15px rgba(185, 230, 243, 0.4)'
                   }}
                   onMouseDown={(e) => handlePressStart(e, `${user.name}'s additional photo ${index + 1}`, 'image')}
                   onMouseUp={handlePressEnd}
