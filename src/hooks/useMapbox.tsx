@@ -166,7 +166,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
             'type': 'fill-extrusion',
             'minzoom': 15,
             'paint': {
-              'fill-extrusion-color': '#5bbce0',
+              'fill-extrusion-color': '#FEC6A1',
               'fill-extrusion-height': [
                 'interpolate', ['linear'], ['zoom'],
                 15, 0,
