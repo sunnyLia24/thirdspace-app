@@ -6,8 +6,8 @@ import HomeButton from './HomeButton';
 import TopNav from './TopNav';
 import { Card, CardContent } from '@/components/ui/card';
 
-// Using a more reliable token
-const MAPBOX_TOKEN = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
+// Using the provided token
+const MAPBOX_TOKEN = 'pk.eyJ1Ijoic3VubnkyNCIsImEiOiJjbTdtbDBzb2gwb2plMnBvY2lxbml0Z3pyIn0.OrQMpXUEaR_vN3MubP6JSw';
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
 interface MapViewProps {
@@ -164,13 +164,13 @@ const MapView: React.FC<MapViewProps> = ({ isNavVisible, toggleNav }) => {
       {/* Top Navigation */}
       <TopNav />
       
-      {/* Third Spaces Title with Enhanced Glow Effect */}
+      {/* Third Spaces Title - Smaller with left-to-right animation */}
       <div className="absolute top-8 left-0 right-0 flex justify-center z-10">
         <div className="relative">
-          <div className="absolute -inset-1 bg-gradient-to-r from-dating-primary via-dating-accent to-dating-secondary rounded-lg blur opacity-75 animate-pulse-gentle"></div>
+          <div className="absolute -inset-1 bg-gradient-to-r from-dating-primary via-dating-accent to-dating-secondary rounded-lg blur opacity-75 animate-left-to-right"></div>
           <Card className="relative border-none">
-            <CardContent className="flex flex-col items-center justify-center p-4">
-              <h1 className="text-2xl font-extrabold text-dating-dark bg-clip-text text-transparent bg-gradient-to-r from-dating-primary to-dating-accent">
+            <CardContent className="flex flex-col items-center justify-center p-3">
+              <h1 className="text-xl font-extrabold text-dating-dark bg-clip-text text-transparent bg-gradient-to-r from-dating-primary to-dating-accent">
                 Third Spaces
               </h1>
             </CardContent>

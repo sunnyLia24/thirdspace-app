@@ -119,7 +119,26 @@
   }
 }
 
+/* Left to right animation for the title background */
+@keyframes left-to-right {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0.5;
+  }
+}
+
 .glow-effect {
   animation: glow 3s infinite ease-in-out;
+}
+
+.animate-left-to-right {
+  animation: left-to-right 3s infinite ease-in-out;
 }
 
