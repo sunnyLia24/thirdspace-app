@@ -17,7 +17,7 @@ const TopNav = () => {
           "h-6 w-6 text-dating-dark transition-transform duration-300 z-10",
           "group-hover:scale-110 group-hover:text-dating-primary"
         )} />
-        <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 shadow-[0_0_15px_rgba(139,92,246,0.5)] transition-opacity duration-300"></div>
+        <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 shadow-[0_0_15px_rgba(185,230,243,0.5)] transition-opacity duration-300"></div>
       </Link>
       <Link 
         to="/hotspots" 
@@ -29,7 +29,7 @@ const TopNav = () => {
           "h-6 w-6 text-dating-dark transition-transform duration-300 z-10",
           "group-hover:scale-110 group-hover:text-dating-primary"
         )} />
-        <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 shadow-[0_0_15px_rgba(139,92,246,0.5)] transition-opacity duration-300"></div>
+        <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 shadow-[0_0_15px_rgba(185,230,243,0.5)] transition-opacity duration-300"></div>
       </Link>
       <Link 
         to="/friends" 
@@ -41,7 +41,7 @@ const TopNav = () => {
           "h-6 w-6 text-dating-dark transition-transform duration-300 z-10",
           "group-hover:scale-110 group-hover:text-dating-primary"
         )} />
-        <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 shadow-[0_0_15px_rgba(139,92,246,0.5)] transition-opacity duration-300"></div>
+        <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 shadow-[0_0_15px_rgba(185,230,243,0.5)] transition-opacity duration-300"></div>
       </Link>
     </div>
   );

@@ -64,12 +64,12 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				dating: {
-					primary: '#F63E6E',
-					secondary: '#ff85a1',
-					tertiary: '#ffa8c5',
-					light: '#fff0f5',
-					dark: '#3e2d60',
-					accent: '#8B5CF6',
+					primary: '#B9E6F3',  // Updated to light blue
+					secondary: '#a1dbeb', // Slightly darker shade of B9E6F3
+					tertiary: '#d6f1f8',  // Lighter shade of B9E6F3
+					light: '#f0f9fc',     // Very light shade of B9E6F3
+					dark: '#2c5e6f',      // Dark blue-gray that complements B9E6F3
+					accent: '#5bbce0',    // Midtone blue accent
 				}
 			},
 			borderRadius: {

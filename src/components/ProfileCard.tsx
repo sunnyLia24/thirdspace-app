@@ -51,7 +51,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         <Button 
           variant="outline" 
           size="icon" 
-          className="rounded-full h-12 w-12 border-2 border-dating-primary text-dating-primary hover:bg-pink-50 shadow-md hover:shadow-lg hover:shadow-dating-primary/20 transition-all duration-300 heart-button"
+          className="rounded-full h-12 w-12 border-2 border-dating-primary text-dating-primary hover:bg-dating-light shadow-md hover:shadow-lg hover:shadow-dating-primary/20 transition-all duration-300 heart-button"
         >
           <Heart className="h-6 w-6" />
           <span className="sr-only">Like</span>
@@ -60,7 +60,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         <Button 
           variant="outline" 
           size="icon" 
-          className="rounded-full h-12 w-12 border-2 border-blue-500 text-blue-500 hover:bg-blue-50 shadow-md hover:shadow-lg transition-shadow btn-hover-lift"
+          className="rounded-full h-12 w-12 border-2 border-dating-accent text-dating-accent hover:bg-blue-50 shadow-md hover:shadow-lg transition-shadow btn-hover-lift"
         >
           <MessageCircle className="h-6 w-6" />
           <span className="sr-only">Comment</span>

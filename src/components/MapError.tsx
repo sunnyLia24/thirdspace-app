@@ -34,7 +34,7 @@ const MapError: React.FC<MapErrorProps> = ({ onSubmitToken }) => {
             />
             <button
               type="submit"
-              className="w-full bg-dating-primary text-white py-2 px-4 rounded hover:bg-dating-primary/90 transition-colors"
+              className="w-full bg-dating-primary text-dating-dark font-medium py-2 px-4 rounded hover:bg-dating-secondary transition-colors"
             >
               Load Map
             </button>
