@@ -422,6 +422,9 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
       navigate(`/profile/${user.id}`);
     };
 
+    // Add a stable class name to the container for styling
+    container.className = 'user-marker-container';
+
     // Render the React component into the container
     ReactDOM.render(
       <UserMarker user={user} onClick={handleClick} />,
