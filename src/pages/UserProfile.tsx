@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
@@ -129,7 +130,7 @@ const UserProfile = () => {
         setFeedbackBubble({
           visible: true,
           x: window.innerWidth / 2,
-          y: window.innerHeight / 2 - 100,
+          y: window.innerHeight / 2,
           content,
           type
         });
@@ -148,7 +149,7 @@ const UserProfile = () => {
       setFeedbackBubble({
         visible: true,
         x: window.innerWidth / 2,
-        y: window.innerHeight / 2 - 100,
+        y: window.innerHeight / 2,
         content,
         type
       });
@@ -398,7 +399,7 @@ const UserProfile = () => {
 
       {feedbackBubble.visible && (
         <div 
-          className="fixed z-50 bg-white rounded-xl shadow-xl max-w-xs animate-fade-in"
+          className="fixed z-50 bg-white rounded-xl shadow-xl w-[320px] max-w-[90vw]"
           style={{ 
             left: '50%',
             top: '50%',
