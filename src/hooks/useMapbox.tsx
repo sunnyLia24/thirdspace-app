@@ -65,7 +65,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         container: mapContainer.current,
         style: 'mapbox://styles/mapbox/light-v11',
         center: userLocation,
-        zoom: 14,
+        zoom: 18, // Increased zoom level to show 50-100m around user (was 14)
         pitch: 45,
         bearing: 0,
         antialias: true,
