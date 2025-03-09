@@ -9,6 +9,7 @@ const MainLayout = () => {
   const location = useLocation();
   const currentRoute = location.pathname;
   const isMapView = currentRoute === '/';
+  const isUserProfileView = currentRoute.includes('/profile/');
 
   const toggleNav = () => {
     setIsNavVisible(!isNavVisible);
@@ -36,10 +37,13 @@ const MainLayout = () => {
           </div>
         </div>
       ) : (
-        <BottomNav 
-          visible={isNavVisible || !isMapView} 
-          currentRoute={currentRoute} 
-        />
+        // Hide BottomNav on user profile pages
+        !isUserProfileView && (
+          <BottomNav 
+            visible={isNavVisible || !isMapView} 
+            currentRoute={currentRoute} 
+          />
+        )
       )}
     </div>
   );
