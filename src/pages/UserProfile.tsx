@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
@@ -25,7 +26,10 @@ const UserProfile = () => {
     visible: false,
     x: 0,
     y: 0,
-    progress: 0
+    progress: 0,
+    width: 0,
+    height: 0,
+    elementRect: null as DOMRect | null
   });
   
   const pressTimerRef = useRef<number | null>(null);
@@ -78,13 +82,20 @@ const UserProfile = () => {
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
     
+    // Get the element that was clicked
+    const target = e.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    
     startTimeRef.current = Date.now();
     
     setClickAnimation({
       visible: true,
       x: clientX,
       y: clientY,
-      progress: 0
+      progress: 0,
+      width: rect.width,
+      height: rect.height,
+      elementRect: rect
     });
     
     const animateProgress = () => {
@@ -275,7 +286,7 @@ const UserProfile = () => {
                 <img 
                   src={photo} 
                   alt={`${user.name}'s photo ${index + 1}`} 
-                  className="w-full h-[400px] object-cover" 
+                  className="w-full h-[400px] object-cover"
                   onMouseDown={(e) => handlePressStart(e, `${user.name}'s additional photo ${index + 1}`, 'image')}
                   onMouseUp={handlePressEnd}
                   onMouseLeave={handlePressEnd}
@@ -320,33 +331,37 @@ const UserProfile = () => {
         </Card>
       </div>
 
-      {clickAnimation.visible && (
+      {clickAnimation.visible && clickAnimation.elementRect && (
         <div 
-          className="fixed z-40 rounded-full pointer-events-none"
+          className="fixed z-40 pointer-events-none"
           style={{
-            left: clickAnimation.x - 30,
-            top: clickAnimation.y - 30,
-            width: '60px',
-            height: '60px',
-            border: '2px solid #5bbce0',
-            transform: `scale(${clickAnimation.progress * 0.7 + 0.3})`,
-            opacity: clickAnimation.progress < 1 ? 1 : 0,
-            transition: 'opacity 0.2s ease'
+            left: clickAnimation.elementRect.left,
+            top: clickAnimation.elementRect.top,
+            width: clickAnimation.elementRect.width,
+            height: clickAnimation.elementRect.height,
+            borderRadius: '0.75rem' // matches Card's rounded-xl
           }}
         >
           <div 
-            className="absolute inset-0 rounded-full bg-dating-accent"
+            className="absolute inset-0 bg-dating-accent"
             style={{
-              clipPath: `circle(${clickAnimation.progress * 50}% at center)`,
-              opacity: 0.4,
-              transform: `scale(${clickAnimation.progress})`
+              opacity: 0.4 * clickAnimation.progress,
+              transform: `scale(${clickAnimation.progress})`,
+              transformOrigin: 'center',
+              borderRadius: 'inherit' // inherit the parent's border radius
             }}
+          />
+          <div className="absolute inset-0 border-2 border-dating-accent rounded-xl"
+               style={{
+                 opacity: 0.7 * clickAnimation.progress,
+                 transform: `scale(${0.8 + (0.2 * clickAnimation.progress)})`,
+                 transformOrigin: 'center'
+               }}
           />
           {clickAnimation.progress > 0.1 && (
             <div 
-              className="absolute inset-0 flex items-center justify-center text-white font-bold"
+              className="absolute inset-0 flex items-center justify-center text-white font-bold text-xl"
               style={{
-                transform: `scale(${Math.min(clickAnimation.progress * 1.5, 1)})`,
                 opacity: Math.min(clickAnimation.progress * 2, 1)
               }}
             >
