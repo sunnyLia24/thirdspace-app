@@ -232,13 +232,13 @@ const UserProfile = () => {
 
   return (
     <div className="pb-6 bg-gray-50 min-h-screen">
-      <div className="bg-white pt-2 pb-1 sticky top-0 z-10">
+      <div className="bg-white/70 backdrop-blur-md pt-2 pb-1 sticky top-0 z-10 shadow-sm border-b border-white/20">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             <Button 
               variant="ghost" 
               size="icon"
-              className="hover:bg-gray-100"
+              className="hover:bg-white/30 transition-colors"
               onClick={handleBackClick}
               aria-label="Go back"
             >
@@ -250,13 +250,13 @@ const UserProfile = () => {
                 <Button 
                   variant="ghost" 
                   size="icon"
-                  className="hover:bg-gray-100"
+                  className="hover:bg-white/30 transition-colors"
                   aria-label="More options"
                 >
                   <MoreHorizontal className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-40 bg-white shadow-lg">
+              <DropdownMenuContent align="end" className="w-40 bg-white/90 backdrop-blur-sm shadow-lg border border-white/20">
                 <DropdownMenuItem 
                   className="flex items-center gap-2 cursor-pointer" 
                   onClick={handleBlockUser}
