@@ -202,6 +202,10 @@ const UserProfile = () => {
       
       setFeedbackBubble(prev => ({ ...prev, visible: false }));
       setFeedbackText('');
+      
+      setTimeout(() => {
+        navigate('/');
+      }, 800); // This delay matches the animation timing in FeedbackBubble
     }
   };
 
