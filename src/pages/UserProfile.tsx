@@ -3,12 +3,30 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart, X, MoreHorizontal, BadgeCheck, Cake, User, Magnet, Briefcase } from 'lucide-react';
+import { 
+  Heart, 
+  X, 
+  MoreHorizontal, 
+  BadgeCheck, 
+  Cake, 
+  User, 
+  Magnet, 
+  Briefcase, 
+  ArrowLeft,
+  Flag,
+  UserX
+} from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import FeedbackBubble from '@/components/FeedbackBubble';
 import ClickAnimation from '@/components/ClickAnimation';
 import ProfilePrompt from '@/components/ProfilePrompt';
 import ProfilePhoto from '@/components/ProfilePhoto';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const UserProfile = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -192,20 +210,69 @@ const UserProfile = () => {
     setFeedbackText('');
   };
 
+  const handleBackClick = () => {
+    navigate('/');
+  };
+
+  const handleBlockUser = () => {
+    toast({
+      title: "User blocked",
+      description: `You have blocked ${user.name}.`,
+      variant: "default"
+    });
+  };
+
+  const handleReportUser = () => {
+    toast({
+      title: "Report submitted",
+      description: `Your report for ${user.name} has been submitted for review.`,
+      variant: "default"
+    });
+  };
+
   return (
     <div className="pb-6 bg-gray-50 min-h-screen">
       <div className="bg-white pt-2 pb-1 sticky top-0 z-10">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
-            <div className="w-8"></div>
-            <h2 className="text-2xl font-bold">{user.name}</h2>
             <Button 
               variant="ghost" 
               size="icon"
               className="hover:bg-gray-100"
+              onClick={handleBackClick}
+              aria-label="Go back"
             >
-              <MoreHorizontal className="h-5 w-5" />
+              <ArrowLeft className="h-5 w-5" />
             </Button>
+            <h2 className="text-2xl font-bold">{user.name}</h2>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  className="hover:bg-gray-100"
+                  aria-label="More options"
+                >
+                  <MoreHorizontal className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-40 bg-white shadow-lg">
+                <DropdownMenuItem 
+                  className="flex items-center gap-2 cursor-pointer" 
+                  onClick={handleBlockUser}
+                >
+                  <UserX className="h-4 w-4" /> 
+                  <span>Block user</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  className="flex items-center gap-2 cursor-pointer text-destructive" 
+                  onClick={handleReportUser}
+                >
+                  <Flag className="h-4 w-4" /> 
+                  <span>Report user</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
