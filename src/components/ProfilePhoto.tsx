@@ -6,7 +6,7 @@ interface ProfilePhotoProps {
   photo: string;
   index: number;
   userName: string;
-  onPressStart: (e: React.MouseEvent | React.TouchEvent, content: string, type: string) => void;
+  onPressStart: (e: React.MouseEvent | React.TouchEvent, content: string, type: string, imageUrl?: string) => void;
   onPressEnd: () => void;
 }
 
@@ -21,7 +21,7 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({
   
   const handlePressStart = (e: React.MouseEvent | React.TouchEvent) => {
     setIsPressed(true);
-    onPressStart(e, `${userName}'s additional photo ${index + 1}`, 'image');
+    onPressStart(e, "", 'image', photo);
   };
   
   const handlePressEnd = () => {

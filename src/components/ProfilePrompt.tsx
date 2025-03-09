@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 interface ProfilePromptProps {
   prompt: string;
   answer: string;
-  onPressStart: (e: React.MouseEvent | React.TouchEvent, content: string, type: string) => void;
+  onPressStart: (e: React.MouseEvent | React.TouchEvent, content: string, type: string, imageUrl?: string) => void;
   onPressEnd: () => void;
 }
 

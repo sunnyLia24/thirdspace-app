@@ -20,7 +20,8 @@ const UserProfile = () => {
     x: 0,
     y: 0,
     content: '',
-    type: '' // 'image' or 'prompt'
+    type: '', // 'image' or 'prompt'
+    imageUrl: '' // New property to store the image URL
   });
   const [feedbackText, setFeedbackText] = useState('');
   
@@ -34,7 +35,6 @@ const UserProfile = () => {
     elementRect: null as DOMRect | null
   });
   
-  // State to track the pressed element and its image URL
   const [pressedElement, setPressedElement] = useState<{
     element: HTMLElement | null,
     imageUrl?: string
@@ -86,22 +86,20 @@ const UserProfile = () => {
     { icon: <Briefcase className="h-5 w-5" />, text: "Server" }
   ];
 
-  const handlePressStart = (e: React.MouseEvent | React.TouchEvent, content: string, type: string) => {
+  const handlePressStart = (e: React.MouseEvent | React.TouchEvent, content: string, type: string, imageUrl?: string) => {
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
     
     const target = e.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
     
-    // Set the pressed element for the drop shadow effect
-    // For images, also store the image URL
-    const imageUrl = type === 'image' && target.tagName === 'IMG' 
+    const imgUrl = imageUrl || (type === 'image' && target.tagName === 'IMG' 
       ? (target as HTMLImageElement).src 
-      : undefined;
+      : undefined);
     
     setPressedElement({
       element: target,
-      imageUrl
+      imageUrl: imgUrl
     });
     
     startTimeRef.current = Date.now();
@@ -128,13 +126,13 @@ const UserProfile = () => {
       if (progress < 1) {
         animationFrameRef.current = requestAnimationFrame(animateProgress);
       } else {
-        // Center the feedback bubble in the screen
         setFeedbackBubble({
           visible: true,
           x: window.innerWidth / 2,
           y: window.innerHeight / 2,
           content,
-          type
+          type,
+          imageUrl: imgUrl || ''
         });
         
         setClickAnimation(prev => ({
@@ -147,13 +145,13 @@ const UserProfile = () => {
     animationFrameRef.current = requestAnimationFrame(animateProgress);
     
     pressTimerRef.current = window.setTimeout(() => {
-      // Center the feedback bubble in the screen
       setFeedbackBubble({
         visible: true,
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
         content,
-        type
+        type,
+        imageUrl: imgUrl || ''
       });
     }, 1000); // 1 second timeout
   };
@@ -169,7 +167,6 @@ const UserProfile = () => {
       animationFrameRef.current = null;
     }
     
-    // Clear the pressed element state
     setPressedElement({ element: null });
     
     setClickAnimation(prev => ({
@@ -225,10 +222,10 @@ const UserProfile = () => {
               src={user.profileImage} 
               alt={user.name} 
               className="w-full h-[400px] object-cover"
-              onMouseDown={(e) => handlePressStart(e, `${user.name}'s profile picture`, 'image')}
+              onMouseDown={(e) => handlePressStart(e, "", 'image', user.profileImage)}
               onMouseUp={handlePressEnd}
               onMouseLeave={handlePressEnd}
-              onTouchStart={(e) => handlePressStart(e, `${user.name}'s profile picture`, 'image')}
+              onTouchStart={(e) => handlePressStart(e, "", 'image', user.profileImage)}
               onTouchEnd={handlePressEnd}
             />
             <div className="absolute top-4 left-4 flex items-center bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full">
@@ -310,6 +307,7 @@ const UserProfile = () => {
         setFeedbackText={setFeedbackText}
         onSend={handleSendFeedback}
         onClose={closeFeedbackBubble}
+        imageUrl={feedbackBubble.imageUrl}
       />
     </div>
   );

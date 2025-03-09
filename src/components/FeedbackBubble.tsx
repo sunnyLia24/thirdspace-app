@@ -12,6 +12,7 @@ interface FeedbackBubbleProps {
   setFeedbackText: (text: string) => void;
   onSend: () => void;
   onClose: () => void;
+  imageUrl?: string;
 }
 
 const FeedbackBubble: React.FC<FeedbackBubbleProps> = ({
@@ -21,7 +22,8 @@ const FeedbackBubble: React.FC<FeedbackBubbleProps> = ({
   feedbackText,
   setFeedbackText,
   onSend,
-  onClose
+  onClose,
+  imageUrl
 }) => {
   if (!visible) return null;
 
@@ -49,9 +51,19 @@ const FeedbackBubble: React.FC<FeedbackBubbleProps> = ({
               <X className="h-4 w-4" />
             </Button>
           </div>
-          <p className="text-xs text-gray-500 mt-1 line-clamp-2 animate-pulse-gentle">
-            {content}
-          </p>
+          {type === 'image' && imageUrl ? (
+            <div className="mt-2 rounded-lg overflow-hidden">
+              <img 
+                src={imageUrl} 
+                alt="Selected content" 
+                className="w-full h-32 object-cover"
+              />
+            </div>
+          ) : (
+            <p className="text-xs text-gray-500 mt-1 line-clamp-2 animate-pulse-gentle">
+              {content}
+            </p>
+          )}
         </div>
         <div className="p-3">
           <div className="flex gap-2">
