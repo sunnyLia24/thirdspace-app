@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
@@ -30,6 +31,9 @@ const UserProfile = () => {
     height: 0,
     elementRect: null as DOMRect | null
   });
+  
+  // Add a new state for the "sink down" effect
+  const [pressedElement, setPressedElement] = useState<HTMLElement | null>(null);
   
   const pressTimerRef = useRef<number | null>(null);
   const animationFrameRef = useRef<number | null>(null);
@@ -83,6 +87,9 @@ const UserProfile = () => {
     
     const target = e.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
+    
+    // Set the pressed element for the "sink down" effect
+    setPressedElement(target);
     
     startTimeRef.current = Date.now();
     
@@ -147,6 +154,9 @@ const UserProfile = () => {
       animationFrameRef.current = null;
     }
     
+    // Clear the pressed element state
+    setPressedElement(null);
+    
     setClickAnimation(prev => ({
       ...prev,
       visible: false
@@ -194,7 +204,10 @@ const UserProfile = () => {
             <img 
               src={user.profileImage} 
               alt={user.name} 
-              className="w-full h-[400px] object-cover"
+              className="w-full h-[400px] object-cover transition-transform duration-150"
+              style={{
+                transform: pressedElement?.contains(user.profileImage) ? 'scale(0.98) translateY(2px)' : 'scale(1)',
+              }}
               onMouseDown={(e) => handlePressStart(e, `${user.name}'s profile picture`, 'image')}
               onMouseUp={handlePressEnd}
               onMouseLeave={handlePressEnd}
@@ -284,7 +297,10 @@ const UserProfile = () => {
                 <img 
                   src={photo} 
                   alt={`${user.name}'s photo ${index + 1}`} 
-                  className="w-full h-[400px] object-cover"
+                  className="w-full h-[400px] object-cover transition-transform duration-150"
+                  style={{
+                    transform: pressedElement?.src === photo ? 'scale(0.98) translateY(2px)' : 'scale(1)',
+                  }}
                   onMouseDown={(e) => handlePressStart(e, `${user.name}'s additional photo ${index + 1}`, 'image')}
                   onMouseUp={handlePressEnd}
                   onMouseLeave={handlePressEnd}
@@ -343,7 +359,6 @@ const UserProfile = () => {
           <div 
             className="absolute inset-0 rounded-full border-2 border-white"
             style={{
-              opacity: 0.8,
               boxShadow: `0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 30px #FFFFFF`
             }}
           />
@@ -352,25 +367,11 @@ const UserProfile = () => {
           <div 
             className="absolute inset-0 bg-white rounded-full"
             style={{
-              opacity: 0.4,
               transform: `scale(${clickAnimation.progress})`,
               transformOrigin: 'center',
               boxShadow: `0 0 15px #FFFFFF, 0 0 30px #FFFFFF`
             }}
           />
-          
-          {/* Percentage text */}
-          {clickAnimation.progress > 0.1 && (
-            <div 
-              className="absolute inset-0 flex items-center justify-center text-white font-bold text-xl"
-              style={{
-                opacity: Math.min(clickAnimation.progress * 2, 1),
-                textShadow: '0 0 5px #FFFFFF, 0 0 10px #FFFFFF'
-              }}
-            >
-              {Math.round(clickAnimation.progress * 100)}%
-            </div>
-          )}
         </div>
       )}
 
