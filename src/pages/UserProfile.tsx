@@ -70,7 +70,7 @@ const UserProfile = () => {
 
   return (
     <div className="pb-20 bg-dating-light min-h-screen">
-      {/* Header with back button */}
+      {/* Header with back button - no "Profile" text */}
       <div className="bg-white pb-3 pt-6 border-b border-gray-200 sticky top-0 z-10">
         <div className="container mx-auto px-4">
           <div className="flex items-center mb-2">
@@ -82,8 +82,16 @@ const UserProfile = () => {
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
-            <h1 className="text-xl font-bold text-dating-dark">Profile</h1>
           </div>
+        </div>
+      </div>
+      
+      {/* Name above the image */}
+      <div className="container mx-auto px-4 py-4">
+        <h2 className="text-3xl font-bold">{user.name}, {user.age}</h2>
+        <div className="flex items-center mt-1 mb-3">
+          <MapPin className="h-4 w-4 mr-1 opacity-80" />
+          <p className="text-sm opacity-90">{user.distance}m away</p>
         </div>
       </div>
       
@@ -94,38 +102,6 @@ const UserProfile = () => {
           alt={user.name} 
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60"></div>
-        
-        {/* Profile info overlay */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-          <h2 className="text-3xl font-bold">{user.name}, {user.age}</h2>
-          <div className="flex items-center mt-1">
-            <MapPin className="h-4 w-4 mr-1 opacity-80" />
-            <p className="text-sm opacity-90">{user.distance}m away</p>
-          </div>
-        </div>
-      </div>
-      
-      {/* Profile stats */}
-      <div className="container mx-auto px-4 -mt-6 relative z-10">
-        <Card className="shadow-lg border-none rounded-xl overflow-hidden">
-          <CardContent className="p-0">
-            <div className="grid grid-cols-3 divide-x divide-gray-100">
-              <div className="py-4 px-2 text-center">
-                <p className="text-2xl font-bold text-dating-accent">{user.compatibility}%</p>
-                <p className="text-xs text-gray-500">Match</p>
-              </div>
-              <div className="py-4 px-2 text-center">
-                <p className="text-2xl font-bold text-dating-accent">24</p>
-                <p className="text-xs text-gray-500">Mutual Friends</p>
-              </div>
-              <div className="py-4 px-2 text-center">
-                <p className="text-2xl font-bold text-dating-accent">6</p>
-                <p className="text-xs text-gray-500">Interests</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
       
       {/* Profile content */}
@@ -145,24 +121,6 @@ const UserProfile = () => {
           </Card>
         </div>
         
-        {/* Interests */}
-        <div>
-          <h3 className="text-lg font-semibold mb-3 text-dating-dark flex items-center">
-            <Star className="h-5 w-5 mr-2 text-dating-accent" />
-            Interests
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {interests.map((interest, index) => (
-              <span 
-                key={index} 
-                className="px-3 py-1.5 bg-white rounded-full text-sm border border-dating-primary text-dating-dark shadow-sm"
-              >
-                {interest}
-              </span>
-            ))}
-          </div>
-        </div>
-        
         {/* Prompts */}
         <div>
           <h3 className="text-lg font-semibold mb-3 text-dating-dark flex items-center">
@@ -178,7 +136,7 @@ const UserProfile = () => {
                     <p className="text-gray-700">{item.answer}</p>
                   </div>
                   {index === 0 && (
-                    <div className="h-48 bg-gray-100">
+                    <div className="h-80 bg-gray-100">
                       <img 
                         src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e" 
                         alt="Prompt visual" 
