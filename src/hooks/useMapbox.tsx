@@ -181,9 +181,9 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
             }
           });
           
-          map.current.setPaintProperty('road-primary', 'line-color', '#A3E4A1');
-          map.current.setPaintProperty('road-secondary', 'line-color', '#A3E4A1');
-          map.current.setPaintProperty('road-tertiary', 'line-color', '#C4EEC2');
+          map.current.setPaintProperty('road-primary', 'line-color', '#B9E6F3');
+          map.current.setPaintProperty('road-secondary', 'line-color', '#a1dbeb');
+          map.current.setPaintProperty('road-tertiary', 'line-color', '#d6f1f8');
           
           map.current.setPaintProperty('landuse-park', 'fill-color', '#8EDA8C');
           map.current.setPaintProperty('landcover-tree', 'fill-color', '#5BB359');
