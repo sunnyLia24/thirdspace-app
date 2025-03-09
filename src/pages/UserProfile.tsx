@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { nearbyUsers } from '@/data/nearbyUsers';
@@ -268,7 +269,8 @@ const UserProfile = () => {
           </CardContent>
         </Card>
         
-        <div className="grid grid-cols-2 gap-4">
+        {/* Changed from grid to flex column layout for photos */}
+        <div className="flex flex-col gap-4">
           {userPhotos.map((photo, index) => (
             <Card key={index} className="rounded-xl shadow-md overflow-hidden">
               <div className="relative">
@@ -409,4 +411,3 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
-
