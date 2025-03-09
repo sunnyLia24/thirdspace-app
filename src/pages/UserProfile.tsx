@@ -100,6 +100,22 @@ const UserProfile = () => {
           </div>
         </Card>
         
+        {/* Prompt teaser card - Added below the profile picture */}
+        <Card className="rounded-xl shadow-md overflow-hidden">
+          <CardContent className="p-6">
+            <h3 className="text-lg font-medium text-gray-600 mb-2">Want to know more about {user.name}?</h3>
+            <p className="text-2xl font-serif mb-4">Respond to their prompts to start a conversation!</p>
+            <div className="flex justify-end">
+              <Button 
+                className="bg-dating-accent text-white hover:bg-dating-accent/90"
+              >
+                <Heart className="h-5 w-5 mr-2" />
+                Start connecting
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+        
         {/* User details card */}
         <Card className="rounded-xl shadow-md overflow-hidden">
           <CardContent className="p-0">
