@@ -1,23 +1,30 @@
 
 import { useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
+import { MAP_STYLES } from '@/utils/mapUtils';
 
 export function useMapStyling(map: React.MutableRefObject<mapboxgl.Map | null>) {
   const applyMapStyling = () => {
     if (!map.current) return;
     
-    // Apply sleeker sky style
-    map.current.setPaintProperty('sky', 'sky-atmosphere-sun', [0, 0]);
-    map.current.setPaintProperty('sky', 'sky-atmosphere-sun-intensity', 15);
+    // Apply sky gradient
+    map.current.setPaintProperty('sky', 'sky-type', 'gradient');
+    map.current.setPaintProperty('sky', 'sky-gradient', [
+      'interpolate',
+      ['linear'],
+      ['sky-radial-progress'],
+      0.8,
+      '#50AEF9',
+      1,
+      '#E5EEFE'
+    ]);
     map.current.setPaintProperty('sky', 'sky-opacity', 0.8);
-    map.current.setPaintProperty('sky', 'sky-type', 'atmosphere');
-    map.current.setPaintProperty('sky', 'sky-atmosphere-color', '#C7EEFF');
     
-    // Water styling - using a lighter blue that works with white
-    map.current.setPaintProperty('water', 'fill-color', '#C7EEFF');
+    // Water styling
+    map.current.setPaintProperty('water', 'fill-color', MAP_STYLES.water);
     
-    // Land styling - using white as requested
-    map.current.setPaintProperty('land', 'background-color', '#FFFFFF');
+    // Land styling
+    map.current.setPaintProperty('land', 'background-color', MAP_STYLES.ground);
     
     // Enhanced 3D buildings with sleeker styling
     map.current.addLayer({
@@ -28,7 +35,7 @@ export function useMapStyling(map: React.MutableRefObject<mapboxgl.Map | null>) 
       'type': 'fill-extrusion',
       'minzoom': 15,
       'paint': {
-        'fill-extrusion-color': '#333333',
+        'fill-extrusion-color': MAP_STYLES.buildings,
         'fill-extrusion-height': [
           'interpolate', ['linear'], ['zoom'],
           15, 0,
@@ -43,20 +50,21 @@ export function useMapStyling(map: React.MutableRefObject<mapboxgl.Map | null>) 
       }
     });
     
-    // Road styling - dark streets against white background
-    map.current.setPaintProperty('road-primary', 'line-color', '#333333');
-    map.current.setPaintProperty('road-secondary', 'line-color', '#403E43');
-    map.current.setPaintProperty('road-tertiary', 'line-color', '#555555');
+    // Road styling - using the blue color
+    map.current.setPaintProperty('road-primary', 'line-color', MAP_STYLES.roads.primary);
+    map.current.setPaintProperty('road-secondary', 'line-color', MAP_STYLES.roads.secondary);
+    map.current.setPaintProperty('road-tertiary', 'line-color', MAP_STYLES.roads.tertiary);
     
     // Add subtle shadows to roads for depth
     map.current.setPaintProperty('road-primary-case', 'line-color', '#0000000A');
     map.current.setPaintProperty('road-secondary-case', 'line-color', '#0000000A');
     map.current.setPaintProperty('road-tertiary-case', 'line-color', '#0000000A');
     
-    // Park and tree styling with more muted colors to match white background
-    map.current.setPaintProperty('landuse-park', 'fill-color', '#E8F5E9');
-    map.current.setPaintProperty('landcover-tree', 'fill-color', '#C8E6C9');
+    // Park and tree styling with more muted colors to match ground
+    map.current.setPaintProperty('landuse-park', 'fill-color', MAP_STYLES.parks);
+    map.current.setPaintProperty('landcover-tree', 'fill-color', MAP_STYLES.trees);
   };
 
   return { applyMapStyling };
 }
+

@@ -31,14 +31,15 @@ export const DEFAULT_LOCATION: [number, number] = [-74.0060, 40.7128];
 
 // Map style constants for consistent styling
 export const MAP_STYLES = {
-  ground: '#FFFFFF',
-  water: '#C7EEFF',
+  ground: '#E5EEFE',
+  water: '#50AEF9',
   roads: {
-    primary: '#333333',
-    secondary: '#403E43',
-    tertiary: '#555555'
+    primary: '#50AEF9',
+    secondary: '#50AEF9',
+    tertiary: '#50AEF9'
   },
   buildings: '#333333',
   parks: '#E8F5E9',
   trees: '#C8E6C9'
 };
+
