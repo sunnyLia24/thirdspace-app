@@ -41,7 +41,7 @@ const UserMarker: React.FC<UserMarkerProps> = ({ user, onClick }) => {
         </div>
         
         {/* Name badge */}
-        <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-full text-xs shadow-sm whitespace-nowrap">
+        <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-white px-2 py-0.5 rounded-full text-xs shadow-md whitespace-nowrap border border-gray-100">
           {user.name}, {user.age}
         </div>
       </div>

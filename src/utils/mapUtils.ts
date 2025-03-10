@@ -28,3 +28,17 @@ export const DEFAULT_MAPBOX_TOKEN = 'pk.eyJ1Ijoic3VubnkyNCIsImEiOiJjbTdtbDBzb2gw
 
 // Default location (New York City) for when geolocation fails
 export const DEFAULT_LOCATION: [number, number] = [-74.0060, 40.7128];
+
+// Map style constants for consistent styling
+export const MAP_STYLES = {
+  ground: '#FFFFFF',
+  water: '#C7EEFF',
+  roads: {
+    primary: '#333333',
+    secondary: '#403E43',
+    tertiary: '#555555'
+  },
+  buildings: '#333333',
+  parks: '#E8F5E9',
+  trees: '#C8E6C9'
+};
