@@ -156,7 +156,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
           
           map.current.setPaintProperty('water', 'fill-color', '#0FA0CE');
           
-          map.current.setPaintProperty('land', 'background-color', '#7ED57B');
+          map.current.setPaintProperty('land', 'background-color', '#333333');
           
           map.current.addLayer({
             'id': '3d-buildings',
