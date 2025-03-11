@@ -26,7 +26,7 @@ export function useMapStyling(map: React.MutableRefObject<mapboxgl.Map | null>) 
     // Land styling
     map.current.setPaintProperty('land', 'background-color', MAP_STYLES.ground);
     
-    // Enhanced 3D buildings with sleeker styling
+    // Enhanced 3D buildings with sleeker styling - taller and white
     map.current.addLayer({
       'id': '3d-buildings',
       'source': 'composite',
@@ -39,14 +39,14 @@ export function useMapStyling(map: React.MutableRefObject<mapboxgl.Map | null>) 
         'fill-extrusion-height': [
           'interpolate', ['linear'], ['zoom'],
           15, 0,
-          15.05, ['*', ['get', 'height'], 0.5]
+          15.05, ['*', ['get', 'height'], 1.5]  // Increased multiplier from 0.5 to 1.5 to make buildings taller
         ],
         'fill-extrusion-base': [
           'interpolate', ['linear'], ['zoom'],
           15, 0,
-          15.05, ['*', ['get', 'min_height'], 0.5]
+          15.05, ['*', ['get', 'min_height'], 1.5]  // Increased base height as well
         ],
-        'fill-extrusion-opacity': 0.7
+        'fill-extrusion-opacity': 0.8  // Slightly increased opacity for better visibility
       }
     });
     
@@ -67,4 +67,3 @@ export function useMapStyling(map: React.MutableRefObject<mapboxgl.Map | null>) 
 
   return { applyMapStyling };
 }
-

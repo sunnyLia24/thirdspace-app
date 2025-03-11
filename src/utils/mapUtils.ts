@@ -1,4 +1,3 @@
-
 // Utility function to calculate a destination point given a starting point, distance, and bearing
 export function getDestinationPoint(
   startLng: number, 
@@ -38,8 +37,7 @@ export const MAP_STYLES = {
     secondary: '#50AEF9',
     tertiary: '#50AEF9'
   },
-  buildings: '#333333',
+  buildings: '#FFFFFF',
   parks: '#E8F5E9',
   trees: '#C8E6C9'
 };
-
