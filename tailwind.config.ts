@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,13 +62,19 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
+				azure: '#1AA4DA', // Primary color
+				butter: '#FFD166', // Secondary color
+				darkgray: '#2E3440', // Neutral color
+				coolgray: '#5E6778', // Subtle color
+				nearwhite: '#F8F9FA', // Background color
+				
 				dating: {
-					primary: '#B9E6F3',  // Updated to light blue
-					secondary: '#a1dbeb', // Slightly darker shade of B9E6F3
-					tertiary: '#d6f1f8',  // Lighter shade of B9E6F3
-					light: '#f0f9fc',     // Very light shade of B9E6F3
-					dark: '#2c5e6f',      // Dark blue-gray that complements B9E6F3
-					accent: '#5bbce0',    // Midtone blue accent
+					primary: '#1AA4DA',   // Updated to Azure
+					secondary: '#FFD166', // Updated to Butter Yellow
+					tertiary: '#d6f1f8',  // Lighter shade of Azure
+					light: '#f0f9fc',     // Very light shade of Azure
+					dark: '#2E3440',      // Dark Gray for headlines
+					accent: '#5E6778',    // Cool Gray for body text
 				}
 			},
 			borderRadius: {

@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -6,9 +5,10 @@ import { useToast } from './use-toast';
 import { DEFAULT_MAPBOX_TOKEN } from '@/utils/mapUtils';
 import { useUserLocation } from './useUserLocation';
 import { useNearbyUsers } from './useNearbyUsers';
-import { useMapStyling } from './useMapStyling';
 import { useUserMarker } from './useUserMarker';
 import { useMapInteractions } from './useMapInteractions';
+import { useBuildingStyling } from './useBuildingStyling';
+import { useMapLabels } from './useMapLabels';
 
 interface UseMapboxProps {
   customToken?: string;
@@ -26,7 +26,6 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
   
   // Initialize hooks that depend on map
   const { displayNearbyUsers, updateNearbyUsers, cleanupUserMarkers } = useNearbyUsers(map);
-  const { applyMapStyling } = useMapStyling(map);
   const { 
     markerRef, 
     createUserMarker, 
@@ -38,6 +37,8 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
     setupWheelInteraction, 
     setupDragInteractions 
   } = useMapInteractions(map, userLocation, updateUserMarkerScale);
+  const { applyBuildingStyling } = useBuildingStyling(map);
+  const { removeLabels } = useMapLabels(map);
 
   useEffect(() => {
     if (!mapContainer.current || !userLocation) return;
@@ -61,13 +62,15 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         style: 'mapbox://styles/mapbox/streets-v12',
         center: userLocation,
         zoom: 18,
-        pitch: 45,
-        bearing: 0,
+        pitch: 60,
+        bearing: 45,
         antialias: true,
-        minZoom: 9,
+        minZoom: 14,
         maxZoom: 20,
         dragRotate: true,
-        dragPan: true
+        dragPan: true,
+        maxPitch: 85,
+        minPitch: 0
       });
 
       map.current = newMap;
@@ -88,8 +91,8 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         setError(null);
         
         if (map.current) {
-          applyMapStyling();
-          
+          applyBuildingStyling();
+          removeLabels();
           displayNearbyUsers(userLocation);
           
           if (navigator.geolocation) {

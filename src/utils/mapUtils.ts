@@ -25,19 +25,20 @@ export function getDestinationPoint(
 
 export const DEFAULT_MAPBOX_TOKEN = 'pk.eyJ1Ijoic3VubnkyNCIsImEiOiJjbTdtbDBzb2gwb2plMnBvY2lxbml0Z3pyIn0.OrQMpXUEaR_vN3MubP6JSw';
 
-// Default location (New York City) for when geolocation fails
-export const DEFAULT_LOCATION: [number, number] = [-74.0060, 40.7128];
+// Default location (Bryant Park, NYC) for when geolocation fails
+export const DEFAULT_LOCATION: [number, number] = [-73.9832, 40.7536];
 
-// Map style constants for consistent styling
-export const MAP_STYLES = {
-  ground: '#E5EEFE',
-  water: '#50AEF9',
-  roads: {
-    primary: '#50AEF9',
-    secondary: '#50AEF9',
-    tertiary: '#50AEF9'
-  },
-  buildings: '#FFFFFF',
-  parks: '#E8F5E9',
-  trees: '#C8E6C9'
+// Isometric view settings
+export const ISOMETRIC_VIEW = {
+  pitch: 50,           // Pitched up for 3D effect
+  bearing: 30,         // Slight rotation for isometric look
+  maxPitch: 60,        // Maximum allowed pitch
+  minZoom: 14,         // Keep zoom close enough to see details
+  maxZoom: 19,         // Don't allow too much zoom
+  padding: {           // Default padding for map movements
+    top: 100,
+    bottom: 100,
+    left: 100,
+    right: 100
+  }
 };

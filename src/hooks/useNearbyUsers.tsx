@@ -1,4 +1,3 @@
-
 import { useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import ReactDOM from 'react-dom';
@@ -69,12 +68,6 @@ export function useNearbyUsers(map: React.MutableRefObject<mapboxgl.Map | null>)
   const createUserMarker = (container: HTMLElement, user: NearbyUser) => {
     const handleClick = () => {
       console.log(`Clicked on user: ${user.name}`);
-      
-      toast({
-        title: `Viewing ${user.name}'s profile`,
-        description: `${user.compatibility}% compatibility match!`,
-        variant: "default"
-      });
       
       navigate(`/profile/${user.id}`);
     };

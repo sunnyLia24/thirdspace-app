@@ -1,4 +1,3 @@
-
 import { useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 
@@ -13,13 +12,13 @@ export function useUserMarker(map: React.MutableRefObject<mapboxgl.Map | null>) 
     customMarkerElement.className = 'lumalee-marker';
     customMarkerElement.innerHTML = `
       <div class="lumalee-container">
+        <div class="ground-rings">
+          <div class="lumalee-ring ring1"></div>
+          <div class="lumalee-ring ring2"></div>
+        </div>
         <div class="lumalee-body"></div>
         <div class="lumalee-eye left"></div>
         <div class="lumalee-eye right"></div>
-        <div class="lumalee-sparkle s1"></div>
-        <div class="lumalee-sparkle s2"></div>
-        <div class="lumalee-sparkle s3"></div>
-        <div class="lumalee-sparkle s4"></div>
         <div class="lumalee-shadow"></div>
       </div>
     `;
@@ -34,6 +33,17 @@ export function useUserMarker(map: React.MutableRefObject<mapboxgl.Map | null>) 
         transform-origin: center bottom;
         filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
       }
+      .ground-rings {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       .lumalee-body {
         position: absolute;
         width: 40px;
@@ -44,6 +54,41 @@ export function useUserMarker(map: React.MutableRefObject<mapboxgl.Map | null>) 
         top: 5px;
         animation: pulse 2s infinite ease-in-out;
         box-shadow: 0 2px 12px rgba(91, 188, 224, 0.4);
+      }
+      .lumalee-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.8);
+        animation: ring-expand 3s infinite;
+        pointer-events: none;
+        transform: perspective(100px) rotateX(65deg);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.6),
+                    inset 0 0 10px rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(4px);
+      }
+      .lumalee-ring.ring1 {
+        animation-delay: 0s;
+      }
+      .lumalee-ring.ring2 {
+        animation-delay: 1.5s;
+      }
+      @keyframes ring-expand {
+        0% {
+          width: 20px;
+          height: 20px;
+          margin-left: -10px;
+          margin-top: -10px;
+          opacity: 0.9;
+          border-width: 3px;
+        }
+        100% {
+          width: 80px;
+          height: 80px;
+          margin-left: -40px;
+          margin-top: -40px;
+          opacity: 0;
+          border-width: 1px;
+        }
       }
       .lumalee-eye {
         position: absolute;
@@ -60,36 +105,6 @@ export function useUserMarker(map: React.MutableRefObject<mapboxgl.Map | null>) 
       .lumalee-eye.right {
         right: 15px;
       }
-      .lumalee-sparkle {
-        position: absolute;
-        width: 4px;
-        height: 4px;
-        background: white;
-        border-radius: 50%;
-        z-index: 3;
-        opacity: 0.8;
-        animation: twinkle 1.5s infinite alternate;
-      }
-      .lumalee-sparkle.s1 {
-        top: 10px;
-        left: 10px;
-        animation-delay: 0s;
-      }
-      .lumalee-sparkle.s2 {
-        top: 8px;
-        right: 12px;
-        animation-delay: 0.3s;
-      }
-      .lumalee-sparkle.s3 {
-        bottom: 10px;
-        left: 12px;
-        animation-delay: 0.6s;
-      }
-      .lumalee-sparkle.s4 {
-        bottom: 8px;
-        right: 10px;
-        animation-delay: 0.9s;
-      }
       .lumalee-shadow {
         position: absolute;
         bottom: -4px;
@@ -103,10 +118,6 @@ export function useUserMarker(map: React.MutableRefObject<mapboxgl.Map | null>) 
       @keyframes pulse {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.05); }
-      }
-      @keyframes twinkle {
-        0% { opacity: 0.4; }
-        100% { opacity: 1; }
       }
     `;
     document.head.appendChild(style);
