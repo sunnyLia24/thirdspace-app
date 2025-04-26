@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { MessageCircle, ArrowLeft, Send, Info, X } from 'lucide-react';
@@ -31,6 +31,7 @@ const Messages = () => {
   const [newMessage, setNewMessage] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const conversations: Conversation[] = [
     {
@@ -108,6 +109,90 @@ const Messages = () => {
     }
   }, [location.state]);
 
+  // Effect to hide bottom navigation when conversation is active
+  useEffect(() => {
+    if (activeConversation) {
+      // Create a more aggressive style to hide the bottom nav
+      const styleTag = document.createElement('style');
+      styleTag.id = 'hide-bottom-nav-style';
+      styleTag.innerHTML = `
+        /* Target the bottom navigation with multiple selectors */
+        .fixed-bottom-nav, 
+        .bottom-navigation, 
+        nav.fixed.bottom-0,
+        [class*="bottom-0"][class*="fixed"],
+        div[class*="bottom-0"][class*="fixed"],
+        nav[class*="bottom-0"],
+        div:has(> .chat, > .explore, > .profile),
+        div:has(> [aria-label="Rewind"], > [aria-label="Chat"], > [aria-label="Explore"], > [aria-label="Standouts"], > [aria-label="Profile"]) {
+          display: none !important;
+          visibility: hidden !important;
+          opacity: 0 !important;
+          pointer-events: none !important;
+          z-index: -1 !important;
+        }
+        
+        /* Add padding to ensure enough space at bottom */
+        body, #root, main, .app-container {
+          padding-bottom: 0 !important;
+          margin-bottom: 0 !important;
+        }
+      `;
+      document.head.appendChild(styleTag);
+      
+      // Also try to directly remove it from DOM for persistent cases
+      setTimeout(() => {
+        const possibleNavs = [
+          ...document.querySelectorAll('.fixed-bottom-nav, .bottom-navigation, nav.fixed.bottom-0'),
+          ...document.querySelectorAll('[class*="bottom-0"][class*="fixed"]'),
+          ...document.querySelectorAll('div:has(> .chat, > .explore, > .profile)'),
+          ...document.querySelectorAll('div:has(> [aria-label="Rewind"], > [aria-label="Chat"], > [aria-label="Explore"], > [aria-label="Standouts"], > [aria-label="Profile"])')
+        ];
+        
+        possibleNavs.forEach(nav => {
+          if (nav) {
+            (nav as HTMLElement).style.display = 'none';
+            (nav as HTMLElement).style.visibility = 'hidden';
+            nav.setAttribute('data-hidden-by-chat', 'true');
+          }
+        });
+      }, 100);
+    } else {
+      // Remove the style when conversation is closed
+      const existingStyle = document.getElementById('hide-bottom-nav-style');
+      if (existingStyle) {
+        existingStyle.remove();
+      }
+      
+      // Restore any elements we hid
+      document.querySelectorAll('[data-hidden-by-chat="true"]').forEach(el => {
+        (el as HTMLElement).style.display = '';
+        (el as HTMLElement).style.visibility = '';
+        el.removeAttribute('data-hidden-by-chat');
+      });
+    }
+    
+    // Cleanup function to restore bottom nav when unmounting
+    return () => {
+      const existingStyle = document.getElementById('hide-bottom-nav-style');
+      if (existingStyle) {
+        existingStyle.remove();
+      }
+      document.querySelectorAll('[data-hidden-by-chat="true"]').forEach(el => {
+        (el as HTMLElement).style.display = '';
+        (el as HTMLElement).style.visibility = '';
+        el.removeAttribute('data-hidden-by-chat');
+      });
+    };
+  }, [activeConversation]);
+
+  // Scroll to bottom whenever messages change or conversation changes
+  useEffect(() => {
+    if (activeConversation && messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  }, [activeConversation]);
+
   const handleSendMessage = () => {
     if (!newMessage.trim() || !activeConversation) return;
     
@@ -132,6 +217,13 @@ const Messages = () => {
     setActiveConversation(updatedConversation);
     setNewMessage('');
     
+    // Scroll to bottom after sending a message
+    setTimeout(() => {
+      if (messagesContainerRef.current) {
+        messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      }
+    }, 100);
+    
     // Simulate a reply after 2 seconds
     setTimeout(() => {
       if (activeConversation?.id === updatedConversation.id) {
@@ -149,6 +241,13 @@ const Messages = () => {
           lastMessage: replyMessage.text,
           time: 'Just now'
         });
+        
+        // Scroll to bottom after receiving a message
+        setTimeout(() => {
+          if (messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+          }
+        }, 100);
       }
     }, 2000);
   };
@@ -176,7 +275,7 @@ const Messages = () => {
       {/* Conversation List View */}
       {!activeConversation ? (
         <>
-          <TopBanner title="Messages" />
+          <TopBanner title="Messages" showBackButton={false} />
           
           <div className="container mx-auto px-4 py-4">
             {conversations.length > 0 ? (
@@ -229,61 +328,73 @@ const Messages = () => {
           </div>
         </>
       ) : (
-        // Chat Room View
-        <div className="flex flex-col h-screen">
-          {/* Chat Header */}
-          <div className="bg-white shadow-sm p-3 flex items-center sticky top-0 z-10">
+        // Chat Room View - Using a layout that guarantees the input stays at bottom
+        <div className="h-screen flex flex-col bg-white">
+          {/* Chat Header - Keep at top */}
+          <div className="bg-white py-3 px-3 flex items-center z-10 sticky top-0 shadow-sm">
             <button 
               onClick={closeConversation}
-              className="mr-2 rounded-full p-1.5 hover:bg-gray-100"
+              className="mr-3 rounded-full p-2 hover:bg-gray-100"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
             
             <div className="flex-1 text-center">
-              <h2 className="font-medium">{activeConversation.name.split(' ')[0]} {activeConversation.name.split(' ')[1]?.charAt(0) || ''}</h2>
+              <h2 className="text-base font-medium">{activeConversation.name.split(' ')[0]} {activeConversation.name.split(' ')[1]?.charAt(0) || ''}</h2>
             </div>
             
-            <div 
-              className="relative cursor-pointer"
-              onClick={(e) => viewUserProfile(activeConversation.id, e)}
-            >
+            <div className="relative">
               <img 
                 src={activeConversation.avatar} 
                 alt={activeConversation.name} 
-                className="h-10 w-10 rounded-full object-cover"
+                className="h-10 w-10 rounded-full object-cover shadow-md border-2 border-white"
               />
             </div>
           </div>
           
-          {/* Messages Container - Allow this area to scroll */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 pb-20">
-            {activeConversation.messages.map((message) => (
-              <div 
-                key={message.id} 
-                className={`flex ${message.sent ? 'justify-end' : 'justify-start'}`}
-              >
+          {/* Messages Container */}
+          <div 
+            ref={messagesContainerRef}
+            className="flex-1 overflow-y-auto p-4 bg-gray-50"
+            style={{ paddingBottom: "80px" }}
+          >
+            <div className="space-y-4">
+              {activeConversation.messages.map((message) => (
                 <div 
-                  className={`max-w-[75%] rounded-2xl px-4 py-2 ${
-                    message.sent 
-                      ? 'bg-blue-500 text-white rounded-br-none' 
-                      : 'bg-white text-gray-800 rounded-bl-none shadow-sm'
-                  }`}
+                  key={message.id} 
+                  className={`flex ${message.sent ? 'justify-end' : 'justify-start'} mb-4`}
                 >
-                  <p>{message.text}</p>
+                  <div 
+                    className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-md ${
+                      message.sent 
+                        ? 'bg-blue-500 text-white rounded-br-none' 
+                        : 'bg-white text-gray-800 rounded-bl-none'
+                    }`}
+                  >
+                    <p className="text-base">{message.text}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
           
           {/* Message Input - Fixed at bottom */}
-          <div className="bg-white border-t p-3 fixed bottom-0 left-0 right-0 z-10">
-            <div className="flex items-center space-x-2 max-w-lg mx-auto">
+          <div 
+            className="bg-white py-3 px-3 z-30 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]"
+            style={{ 
+              position: "fixed", 
+              bottom: 0, 
+              left: 0, 
+              right: 0,
+              width: "100%" 
+            }}
+          >
+            <div className="flex items-center space-x-3 max-w-lg mx-auto">
               <div className="flex-1 relative">
                 <Input
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
-                  className="pl-3 pr-10 py-2 rounded-full bg-gray-100 border-gray-200 focus:border-blue-300"
+                  className="pl-4 pr-10 py-2 text-base rounded-full bg-gray-100 border-gray-200 focus:border-blue-300"
                   placeholder="Type a message..."
                   onKeyPress={(e) => {
                     if (e.key === 'Enter') {
@@ -293,16 +404,16 @@ const Messages = () => {
                 />
                 {newMessage && (
                   <button 
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     onClick={() => setNewMessage('')}
                   >
-                    <X className="h-4 w-4" />
+                    <X className="h-5 w-5" />
                   </button>
                 )}
               </div>
               
               <button 
-                className={`rounded-full p-2 ${
+                className={`rounded-full p-3 ${
                   newMessage.trim() 
                     ? 'bg-blue-500 text-white hover:bg-blue-600' 
                     : 'bg-gray-200 text-gray-400'

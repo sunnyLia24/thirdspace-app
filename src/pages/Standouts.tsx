@@ -100,7 +100,11 @@ const Standouts = () => {
   };
 
   const viewProfile = (profileId: number) => {
-    navigate(`/profile/${profileId}`);
+    // Explicitly pass that we're coming from standouts
+    console.log('Navigating to profile from standouts');
+    navigate(`/profile/${profileId}`, {
+      state: { from: 'standouts' }
+    });
   };
 
   const handleUpgrade = () => {
@@ -112,9 +116,9 @@ const Standouts = () => {
     <div className="min-h-screen bg-gray-50 pb-16">
       {/* Header */}
       <div className="px-6 pt-6 pb-4">
-        <h1 className="text-4xl font-bold mb-2">Discover</h1>
+        <h1 className="text-4xl font-bold mb-2">Standouts</h1>
         <div className="mb-4">
-          <button className="bg-yellow-400 text-black font-medium py-2 px-4 rounded-full text-sm">
+          <button className="bg-blue-400 text-black font-medium py-2 px-4 rounded-full text-sm">
             See new people in 20 hours
           </button>
         </div>

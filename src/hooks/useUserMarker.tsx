@@ -5,11 +5,30 @@ export function useUserMarker(map: React.MutableRefObject<mapboxgl.Map | null>) 
   const markerRef = useRef<mapboxgl.Marker | null>(null);
   const customMarkerElementRef = useRef<HTMLDivElement | null>(null);
 
+  // Helper function to calculate scale based on zoom level
+  const calculateScaleFactor = (zoom: number, minZoom: number, maxZoom: number): number => {
+    // Normalize zoom to 0-1 range
+    const zoomRange = maxZoom - minZoom;
+    const normalizedZoom = (zoom - minZoom) / zoomRange;
+    
+    // Base and max sizes
+    const baseSize = 0.5;
+    const maxSize = 1.8;
+    
+    // Calculate exponential scale factor
+    const expFactor = Math.pow(maxSize / baseSize, normalizedZoom);
+    const scaleFactor = baseSize * expFactor;
+    
+    // Clamp to prevent extreme values
+    return Math.min(Math.max(scaleFactor, baseSize), maxSize);
+  };
+
   const createUserMarker = (userLocation: [number, number]) => {
     if (!map.current) return;
 
     const customMarkerElement = document.createElement('div');
     customMarkerElement.className = 'lumalee-marker';
+    customMarkerElement.style.zIndex = '5'; // Lower z-index so it doesn't overlap bottom nav or popups
     customMarkerElement.innerHTML = `
       <div class="lumalee-container">
         <div class="ground-rings">
@@ -23,15 +42,19 @@ export function useUserMarker(map: React.MutableRefObject<mapboxgl.Map | null>) 
       </div>
     `;
 
-    // Add CSS for the marker with updated styling for white background
+    // Add CSS for the marker with updated styling for blue character
     const style = document.createElement('style');
     style.textContent = `
+      .lumalee-marker {
+        z-index: 5 !important; /* Lower z-index so it doesn't overlap UI elements */
+      }
       .lumalee-container {
         position: relative;
         width: 50px;
         height: 50px;
         transform-origin: center bottom;
         filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
       .ground-rings {
         position: absolute;
@@ -130,6 +153,19 @@ export function useUserMarker(map: React.MutableRefObject<mapboxgl.Map | null>) 
     })
       .setLngLat(userLocation)
       .addTo(map.current);
+    
+    // Apply initial scale based on current zoom level
+    const currentZoom = map.current.getZoom();
+    const initialScale = calculateScaleFactor(
+      currentZoom, 
+      map.current.getMinZoom(), 
+      map.current.getMaxZoom()
+    );
+    
+    const lumaleeContainer = customMarkerElement.querySelector('.lumalee-container');
+    if (lumaleeContainer) {
+      (lumaleeContainer as HTMLElement).style.transform = `scale(${initialScale})`;
+    }
   };
 
   const updateUserMarkerScale = (map: mapboxgl.Map) => {
@@ -138,13 +174,15 @@ export function useUserMarker(map: React.MutableRefObject<mapboxgl.Map | null>) 
     const currentZoom = map.getZoom();
     const lumaleeContainer = customMarkerElementRef.current.querySelector('.lumalee-container');
     
-    const zoomRange = map.getMaxZoom() - map.getMinZoom();
-    const zoomFactor = (currentZoom - map.getMinZoom()) / zoomRange;
-    
-    const scaleFactor = 0.6 + (zoomFactor * 0.9);
+    // Use the helper function for consistent scaling calculation
+    const clampedScale = calculateScaleFactor(
+      currentZoom,
+      map.getMinZoom(),
+      map.getMaxZoom()
+    );
     
     if (lumaleeContainer) {
-      (lumaleeContainer as HTMLElement).style.transform = `scale(${scaleFactor})`;
+      (lumaleeContainer as HTMLElement).style.transform = `scale(${clampedScale})`;
     }
   };
 

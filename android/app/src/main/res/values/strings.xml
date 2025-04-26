@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">heart-map-connect</string>
+    <string name="title_activity_main">heart-map-connect</string>
+    <string name="package_name">app.lovable.fdc64c95a3834a7083909577cb794769</string>
+    <string name="custom_url_scheme">app.lovable.fdc64c95a3834a7083909577cb794769</string>
+</resources>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+  <!-- Background gradient circle -->
+  <circle cx="60" cy="60" r="60" fill="url(#paint0_linear)" />
+  
+  <!-- Left heart shape -->
+  <path d="M35 42C27.824 42 22 47.824 22 55C22 72 50 90 60 96C55.068 92.054 42.368 83.038 34.4 72" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Right heart shape -->
+  <path d="M85 42C92.176 42 98 47.824 98 55C98 72 70 90 60 96C64.932 92.054 77.632 83.038 85.6 72" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Map pin element -->
+  <circle cx="60" cy="55" r="12" fill="white" />
+  <path d="M60 75C60 75 76 60 76 50C76 42.268 68.732 36 60 36C51.268 36 44 42.268 44 50C44 60 60 75 60 75Z" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="paint0_linear" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF4D79" />
+      <stop offset="1" stop-color="#8A2BE2" />
+    </linearGradient>
+  </defs>
+</svg> 

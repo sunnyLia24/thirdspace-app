@@ -54,6 +54,7 @@ import ProfilePolitics from "./pages/ProfilePolitics";
 import ProfileLanguages from "./pages/ProfileLanguages";
 import ProfileDatingIntentions from "./pages/ProfileDatingIntentions";
 import ProfileRelationshipType from "./pages/ProfileRelationshipType";
+import Lumalee3DTest from "./components/Lumalee3DTest";
 
 const queryClient = new QueryClient();
 
@@ -137,6 +138,7 @@ const App = () => {
               <Route path="terms-of-service" element={<TermsOfService />} />
               <Route path="privacy-choices" element={<PrivacyChoices />} />
               <Route path="safety-tips" element={<SafetyTips />} />
+              <Route path="lumalee3dtest" element={<Lumalee3DTest />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
           </Routes>

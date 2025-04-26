@@ -23,6 +23,20 @@ export function getDestinationPoint(
   return [newLng, newLat];
 }
 
+// Utility function to calculate distance between two coordinates (Haversine formula)
+export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371; // Radius of the Earth in kilometers
+  const dLat = (lat2 - lat1) * Math.PI / 180; 
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
+  const distance = R * c; // Distance in km
+  return distance;
+}
+
 export const DEFAULT_MAPBOX_TOKEN = 'pk.eyJ1Ijoic3VubnkyNCIsImEiOiJjbTdtbDBzb2gwb2plMnBvY2lxbml0Z3pyIn0.OrQMpXUEaR_vN3MubP6JSw';
 
 // Default location (Bryant Park, NYC) for when geolocation fails
@@ -41,4 +55,12 @@ export const ISOMETRIC_VIEW = {
     left: 100,
     right: 100
   }
+};
+
+// Map style configurations
+export const MAP_STYLES = {
+  default: 'mapbox://styles/mapbox/light-v11',
+  dark: 'mapbox://styles/mapbox/dark-v11',
+  satellite: 'mapbox://styles/mapbox/satellite-v9',
+  streets: 'mapbox://styles/mapbox/streets-v12'
 };

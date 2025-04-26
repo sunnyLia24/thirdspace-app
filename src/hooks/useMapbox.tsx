@@ -5,10 +5,9 @@ import { useToast } from './use-toast';
 import { DEFAULT_MAPBOX_TOKEN } from '@/utils/mapUtils';
 import { useUserLocation } from './useUserLocation';
 import { useNearbyUsers } from './useNearbyUsers';
+import { useMapStyling } from './useMapStyling';
 import { useUserMarker } from './useUserMarker';
 import { useMapInteractions } from './useMapInteractions';
-import { useBuildingStyling } from './useBuildingStyling';
-import { useMapLabels } from './useMapLabels';
 
 interface UseMapboxProps {
   customToken?: string;
@@ -26,6 +25,7 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
   
   // Initialize hooks that depend on map
   const { displayNearbyUsers, updateNearbyUsers, cleanupUserMarkers } = useNearbyUsers(map);
+  const { applyMapStyling } = useMapStyling(map);
   const { 
     markerRef, 
     createUserMarker, 
@@ -34,11 +34,8 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
   } = useUserMarker(map);
   const { 
     setupZoomInteraction, 
-    setupWheelInteraction, 
     setupDragInteractions 
   } = useMapInteractions(map, userLocation, updateUserMarkerScale);
-  const { applyBuildingStyling } = useBuildingStyling(map);
-  const { removeLabels } = useMapLabels(map);
 
   useEffect(() => {
     if (!mapContainer.current || !userLocation) return;
@@ -55,22 +52,35 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
     cleanupUserMarkers();
 
     try {
+      // Add global marker z-index CSS
+      const markerStyle = document.createElement('style');
+      markerStyle.textContent = `
+        .lumalee-marker, .mapboxgl-marker.lumalee-marker {
+          z-index: 1000 !important;
+        }
+        .user-marker-container, .mapboxgl-marker.user-marker-container {
+          z-index: 100 !important;
+        }
+        .hotspot-marker-container, .mapboxgl-marker.hotspot-marker-container {
+          z-index: 100 !important;
+        }
+      `;
+      document.head.appendChild(markerStyle);
+      
       mapboxgl.accessToken = customToken || DEFAULT_MAPBOX_TOKEN;
       
       const newMap = new mapboxgl.Map({
         container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/streets-v12',
+        style: 'mapbox://styles/sunny24/cm8x3e9xg007g01s46myee8yf',
         center: userLocation,
         zoom: 18,
-        pitch: 60,
-        bearing: 45,
+        pitch: 45,
+        bearing: 0,
         antialias: true,
-        minZoom: 14,
+        minZoom: 9,
         maxZoom: 20,
         dragRotate: true,
-        dragPan: true,
-        maxPitch: 85,
-        minPitch: 0
+        dragPan: true
       });
 
       map.current = newMap;
@@ -84,16 +94,18 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
         'top-right'
       );
 
-      createUserMarker(userLocation);
-
       map.current.on('load', () => {
         setLoading(false);
         setError(null);
         
         if (map.current) {
-          applyBuildingStyling();
-          removeLabels();
+          applyMapStyling();
+          
+          // First, display nearby users and hotspots
           displayNearbyUsers(userLocation);
+          
+          // Then create the user marker so it's added last (appears on top)
+          createUserMarker(userLocation);
           
           if (navigator.geolocation) {
             const watchId = navigator.geolocation.watchPosition(
@@ -131,7 +143,6 @@ export const useMapbox = ({ customToken }: UseMapboxProps = {}) => {
       });
 
       setupZoomInteraction();
-      setupWheelInteraction();
       setupDragInteractions();
 
       map.current.addControl(new mapboxgl.GeolocateControl({
